@@ -1,0 +1,32 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-image: linear-gradient(to bottom right, rgb(248, 217, 252), rgb(250, 250, 237));
+    font-family: proxima-nova, sans-serif;
+    display: flex; 
+    justify-content: center;
+    /* align-items: center; */
+}
+.container {
+    width: 1024px;
+    padding-top: 2em;
+    overflow: auto;
+    /* background-color: #F0F0F0; */
+    display: flex;
+}
+.wrap {
+    width: 70%;
+    height: 400px;
+    overflow: auto;
+    /* background-color: lightslategray; */
+}
+.the_wall {
+    width: 100%;
+    height: 100px;
+    background-color: blueviolet;
+}
+.sidebar {
+    width: 30%;
+    height: 400px;
+    background-color: orange;
+}

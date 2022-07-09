@@ -1,0 +1,46 @@
+.header {
+    width: 100%;
+    height: 150px;
+    display: flex;
+}
+.profile_pic {
+    width: 160px;
+    height: 150px;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    /* background-color: aquamarine; */
+}
+.profile_sphere {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background-color: grey;
+    border: 1px solid #000;
+}
+.profile_desc {
+    flex: 1;
+    height: 150px;
+    font-weight: 100;
+    /* background-color: antiquewhite; */
+}
+.name {
+    font-size: 3.5em;
+    /* background-color: cadetblue; */
+}
+.rank_title {
+    display: flex;
+}
+.rank {
+    font-size: 4.65em;
+    display: flex;
+    align-items:flex-end;
+    /* background-color: coral; */
+}
+.title {
+    font-size: 1.6em;
+    padding:0 0 0.4em 0.6em;
+    display: flex;
+    align-items:flex-end;
+    /* background-color: aquamarine; */
+}
