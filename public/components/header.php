@@ -1,4 +1,4 @@
-<div class="header" style="background-color:red;">
+<div class="header">
     <div class="profile_pic">
         <div class="profile_sphere" id="profile_sphere">
         </div>

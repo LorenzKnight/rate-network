@@ -29,22 +29,25 @@ function u_all_info($id = null) : array
   $sql = pg_query($query_postwall);
   $totalRows_infouser = pg_num_rows($sql);
   
-  $res = [];
+  $res = [
+      'name'        => false,
+      'surname'     => false,
+      'image'       => false,
+      'email'       => false,
+      'rate'        => false
+  ];
   
   if(!empty($totalRows_infouser))
   {
-      $row_infouser = pg_fetch_all($sql);
-  
-      foreach($row_infouser as $item)
-      {
-          $res [] = [
-              'name'        => $item['name'],
-              'surname'     => $item['surname'],
-              'image'       => $item['image'],
-              'email'       =>$item['email'],
-              'rate'        => $item['rate']
-          ];
-      }
+      $row_infouser = pg_fetch_assoc($sql);
+ 
+      $res = [
+          'name'        => $row_infouser['name'],
+          'surname'     => $row_infouser['surname'],
+          'image'       => $row_infouser['image'],
+          'email'       => $row_infouser['email'],
+          'rate'        => $row_infouser['rate']
+      ];
   }
   
   return $res;
@@ -52,8 +55,6 @@ function u_all_info($id = null) : array
 
 function post_wall_profile($userId = null) : array
 {
-  global $con;
-  
   if(!empty($userId))
   {
     $query_postwall = "SELECT * FROM river WHERE user_id = $userId";
@@ -71,11 +72,10 @@ function post_wall_profile($userId = null) : array
   if(!empty($totalRows_postwall))
   {
     $row_postwall = pg_fetch_all($sql);
-    // var_dump($row_postwall);
 
     foreach($row_postwall as $item)
     {
-      $res[] = [
+      $res [] = [
         'user_id'       => $item['user_id'],
         'content'       => $item['content'],
         'media_id'      => $item['media_id'],
@@ -86,4 +86,5 @@ function post_wall_profile($userId = null) : array
 
   return $res;
 }
+
 ?>

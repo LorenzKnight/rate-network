@@ -42,7 +42,7 @@
 /* header */
 .header {
     width: 100%;
-    height: 150px;
+    height: 23vh;
     display: flex;
 }
 .profile_pic {
@@ -91,3 +91,56 @@
     /* background-color: aquamarine; */
 }
 /* end to header */
+
+/* start to post */
+.public_post_in_wall {
+    width: 98%;
+    min-height: 200px;
+    overflow: auto;
+    background-color: #FFF;
+    margin: 5px 1% 15px;
+    box-shadow: 0 4px 10px 0 rgba(47, 48, 63, 0.193);
+}
+.post_profil {
+    width: 100%;
+    min-height: 80px;
+    overflow: auto;
+    background-color: cornflowerblue;
+    display: flex;
+}
+.small_profile_sphere {
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    background-color: grey;
+    border: 1px solid #000;
+    overflow: auto;
+}
+.small_porfile_pic {
+    width: 80px;
+}
+.post_profile_desc {
+    flex: 1;
+    height: 80px;
+    padding-left: 10px;
+    font-weight: 100;
+    background-color: antiquewhite;
+}
+.content {
+    width: 100%;
+    height: 300px;
+    background-color: crimson;
+    display: flex;
+}
+.post_fotos{
+    width: 65%;
+    height: 300px;
+    background-color: hotpink;
+    /* flex: 1; */
+}
+.post_comments {
+    width: 35%;
+    height: 300px;
+    background-color: olive;
+}
+/* end to post */

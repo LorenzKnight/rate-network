@@ -7,7 +7,6 @@
 <!-- <link rel="shortcut icon" href="favicon-32x32.png"> -->
 <link href="css/styles.css" rel="stylesheet" type="text/css"  media="all" />
 <link href="css/components.css" rel="stylesheet" type="text/css"  media="all" />
-<link href="css/post_wall_profile.css" rel="stylesheet" type="text/css"  media="all" />
 <script defer src="js/header.js"></script>
 <!-- <script defer src="js/start_page.js"></script> -->
 <!-- <script src="js/jquery.taconite.js"></script> -->
@@ -22,23 +21,7 @@
             </div>
             <div class="the_wall" id="content">
                 <!-- start of public wall -->
-                <div class='public_post_in_wall'>
-                    <div class='post_profil'>
-                        <div class='small_profile_sphere'>
-                            
-                        </div>
-                        <div class='post_profile_desc' id='post_profile_desc'>
-                            
-                        </div>
-                    </div>
-                    <div class='content'>
-                        <div class='post_fotos'>
-                        </div>
-                        <div class='post_comments'>
-                            <?= $publication['content']; ?>
-                        </div>
-                    </div>
-                </div>
+                <?php include('components/post_in_wall.php'); ?>
                 <!-- end of public wall -->
             </div>
         </div>

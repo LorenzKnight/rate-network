@@ -2,16 +2,16 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("logic/header_logic.php")
 	.then(res => res.json())
 	.then(data => {
-        console.log(data)
+        console.log(data.name)
         var profile_pic = document.getElementById("profile_sphere");
         var names = document.getElementById("names");
         var rankcont = document.getElementById("rank");
 
-        var firstname = data[0].name;
-        var lastname = data[0].surname;
-        var pic = data[0].image;
+        var firstname = data.name;
+        var lastname = data.surname;
+        var pic = data.image;
         
-        var rate = data[0].rate;
+        var rate = data.rate;
         var rate = rate.toString();
         
         if (rate !== 'null' && rate.length == 1) {
