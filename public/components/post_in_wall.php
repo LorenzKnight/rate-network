@@ -9,7 +9,6 @@ foreach($publication as $card)
                 <img src='img/<?= $u_info['image']; ?>' class='small_porfile_pic'>
             </div>
             <div class='post_profile_desc' id='post_profile_desc'>
-                <?= $card['user_id']; ?>
                 <?= $card['content']; ?>
             </div>
         </div>
