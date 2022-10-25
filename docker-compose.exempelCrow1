@@ -1,0 +1,68 @@
+version: '3'
+
+services:
+  crowd1-db:
+    build:
+      context: docker/db
+    image: crowd1-db:v1
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=crowd1
+      - TZ=Europe/Stockholm
+    volumes:
+      - ./docker/tools/minio-client.sh:/minio-client.sh
+    ports:
+      - "7432:5432"
+
+  crowd1-web:
+    image: crowd1-web:v1
+    restart: always
+    build:
+      context: docker/nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/site
+      - ./error_pages:/var/www/error_pages
+    depends_on:
+      - crowd1-php
+
+  crowd1-php:
+    image: crowd1-php:v1
+    restart: always
+    build:
+      context: docker/php
+    volumes:
+      - ./:/var/www/site
+      - ../crowd1-common:/var/www/crowd1-common
+      - ./docker/php/docker-php-ext-redis.ini:/usr/local/etc/php/conf.d/docker-php-ext-redis.ini
+      - ./docker/php/timezone.ini:/usr/local/etc/php/conf.d/timezone.ini
+      - ./docker/php/php_short_tag.ini:/usr/local/etc/php/conf.d/php_short_tag.ini
+      - ./docker/php/php_xdebug_enabled.ini:/usr/local/etc/php/conf.d/php_xdebug_enabled.ini
+    depends_on:
+      - crowd1-redis
+      - crowd1-db
+
+  crowd1-redis:
+    image: bitnami/redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6379:6379"
+
+  crowd1-session-redis:
+    image: bitnami/redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6380:6379"
+
+  crowd1-rabbitmq:
+    image: bitnami/rabbitmq
+    environment:
+      - RABBITMQ_USERNAME=crowd1-rabbitmq-user
+      - RABBITMQ_PASSWORD=uD4tuHe3ae
+    ports:
+      - "5672:5672"
+      - "15672:15672"
