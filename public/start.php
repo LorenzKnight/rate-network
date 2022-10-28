@@ -10,7 +10,7 @@
 <script defer src="js/header.js"></script>
 <!-- <script defer src="js/start_page.js"></script> -->
 <!-- <script src="js/jquery.taconite.js"></script> -->
-<script src="js/jquery-1.11.3.min.js"></script>
+<!-- <script src="js/jquery-1.11.3.min.js"></script> -->
 
 </head>
 <body onload="">
@@ -18,6 +18,8 @@
         <div class="wrap">
             <?php include("components/header.php"); ?>
             <div class="nav_bar">
+                <?php include("components/nav_bar.php"); ?>
+                <div id="aqui"></div>
             </div>
             <div class="the_wall" id="content">
                 <!-- start of public wall -->

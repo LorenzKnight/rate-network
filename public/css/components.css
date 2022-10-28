@@ -42,8 +42,11 @@
 /* header */
 .header {
     width: 100%;
-    height: 23vh;
+    height: 22vh;
     display: flex;
+    background-color: aqua;
+    display: flex;
+    align-items: center;
 }
 .profile_pic {
     width: 160px;
@@ -92,10 +95,21 @@
 }
 /* end to header */
 
+/* start to siderbar */
+.sidebar {
+    width: 25%;
+    height: 400px;
+    background-color: orange;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+}
+/* end to sidebar */
+
 /* start to post */
 .public_post_in_wall {
     width: 98%;
-    min-height: 200px;
+    min-height: 580px;
     overflow: auto;
     background-color: #FFF;
     margin: 5px 1% 15px;
@@ -132,15 +146,41 @@
     background-color: crimson;
     display: flex;
 }
-.post_fotos{
-    width: 65%;
+.post_fotos_coments {
+    width: 70%;
+    height: 500px;
+    background-color: forestgreen;
+}
+.post_fotos {
+    width: 100%;
     height: 300px;
     background-color: hotpink;
     /* flex: 1; */
 }
-.post_comments {
-    width: 35%;
-    height: 300px;
+.post_coments {
+    width: 100%;
+    height: 200px;
+    background-color: burlywood;
+}
+.post_rates {
+    width: 30%;
+    height: 500px;
     background-color: olive;
 }
 /* end to post */
+
+/* end to navigation bar */
+.menu {
+    width: 100%;
+    height: 80;
+    background-color: coral;
+    padding: 0;
+}
+.menu ul li {
+    float: left;
+    list-style: none;
+    margin: 0;
+    padding: 10px 7%;
+    background-color: blueviolet;
+}
+/* end to navigation bar */

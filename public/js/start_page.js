@@ -1,48 +1,52 @@
-function bridge(pic, name, surname, rank) {
+document.addEventListener("DOMContentLoaded", () => {
+    // fetch("logic/header_logic.php")
+    // .then(res => res.json())
+    // .then(data => {
 
-    var profile_pic = document.getElementById("profile_sphere");
+    //     var row_num = data.length;
+    //     console.log(row_num);
+        
+    //     for(i=0; i<row_num; i++) {
+    //         console.log(data);
+    //     }
+    // });
 
-    profile_pic.innerHTML = "<img src=src/img/"+pic+" class='porfile_pic'>";
+    var adress = "logic/start_be.php";
+   
+    fetch(adress)
+	.then(res => res.json())
+	.then(data => {
+        console.log(adress);
+        var row_num = data.length;
+        
+        for(i=0; i<row_num; i++) {
+            var pic = data[i].userId == '' ? 'blank_profile_picture.jpg' : 'profile_pic';
+            
+            var test = pic == 3 ? 'blank_profile_picture.jpg' : data[i].userId;
+            document.getElementById("content").innerHTML += 
+            `<div class="public_post_in_wall">
+                <div class='post_profil'>
+                    <div class='small_profile_sphere'>
+                        <img src='pic/`+test+`' class='small_porfile_pic'>
+                    </div>
+                    <div class='post_profile_desc' id='post_profile_desc'>
+                        `+data[i].content+`
+                    </div>
+                </div>
+                <div class='content'>
+                    <div class='post_fotos'>
+                        `+data[i].mediaId+`
+                    </div>
+                    <div class='post_comments'>
+                    </div>
+                </div>
+            </div>`
+            ;
+        }
+    });
+});
 
-    
-    var names = document.getElementById("names");
-    var namesinfo = name+' '+surname;
-
-    names.innerHTML = namesinfo;
-
-
-    var rankcont = document.getElementById("rank");
-    var rank = rank.toString();
-    
-    if (rank !== 'null' && rank.length == 1) {
-        var desimalpri = rank+'.0';
-        var desimalsec = '00';
-    }
-    else if (rank !== 'null' && rank.length > 1 && rank.length < 4) {
-        var desimalpri = rank.slice(0,3);
-        var desimalsec = '00';
-    }
-    else if (rank !== 'null' && rank.length == 4) {
-        var desimalpri = rank.slice(0,3);
-        var desimalsec = rank.slice(3,4)+'0';
-    }
-    else if (rank !== 'null' && rank.length > 4) {
-        var desimalpri = rank.slice(0,3);
-        var desimalsec = rank.slice(3,5);
-    }
-    
-    rankcont.innerHTML = '<div>'+desimalpri+'<span style="font-size: 2.5rem;">'+desimalsec+'</span></div>';
-}
-
-function postwall(text)
+function test(id)
 {
-    var content = document.getElementById("post_profile_desc");
-    var textinfo = text;
-
-    content.innerHTML = textinfo;
+    
 }
-
-// window.addEventListener('load', function(event) {
-//     initCanvas();
-//     console.log("App is ON");
-// });

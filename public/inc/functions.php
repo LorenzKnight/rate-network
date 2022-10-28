@@ -76,9 +76,9 @@ function post_wall_profile($userId = null) : array
     foreach($row_postwall as $item)
     {
       $res [] = [
-        'user_id'       => $item['user_id'],
+        'userId'       => $item['user_id'],
         'content'       => $item['content'],
-        'media_id'      => $item['media_id'],
+        'mediaId'      => $item['media_id'],
         'status'        => $item['status']
       ];
     }

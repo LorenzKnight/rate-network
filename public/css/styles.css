@@ -14,7 +14,7 @@ body {
     display: flex;
 }
 .wrap {
-    width: 70%;
+    width: 75%;
     /* height: 100px; */
     overflow: auto;
     /* background-color: lightslategray; */
@@ -32,14 +32,6 @@ body {
     overflow: auto;
     /* background-color: red; */
     padding-bottom: 10px;
-}
-.sidebar {
-    width: 30%;
-    height: 400px;
-    background-color: orange;
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
 }
 
 
