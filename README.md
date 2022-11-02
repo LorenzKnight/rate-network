@@ -6,6 +6,8 @@ docker-compose up -d
 or
 docker-compose up --build --force-recreate -d
 
+## Migrate or create the tables in the data-base
+make migrate
 ## Main page - localhost
 http://localhost:8000/
 

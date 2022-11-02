@@ -201,4 +201,77 @@ function rate_in_post($columns = "*", $requestData = array(), array $options = [
 
   return $res;
 }
+
+function count_rates($columns = "*", $requestData = array()) : int
+{
+  if(empty($columns))
+	{
+		$columns = "*";
+	}
+
+	if($columns != "*" && !is_array($columns))
+	{
+		$columns = "*";
+	}
+
+	$queryColumnNames = "*";
+	if(is_array($columns))
+	{
+		$queryColumnNames = "";
+		$validColumns = dbRatesColumnNames();
+
+		foreach ($columns as $column) 
+		{
+			if(in_array($column, $validColumns))
+			{
+				$queryColumnNames .= $column.",";
+			}
+		}
+
+		if(empty($queryColumnNames))
+		{
+			return null;
+		}
+		
+		$queryColumnNames = substr($queryColumnNames, 0, -1);
+	}
+
+  $query = "select $queryColumnNames ";
+
+  if(isset($options['count_query']) && $options['count_query'])
+	{
+		$query = "select count(*) ";
+	}
+
+	$query .= "from rates ";
+
+  //check other conditions
+	$conditions = "";
+
+  if(isset($requestData['post_id']) && !empty($requestData['post_id']))
+	{
+		$conditions .= " and post_id = " . $requestData['post_id']. ' ';
+	}
+
+  if(isset($requestData['comment_id']) && !empty($requestData['comment_id']))
+	{
+		$conditions .= " and comment_id = " . $requestData['comment_id']. ' ';
+	}
+
+  if(isset($requestData['to_user_id']) && !empty($requestData['to_user_id']))
+	{
+		$conditions .= " and to_user_id = " . $requestData['to_user_id']. ' ';
+	}
+
+  if(!empty($conditions))
+	{
+		$query .= " where " . substr($conditions, 5);
+	}
+
+  // $query = "SELECT * FROM rates WHERE post_id = $postId";
+  $sql = pg_query($query);
+  $totalPost_rates_list = pg_num_rows($sql);
+
+  return $totalPost_rates_list;
+}
 ?>

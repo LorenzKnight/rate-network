@@ -23,10 +23,13 @@ foreach($publications as $card)
             </div>
             
             <div class='post_rates'>
-                <span class="fa fa-star"></span> x people rate your picture
                 <?php
                     $requestData['post_id'] = $card['rId'];
+
                     $post_rates = rate_in_post('*', $requestData, array('order' => 'rate_id desc'));
+                ?>
+                <span class="fa fa-star"></span> <?= count_rates('*', $requestData) ?> people rate your picture
+                <?php
                     foreach($post_rates as $rateData)
                     {
                         $user_data = u_all_info($rateData['userId'])
