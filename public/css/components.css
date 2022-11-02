@@ -110,7 +110,7 @@
     width: 98%;
     min-height: 580px;
     overflow: auto;
-    background-color: #FFF;
+    /* background-color: #FFF; */
     margin: 5px 1% 15px;
     box-shadow: 0 4px 10px 0 rgba(47, 48, 63, 0.193);
 }
@@ -118,7 +118,7 @@
     width: 100%;
     min-height: 80px;
     overflow: auto;
-    background-color: cornflowerblue;
+    /* background-color: cornflowerblue; */
     display: flex;
 }
 .small_profile_sphere {
@@ -137,18 +137,18 @@
     height: 80px;
     padding-left: 10px;
     font-weight: 100;
-    background-color: antiquewhite;
+    /* background-color: antiquewhite; */
 }
 .content {
     width: 100%;
     height: 300px;
-    background-color: crimson;
+    /* background-color: crimson; */
     display: flex;
 }
 .post_fotos_coments {
     width: 70%;
     height: 500px;
-    background-color: forestgreen;
+    /* background-color: forestgreen; */
 }
 .post_fotos {
     width: 100%;
@@ -159,13 +159,13 @@
 .post_coments {
     width: 100%;
     height: 200px;
-    background-color: burlywood;
+    /* background-color: burlywood; */
 }
 .post_rates {
     width: 27%;
     padding: 10px 1.5% 0;
     height: 490px;
-    background-color: olive;
+    /* background-color: olive; */
 }
 .post_user_rate {
     width: 100%;
