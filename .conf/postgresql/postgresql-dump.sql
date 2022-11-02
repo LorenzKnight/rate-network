@@ -12,22 +12,17 @@ CREATE TABLE IF NOT EXISTS users (
 	status INTEGER NULL
 );
 
-INSERT INTO users (name, surname, email, password, image, rate, signup_date, birthday, status)
-VALUES ('Lorenz', 'Knight', 'lorenz.knight@gmail.com', 123456, 'profile_pic.jpg', 0, '2022-10-18 00:00:00', '1984-09-03 00:00:00', 1),
-       ('Joel', 'Knight', 'joel.knight@gmail.com', 123456, 'profile_pic.jpg', 0, '2022-10-18 00:00:00', '1984-09-03 00:00:00', 1),
-       ('Shael', 'Knight', 'shael.knight@gmail.com', 123456, 'profile_pic.jpg', 0, '2022-10-18 00:00:00', '1984-09-03 00:00:00', 1);
+-- INSERT INTO users (name, surname, email, password, image, rate, signup_date, birthday, status)
+-- VALUES ('Lorenz', 'Knight', 'lorenz.knight@gmail.com', 123456, 'profile_pic.jpg', 0, '2022-10-18 00:00:00', '1984-09-03 00:00:00', 1),
+--        ('Joel', 'Knight', 'joel.knight@gmail.com', 123456, 'profile_pic.jpg', 0, '2022-10-18 00:00:00', '1984-09-03 00:00:00', 1),
+--        ('Shael', 'Knight', 'shael.knight@gmail.com', 123456, 'profile_pic.jpg', 0, '2022-10-18 00:00:00', '1984-09-03 00:00:00', 1);
 
-select * from users;
+-- select * from users;
 
-ALTER TABLE users  
-ADD COLUMN image varchar(255) NULL;
+-- ALTER TABLE users  
+-- ADD COLUMN image varchar(255) NULL;
 
-update users set name = 'Lorenz', image = 'profile_pic.jpg' where user_id = 1
-
-
-
-
-
+-- update users set name = 'Lorenz', image = 'profile_pic.jpg' where user_id = 1
      
 CREATE TABLE IF NOT EXISTS river (
 	r_id SERIAL PRIMARY KEY,
@@ -37,13 +32,12 @@ CREATE TABLE IF NOT EXISTS river (
     status INTEGER NULL
 );
 
-INSERT INTO river (user_id, content, media_id, status)
-VALUES (1, 'post 1', 1, 1),
-       (2, 'post 2', 2, 1),
-       (3, 'post 3', 3, 1);
+-- INSERT INTO river (user_id, content, media_id, status)
+-- VALUES (1, 'post 1', 1, 1),
+--        (2, 'post 2', 2, 1),
+--        (3, 'post 3', 3, 1);
        
-select * from river;
-
+-- select * from river;
 
 CREATE TABLE IF NOT EXISTS rates (
 	rate_id SERIAL PRIMARY KEY,
@@ -56,8 +50,8 @@ CREATE TABLE IF NOT EXISTS rates (
 	rate_date TIMESTAMP NULL
 );
 
-INSERT INTO rates (stars, rate_bonus, user_id, post_id, rate_date)
-VALUES (4, 0.2, 2, 3, '2022-10-18 00:00:00'),
-       (3, 0.5, 3, 3, '2022-10-18 00:00:00');
+-- INSERT INTO rates (stars, rate_bonus, user_id, post_id, rate_date)
+-- VALUES (4, 0.2, 2, 3, '2022-10-18 00:00:00'),
+--        (3, 0.5, 3, 3, '2022-10-18 00:00:00');
 
-select * from rates;
+-- select * from rates;
