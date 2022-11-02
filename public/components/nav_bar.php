@@ -1,9 +1,9 @@
 <div class="menu">
     <ul>
-        <li>Activity</li>
-        <li>Moments</li>
-        <li>Photos</li>
-        <li>Rated</li>
-        <li>Friends</li>
+        <li><a href="#">Activity</a></li>
+        <li><a href="#">Moments</a></li>
+        <li><a href="#">Photos</a></li>
+        <li><a href="#">Rated</a></li>
+        <li><a href="#">Friends</a></li>
     </ul>
 </div>

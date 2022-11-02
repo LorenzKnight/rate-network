@@ -8,6 +8,7 @@
 <link href="css/styles.css" rel="stylesheet" type="text/css"  media="all" />
 <link href="css/components.css" rel="stylesheet" type="text/css"  media="all" />
 <script defer src="js/header.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- <script defer src="js/start_page.js"></script> -->
 <!-- <script src="js/jquery.taconite.js"></script> -->
 <!-- <script src="js/jquery-1.11.3.min.js"></script> -->
@@ -22,9 +23,7 @@
                 <div id="aqui"></div>
             </div>
             <div class="the_wall" id="content">
-                <!-- start of public wall -->
                 <?php include('components/post_in_wall.php'); ?>
-                <!-- end of public wall -->
             </div>
         </div>
         <div class="sidebar">

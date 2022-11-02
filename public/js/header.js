@@ -36,11 +36,3 @@ document.addEventListener("DOMContentLoaded", () => {
         rankcont.innerHTML = '<div>'+desimalpri+'<span style="font-size: 2.5rem;">'+desimalsec+'</span></div>';
 	});
 });
-
-// function postwall(text)
-// {
-//     var content = document.getElementById("post_profile_desc");
-//     var textinfo = text;
-
-//     content.innerHTML = textinfo;
-// }

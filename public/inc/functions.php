@@ -76,10 +76,11 @@ function post_wall_profile($userId = null) : array
     foreach($row_postwall as $item)
     {
       $res [] = [
-        'userId'       => $item['user_id'],
-        'content'       => $item['content'],
-        'mediaId'      => $item['media_id'],
-        'status'        => $item['status']
+        'rId'         => $item['r_id'],
+        'userId'      => $item['user_id'],
+        'content'     => $item['content'],
+        'mediaId'     => $item['media_id'],
+        'status'      => $item['status']
       ];
     }
   }
@@ -87,4 +88,117 @@ function post_wall_profile($userId = null) : array
   return $res;
 }
 
+function dbRatesColumnNames()
+{
+	return array(
+		"rate_id", "stars", "rate_bonus", "user_id", "to_user_id", "post_id", "comment_id", "rate_date"
+	);
+}
+
+function rate_in_post($columns = "*", $requestData = array(), array $options = []) : array
+{
+  if(empty($columns))
+	{
+		$columns = "*";
+	}
+
+	if($columns != "*" && !is_array($columns))
+	{
+		$columns = "*";
+	}
+
+	$queryColumnNames = "*";
+	if(is_array($columns))
+	{
+		$queryColumnNames = "";
+		$validColumns = dbRatesColumnNames();
+
+		foreach ($columns as $column) 
+		{
+			if(in_array($column, $validColumns))
+			{
+				$queryColumnNames .= $column.",";
+			}
+		}
+
+		if(empty($queryColumnNames))
+		{
+			return null;
+		}
+		
+		$queryColumnNames = substr($queryColumnNames, 0, -1);
+	}
+
+  $query = "select $queryColumnNames ";
+
+  if(isset($options['count_query']) && $options['count_query'])
+	{
+		$query = "select count(*) ";
+	}
+
+	$query .= "from rates ";
+
+  //check other conditions
+	$conditions = "";
+
+  if(isset($requestData['post_id']) && !empty($requestData['post_id']))
+	{
+		$conditions .= " and post_id = " . $requestData['post_id']. ' ';
+	}
+
+  if(!empty($conditions))
+	{
+		$query .= " where " . substr($conditions, 5);
+	}
+
+  //set order
+  if(!isset($options['count_query']))
+  {
+    $query .= "order by ";
+    if(isset($options['order']))
+    {
+      $query .= $options['order'];
+    } 
+    else
+    {
+      $query .= "rate_id asc";
+    }
+  }
+
+  //set limit
+  if(isset($options['limit']) && !empty($options['limit']))
+  {
+    $query .= " limit " . intval($options['limit']);
+  }
+
+  if(isset($options['echo_query']) && $options['echo_query'])
+  {
+    echo "Q: ".$query."<br>\t\n";
+  }
+
+  $sql = pg_query($query);
+  $totalPost_rates_list = pg_num_rows($sql);
+
+  $res = [];
+
+  if(!empty($totalPost_rates_list))
+  {
+    $row_postRates_list = pg_fetch_all($sql);
+
+    foreach($row_postRates_list as $item)
+    {
+      $res [] = [
+        'rateId'      => $item['rate_id'],
+        'stars'       => $item['stars'],
+        'rateBonus'   => $item['rate_bonus'],
+        'userId'      => $item['user_id'],
+        'postId'      => $item['post_id'],
+        'commentId'   => $item['comment_id'],
+        'rateDate'    => $item['rate_date']
+      ];
+    }
+  }
+
+  return $res;
+}
 ?>

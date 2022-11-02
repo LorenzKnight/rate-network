@@ -23,6 +23,31 @@ foreach($publications as $card)
             </div>
             
             <div class='post_rates'>
+                <span class="fa fa-star"></span> x people rate your picture
+                <?php
+                    $requestData['post_id'] = $card['rId'];
+                    $post_rates = rate_in_post('*', $requestData, array('order' => 'rate_id desc'));
+                    foreach($post_rates as $rateData)
+                    {
+                        $user_data = u_all_info($rateData['userId'])
+                ?>
+                <div class="post_user_rate">
+                    <div class='x_small_profile_sphere'>
+                        <img src='pic/<?= $user_data['image'] != null ? $user_data['image'] : 'blank_profile_picture.jpg' ; ?>' class='x_small_porfile_pic'>
+                    </div>
+                    <div class="post_rates_info">
+                        <?= $user_data['name'].' '.$user_data['surname']; ?><br>
+                        <?= substr($user_data['rate'], 0, 3); ?><br>
+                        <span class="fa fa-star <?= $rateData['stars'] >= 1 ? 'star_checked' : '' ?>" style="font-size: 22px;"></span>
+                        <span class="fa fa-star <?= $rateData['stars'] >= 2 ? 'star_checked' : '' ?>" style="font-size: 22px;"></span>
+                        <span class="fa fa-star <?= $rateData['stars'] >= 3 ? 'star_checked' : '' ?>" style="font-size: 22px;"></span>
+                        <span class="fa fa-star <?= $rateData['stars'] >= 4 ? 'star_checked' : '' ?>" style="font-size: 22px;"></span>
+                        <span class="fa fa-star <?= $rateData['stars'] == 5 ? 'star_checked' : '' ?>" style="font-size: 22px;"></span>
+                    </div>
+                </div>
+                <?php
+                }
+                ?>
             </div>
         </div>
     </div>
