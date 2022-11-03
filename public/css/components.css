@@ -108,7 +108,7 @@
 /* start to post */
 .public_post_in_wall {
     width: 98%;
-    min-height: 580px;
+    min-height: 630px;
     overflow: auto;
     /* background-color: #FFF; */
     margin: 5px 1% 15px;
@@ -161,10 +161,18 @@
     height: 200px;
     /* background-color: burlywood; */
 }
+.comment_field {
+    width: 100%;
+    height: 50px;
+    /* background-color: burlywood; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .post_rates {
     width: 27%;
-    padding: 10px 1.5% 0;
-    height: 490px;
+    padding: 0 1.5%;
+    height: 550px;
     /* background-color: olive; */
 }
 .post_user_rate {
@@ -223,10 +231,35 @@
 }
 /* end to navigation bar */
 
-
 .star_checked {
     color: pink;
 }
 .star-mo {
     font-size: 25px;
 }
+
+/* start to comments component */
+.cfield {
+    width: 80%;
+    margin: 5px 0;
+    padding: 5px 5px;
+    font-size: 14px;
+    border-radius: 10px;
+    border: 1px solid rgb(148, 143, 158);
+    
+    -moz-appearance:inherit; 
+    -o-appearance:inherit;
+    -ms-appearance:inherit;
+    appearance:inherit;
+    -webkit-appearance:inherit;
+}
+.cbutton {
+    background: rgb(8, 146, 8);
+    color: white;
+    margin: 5px;
+    padding: 6px 15px;
+    border-radius: 8px;
+    border: 0;
+    cursor: pointer;
+}
+/* end to comments component */

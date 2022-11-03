@@ -20,6 +20,7 @@ foreach($publications as $card)
                 <div class='post_coments'>
 
                 </div>
+                <?php include('components/modal_comment_field.php'); ?>
             </div>
             
             <div class='post_rates'>
@@ -28,7 +29,7 @@ foreach($publications as $card)
 
                     $post_rates = rate_in_post('*', $requestData, array('order' => 'rate_id desc'));
                 ?>
-                <span class="fa fa-star"></span> <?= count_rates('*', $requestData) ?> people rate your picture
+                <span class="fa fa-star"></span> <?= count_rates('*', $requestData) ?> people rate your picture(s)
                 <?php
                     foreach($post_rates as $rateData)
                     {
