@@ -55,3 +55,11 @@ CREATE TABLE IF NOT EXISTS rates (
 --        (3, 0.5, 3, 3, '2022-10-18 00:00:00');
 
 -- select * from rates;
+
+CREATE TABLE IF NOT EXISTS comments (
+	comment_id SERIAL PRIMARY KEY,
+	user_id INTEGER null,
+	post_id INTEGER null,
+	comment varchar(255) null,
+	comment_date TIMESTAMP NULL
+);

@@ -1,14 +1,63 @@
 <?php 
-    require_once('./connections/conexion.php');
+    require_once __DIR__ .'/../connections/conexion.php';
 
     $publications   = post_wall_profile();
-    // echo json_encode($publications);
 
     if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formcomments")) {
         $userId             = $_SESSION['rt_UserId'];
-        $comments           = $_POST['comments'];
+        $postId             = $_POST['postId'];
+        $comment            = $_POST['comment'];
+        $comment_date       = date("Y-m-d H:i:s");
+
+        if(isset($comments) || $comment != '')
+        {
+            add_comments($userId, $postId, $comment, $comment_date);
+
+            $requestData['post_id'] = $postId;
+
+            $result = [
+                'post' => $postId,
+                'comment' => $comment,
+                'date' => $comment_date,
+                'num_comments' => count_comments('*', $requestData)
+            ];
+
+            echo json_encode($result);
+        }
+    }
+
+    if (isset($_POST["show_comments"])) {
+        $userId             = $_SESSION['rt_UserId'];
         $postId             = $_POST['postId'];
 
-        // echo 'aqui '.$comments.' '.$postId;
+        $htmlResult = '';
+        $htmlResult .= '<div class="post_comments" id="post_comments">';
+            
+            $comment_list = comment_in_post($postId);
+            
+            foreach($comment_list as $comment)
+            {
+                $comment_user = u_all_info((int)$comment['userId']);
+            
+                $htmlResult .= '<div class="post_user_rate" style="background-color:red;">';
+                    $htmlResult .= '<div class="x_small_profile_sphere">';
+                        $htmlResult .= '<img src="../pic/'.$comment_user["image"] != null ? $comment_user["image"] : "blank_profile_picture.jpg".' class="x_small_porfile_pic">';
+                    $htmlResult .= '</div>';
+                    $htmlResult .= '<div class="post_rates_info">';
+                        $htmlResult .= $comment_user['name'].' '.$comment_user['surname']; 
+                        $htmlResult .= '<br>';
+                        $htmlResult .= '<p class="comment_font">'.$comment["comment"].'</P>';
+                    $htmlResult .= '</div>';
+                $htmlResult .= '</div>';
+            
+            }
+            
+        $htmlResult .= '</div>';
+
+        $result = [
+            'comments_html' => $htmlResult
+        ];
+
+        echo json_encode($result);
     }
 ?>

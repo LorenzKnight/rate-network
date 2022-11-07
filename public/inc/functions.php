@@ -76,7 +76,7 @@ function post_wall_profile($userId = null) : array
     foreach($row_postwall as $item)
     {
       $res [] = [
-        'rId'         => $item['r_id'],
+        'postId'         => $item['r_id'],
         'userId'      => $item['user_id'],
         'content'     => $item['content'],
         'mediaId'     => $item['media_id'],
@@ -268,7 +268,114 @@ function count_rates($columns = "*", $requestData = array()) : int
 		$query .= " where " . substr($conditions, 5);
 	}
 
-  // $query = "SELECT * FROM rates WHERE post_id = $postId";
+  $sql = pg_query($query);
+  $totalPost_rates_list = pg_num_rows($sql);
+
+  return $totalPost_rates_list;
+}
+
+function add_comments($userId, $postId, $comment, $comment_date)
+{
+  $query = "INSERT INTO comments (user_id, post_id, comment, comment_date) values ($userId, $postId, '$comment', '$comment_date')";
+	$sql = pg_query($query);
+		
+	return true;
+}
+
+function comment_in_post($rId) : array
+{
+  $query_postcomment = "SELECT * FROM comments WHERE post_id = $rId ORDER BY comment_id DESC";
+  $sql = pg_query($query_postcomment);
+  $totalRows_postcomment = pg_num_rows($sql);
+  
+  $res = [];
+  
+  if(!empty($totalRows_postcomment))
+  {
+      $row_postcomment = pg_fetch_all($sql);
+
+      foreach($row_postcomment as $item)
+      {
+        $res [] = [
+            'userId'        => $item['user_id'],
+            'postId'        => $item['post_id'],
+            'comment'       => $item['comment'],
+            'commentDate'   => $item['comment_date']
+        ];
+      }
+  }
+  
+  return $res;
+}
+
+function dbCommentsColumnNames()
+{
+	return array(
+		"comment_id", "user_id", "post_id", "comment", "comment_date"
+	);
+}
+
+function count_comments($columns = "*", $requestData = array()) : int
+{
+  if(empty($columns))
+	{
+		$columns = "*";
+	}
+
+	if($columns != "*" && !is_array($columns))
+	{
+		$columns = "*";
+	}
+
+	$queryColumnNames = "*";
+	if(is_array($columns))
+	{
+		$queryColumnNames = "";
+		$validColumns = dbCommentsColumnNames();
+
+		foreach ($columns as $column) 
+		{
+			if(in_array($column, $validColumns))
+			{
+				$queryColumnNames .= $column.",";
+			}
+		}
+
+		if(empty($queryColumnNames))
+		{
+			return null;
+		}
+		
+		$queryColumnNames = substr($queryColumnNames, 0, -1);
+	}
+
+  $query = "select $queryColumnNames ";
+
+  if(isset($options['count_query']) && $options['count_query'])
+	{
+		$query = "select count(*) ";
+	}
+
+	$query .= "from comments ";
+
+  //check other conditions
+	$conditions = "";
+
+  if(isset($requestData['comment_id']) && !empty($requestData['comment_id']))
+	{
+		$conditions .= " and comment_id = " . $requestData['comment_id']. ' ';
+	}
+
+  if(isset($requestData['post_id']) && !empty($requestData['post_id']))
+	{
+		$conditions .= " and post_id = " . $requestData['post_id']. ' ';
+	}
+
+  if(!empty($conditions))
+	{
+		$query .= " where " . substr($conditions, 5);
+	}
+
   $sql = pg_query($query);
   $totalPost_rates_list = pg_num_rows($sql);
 

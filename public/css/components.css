@@ -30,7 +30,7 @@
     background: linear-gradient(to right, rgb(8, 146, 8), rgb(133, 197, 133));
     color: white;
     font-size: 14px;
-    margin: 10px 5px;
+    margin: 10px auto;
     padding: 20px 0;
     border: 0;
     border-radius: 20px;
@@ -46,6 +46,7 @@
     display: flex;
     display: flex;
     align-items: center;
+    /* background-color: #666; */
 }
 .profile_pic {
     width: 160px;
@@ -82,14 +83,14 @@
 .rank {
     font-size: 4.65em;
     display: flex;
-    align-items:flex-end;
+    align-items: flex-end;
     /* background-color: coral; */
 }
 .title {
     font-size: 1.6em;
     padding:0 0 0.4em 0.6em;
     display: flex;
-    align-items:flex-end;
+    align-items: flex-end;
     /* background-color: aquamarine; */
 }
 /* end to header */
@@ -97,26 +98,22 @@
 /* start to siderbar */
 .sidebar {
     width: 25%;
-    height: 94vh;
+    height: 98.85vh;
     background-color: orange;
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
 }
 /* end to sidebar */
 
 /* start to post */
 .public_post_in_wall {
     width: 98%;
-    min-height: 630px;
-    overflow: auto;
-    /* background-color: #FFF; */
+    /* min-height: 660px; */
     margin: 5px 1% 15px;
-    box-shadow: 0 4px 10px 0 rgba(47, 48, 63, 0.193);
+    box-shadow: 0 0 15px 0 rgba(47, 48, 63, 0.193);
 }
 .post_profil {
-    width: 100%;
+    width: 96%;
     min-height: 80px;
+    padding: 10px 2% 5px;
     overflow: auto;
     /* background-color: cornflowerblue; */
     display: flex;
@@ -133,38 +130,45 @@
     width: 80px;
 }
 .post_profile_desc {
-    flex: 1;
     height: 80px;
-    padding-left: 10px;
+    padding-left: 20px;
     font-weight: 100;
     /* background-color: antiquewhite; */
+    flex: 1;
 }
 .content {
     width: 100%;
-    height: 300px;
     /* background-color: crimson; */
-    display: flex;
+    overflow: auto;
 }
 .post_fotos_coments {
     width: 70%;
-    height: 500px;
     /* background-color: forestgreen; */
+    float: left;
 }
 .post_fotos {
     width: 100%;
     height: 300px;
-    background-color: hotpink;
-    /* flex: 1; */
+    /* background-color: hotpink; */
 }
-.post_coments {
-    width: 100%;
-    height: 200px;
+.post_options {
+    width: 96%;
+    /* background-color: dimgrey; */
+    padding: 10px 2%;
+}
+.post_options a {
+    color: #999;
+    text-decoration: none;
+}
+.post_comments {
+    width: 98%;
+    min-height: 200px;
     /* background-color: burlywood; */
+    padding: 0 1%;
 }
 .comment_field {
     width: 100%;
     height: 50px;
-    /* background-color: burlywood; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -172,12 +176,13 @@
 .post_rates {
     width: 27%;
     padding: 0 1.5%;
-    height: 550px;
+    /* height: 605px; */
     /* background-color: olive; */
+    float: right;
 }
 .post_user_rate {
     width: 100%;
-    height: 60px;
+    overflow: auto;
     /* background-color: goldenrod; */
     margin: 8px 0 17px;
     display: flex;
@@ -234,9 +239,18 @@
 .star_checked {
     color: pink;
 }
-.star-mo {
-    font-size: 25px;
+
+.star_mo {
+    color: #666;
 }
+/* .star_mo1:hover, 
+.star_mo2:hover,
+.star_mo3:hover,
+.star_mo4:hover,
+.star_mo5:hover
+{
+    color: pink;
+} */
 
 /* start to comments component */
 .cfield {
@@ -262,4 +276,61 @@
     border: 0;
     cursor: pointer;
 }
+.comment_font {
+    font-size: 26px;
+    font-weight: 200;
+    margin-top: 0;
+}
 /* end to comments component */
+
+.bg_popup {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.486);
+    position: fixed;
+
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+
+    display: none;
+}
+.comment_fotos_popup
+{
+    width: 1050px;
+    height: 600px;
+    background-color: #FFF;
+    border-radius: 4px;
+    margin: 5vh auto;
+    box-shadow: 0 4px 10px 0 rgba(47, 48, 63, 0.193);
+    display: flex;
+}
+.fotos_content 
+{
+    width: 60%;
+    height: 600px;
+    background-color: #666;
+}
+.comments_content
+{
+    flex: 1;
+    height: 600px;
+}
+.popup_profile 
+{
+    width: 100%;
+    height: 80px;
+    border-bottom: 1px solid #CCC;
+}
+.comments_popup {
+    padding: 15px;
+    height: 438px;
+    background-color: bisque;
+    overflow: auto;
+}
+.popup_comment_area
+{
+    width: 100%;
+    height: 50px;
+    border-top: 1px solid #CCC;
+}

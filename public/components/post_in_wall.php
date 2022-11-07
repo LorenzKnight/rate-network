@@ -1,7 +1,7 @@
 <?php 
-foreach($publications as $card)
+foreach($publications as $post)
 {
-    $u_info = u_all_info($card['userId']);
+    $u_info = u_all_info($post['userId']);
 ?>
     <div class='public_post_in_wall'>
         <div class='post_profil'>
@@ -10,22 +10,41 @@ foreach($publications as $card)
             </div>
             <div class='post_profile_desc' id='post_profile_desc'>
                 <?= $u_info['name'].' '.$u_info['surname']; ?> <span style="font-size: 1.3em"><?= substr($u_info['rate'], 0, 3); ?></span></br>
-                <span style="font-weight: 400; font-size: 1.1em;"><?= $card['content']; ?></span>
+                <span style="font-weight: 400; font-size: 1.1em;"><?= $post['content']; ?></span>
             </div>
         </div>
         <div class='content'>
-            <div class='post_fotos_coments'>
+            <div class='post_fotos_coments' id="post_fotos_coments">
                 <div class='post_fotos'>
                 </div>
-                <div class='post_coments'>
-
+                <div class='post_options'>
+                    <?php
+                        $requestData['post_id'] = $post['postId'];
+                    ?>
+                    <a href="#" onclick="showcomments(<?= $post['postId']; ?>)"><span id="num_comments"><?= count_comments('*', $requestData); ?></span> comments</a>
+                    <input type="hidden" name="post_id" id="post_id" value="<?= $post['postId']; ?>"/>
+                    <span style='float: right;'>
+                        <form action="start_be.php" method="post" name="formcomments" id="formcomments">
+                        <div class="rate_buttom">
+                                <!-- <div class="rate_popup" id="rate_popup<?= $post['postId']; ?>"> -->
+                                    <a href="start.php#?postId=<?= $post['postId']; ?>?postRate=1" onmouseover="fyllUp(1)" onmouseout="fyllOut(1)"><span id="star_mo1" class="fa fa-star" style="font-size: 18px;"></span></a> 
+                                    <a href="start.php#?postId=<?= $post['postId']; ?>?postRate=2" onmouseover="fyllUp(2)" onmouseout="fyllOut(2)"><span id="star_mo2" class="fa fa-star" style="font-size: 18px;"></span></a>
+                                    <a href="start.php#?postId=<?= $post['postId']; ?>?postRate=3" onmouseover="fyllUp(3)" onmouseout="fyllOut(3)"><span id="star_mo3" class="fa fa-star" style="font-size: 18px;"></span></a>
+                                    <a href="start.php#?postId=<?= $post['postId']; ?>?postRate=4" onmouseover="fyllUp(4)" onmouseout="fyllOut(4)"><span id="star_mo4" class="fa fa-star" style="font-size: 18px;"></span></a>
+                                    <a href="start.php#?postId=<?= $post['postId']; ?>?postRate=5" onmouseover="fyllUp(5)" onmouseout="fyllOut(5)"><span id="star_mo5" class="fa fa-star" style="font-size: 18px;"></span></a>
+                                <!-- </div> -->
+                            <!-- <a href="#" onclick="showrate(<?= $post['postId']; ?>)">Rate it</a> -->
+                        </div>
+                        </form>
+                    </span>
                 </div>
                 <?php include('components/modal_comment_field.php'); ?>
+
             </div>
-            
+
             <div class='post_rates'>
                 <?php
-                    $requestData['post_id'] = $card['rId'];
+                    $requestData['post_id'] = $post['postId'];
 
                     $post_rates = rate_in_post('*', $requestData, array('order' => 'rate_id desc'));
                 ?>
