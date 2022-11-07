@@ -27,6 +27,7 @@
 }
 .button_form1 {
     width: 90%;
+    height: 60px;
     background: linear-gradient(to right, rgb(8, 146, 8), rgb(133, 197, 133));
     color: white;
     font-size: 14px;
@@ -46,7 +47,6 @@
     display: flex;
     display: flex;
     align-items: center;
-    /* background-color: #666; */
 }
 .profile_pic {
     width: 160px;
@@ -54,7 +54,6 @@
     display: flex; 
     justify-content: center;
     align-items: center;
-    /* background-color: aquamarine; */
 }
 .profile_sphere {
     width: 140px;
@@ -68,14 +67,12 @@
     flex: 1;
     height: 150px;
     font-weight: 100;
-    /* background-color: antiquewhite; */
 }
 .porfile_pic {
     width: 140px;
 }
 .name {
     font-size: 3.5em;
-    /* background-color: cadetblue; */
 }
 .rank_title {
     display: flex;
@@ -84,14 +81,12 @@
     font-size: 4.65em;
     display: flex;
     align-items: flex-end;
-    /* background-color: coral; */
 }
 .title {
     font-size: 1.6em;
     padding:0 0 0.4em 0.6em;
     display: flex;
     align-items: flex-end;
-    /* background-color: aquamarine; */
 }
 /* end to header */
 
@@ -99,7 +94,10 @@
 .sidebar {
     width: 25%;
     height: 98.85vh;
-    background-color: orange;
+    /* background-color: orange; */
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
 }
 /* end to sidebar */
 
