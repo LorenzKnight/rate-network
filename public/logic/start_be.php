@@ -18,7 +18,9 @@
             $comment_user = u_all_info((int)$userId);
             $profile_pic = $comment_user["image"] != null ? $comment_user["image"] : 'blank_profile_picture.jpg';
         
-            $htmlResult = '<div class="post_user_rate" style="background-color:red;">';
+            $htmlResult = '';
+
+            $htmlResult .= '<div class="post_user_rate" style="background-color:red;">';
                 $htmlResult .= '<div class="x_small_profile_sphere">';
                     $htmlResult .=' <img src="pic/'.$profile_pic.'" class="x_small_porfile_pic">';
                 $htmlResult .= '</div>';
@@ -30,11 +32,11 @@
             $htmlResult .= '</div>';
 
             $result = [
-                'post' => $postId,
-                'comment' => $comment,
-                'date' => $comment_date,
-                'last_comment' => $htmlResult,
-                'num_comments' => count_comments('*', $requestData)
+                'post'          => $postId,
+                'comment'       => $comment,
+                'date'          => $comment_date,
+                'last_comment'  => $htmlResult,
+                'num_comments'  => count_comments('*', $requestData)
             ];
 
             echo json_encode($result);
@@ -42,9 +44,26 @@
     }
 
     if (isset($_POST["show_comments"])) {
-        $userId             = $_SESSION['rt_UserId'];
         $postId             = $_POST['postId'];
+        
+        // post author
+        $post_all_data = post_all_data($postId);
+        $userInfo = u_all_info((int)$post_all_data['userId']);
 
+        $htmlPostProfile = '';
+        $Postprofile_pic = $userInfo['image'] != null ? $userInfo['image'] : 'blank_profile_picture.jpg';
+
+        $htmlPostProfile .= '<div class="post_user_rate" style="background-color:red;">';
+            $htmlPostProfile .= '<div class="x_small_profile_sphere">';
+                $htmlPostProfile .=' <img src="pic/'.$Postprofile_pic.'" class="x_small_porfile_pic">';
+            $htmlPostProfile .= '</div>';
+            $htmlPostProfile .= '<div class="post_rates_info">';
+                $htmlPostProfile .= $userInfo['name'].' '.$userInfo['surname'];
+            $htmlPostProfile .= '</div>';
+        $htmlPostProfile .= '</div>';
+
+
+        // post comments list
         $htmlResult = '';
         $htmlResult .= '<div class="post_comments" id="post_comments">';
             
@@ -70,7 +89,8 @@
         $htmlResult .= '</div>';
 
         $result = [
-            'comments_html' => $htmlResult
+            'post_author'           => $htmlPostProfile,
+            'comments_html'         => $htmlResult
         ];
 
         echo json_encode($result);

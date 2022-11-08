@@ -20,14 +20,14 @@ function u_all_info($id = null) : array
 {
   if(!empty($id))
   {
-      $query_postwall = "SELECT * FROM users WHERE user_id = $id";
+      $query_userInfo = "SELECT * FROM users WHERE user_id = $id";
   }
   else
   {
-      $query_postwall = "SELECT * FROM users ORDER BY user_id ASC";
+      $query_userInfo = "SELECT * FROM users ORDER BY user_id ASC";
   }
-  $sql = pg_query($query_postwall);
-  $totalRows_infouser = pg_num_rows($sql);
+  $sql = pg_query($query_userInfo);
+  $totalRows_userInfo = pg_num_rows($sql);
   
   $res = [
       'name'        => false,
@@ -37,19 +37,45 @@ function u_all_info($id = null) : array
       'rate'        => false
   ];
   
-  if(!empty($totalRows_infouser))
+  if(!empty($totalRows_userInfo))
   {
-      $row_infouser = pg_fetch_assoc($sql);
+      $row_userinfo = pg_fetch_assoc($sql);
  
       $res = [
-          'name'        => $row_infouser['name'],
-          'surname'     => $row_infouser['surname'],
-          'image'       => $row_infouser['image'],
-          'email'       => $row_infouser['email'],
-          'rate'        => $row_infouser['rate']
+          'name'        => $row_userinfo['name'],
+          'surname'     => $row_userinfo['surname'],
+          'image'       => $row_userinfo['image'],
+          'email'       => $row_userinfo['email'],
+          'rate'        => $row_userinfo['rate']
       ];
   }
   
+  return $res;
+}
+
+function post_all_data(int $postId) : array
+{
+  $query_postalldata = "SELECT * FROM river WHERE r_id = $postId";
+  $sql = pg_query($query_postalldata);
+
+  $res = [
+    'postId'      => false,
+    'userId'      => false,
+    'content'     => false,
+    'mediaId'     => false,
+    'status'      => false
+  ];
+
+  $row_postalldata = pg_fetch_assoc($sql);
+
+  $res = [
+    'postId'      => $row_postalldata['r_id'],
+    'userId'      => $row_postalldata['user_id'],
+    'content'     => $row_postalldata['content'],
+    'mediaId'     => $row_postalldata['media_id'],
+    'status'      => $row_postalldata['status']
+  ];
+
   return $res;
 }
 
@@ -76,7 +102,7 @@ function post_wall_profile($userId = null) : array
     foreach($row_postwall as $item)
     {
       $res [] = [
-        'postId'         => $item['r_id'],
+        'postId'      => $item['r_id'],
         'userId'      => $item['user_id'],
         'content'     => $item['content'],
         'mediaId'     => $item['media_id'],

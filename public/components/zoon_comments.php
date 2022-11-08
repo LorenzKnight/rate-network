@@ -4,7 +4,7 @@
             
         </div>
         <div class="comments_content">
-            <div class="popup_profile">
+            <div class="popup_profile" id="popup_profile">
                 
             </div>
             <div class="comments_popup" id="comments_popup">

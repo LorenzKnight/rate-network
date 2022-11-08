@@ -3,41 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     submit_button.forEach((element)=>{
         element.addEventListener('click', sendComment);
     });
-    // submit_button.addEventListener('click', sendComment);
 
-    // var adress = "logic/start_be.php";
-   
-    // fetch(adress)
-	// .then(res => res.json())
-	// .then(data => {
-    //     console.log(adress);
-    //     var row_num = data.length;
-        
-    //     for(i=0; i<row_num; i++) {
-    //         var pic = data[i].userId == '' ? 'blank_profile_picture.jpg' : 'profile_pic';
-            
-    //         var test = pic == 3 ? 'blank_profile_picture.jpg' : data[i].userId;
-    //         document.getElementById("content").innerHTML += 
-    //         `<div class="public_post_in_wall">
-    //             <div class='post_profil'>
-    //                 <div class='small_profile_sphere'>
-    //                     <img src='pic/`+test+`' class='small_porfile_pic'>
-    //                 </div>
-    //                 <div class='post_profile_desc' id='post_profile_desc'>
-    //                     `+data[i].content+`
-    //                 </div>
-    //             </div>
-    //             <div class='content'>
-    //                 <div class='post_fotos'>
-    //                     `+data[i].mediaId+`
-    //                 </div>
-    //                 <div class='post_comments'>
-    //                 </div>
-    //             </div>
-    //         </div>`
-    //         ;
-    //     }
-    // });
 });
 
 function sendComment(event) {
@@ -46,15 +12,16 @@ function sendComment(event) {
     var postId = formComments.querySelector('#postId').value;
     var comment = formComments.querySelector('#comment').value;
 
-    console.log(postId, comment);
-
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var response = JSON.parse(this.responseText);
+
                 let num_comments = formComments.querySelector('#num_comments');
                 num_comments.innerHTML = response.num_comments;
+
                 formComments.querySelector('#comment').value = '';
+
                 let lastComment = formComments.querySelector('.last_comment');
                 lastComment.innerHTML = lastComment.innerHTML+response.last_comment;
             }
@@ -78,13 +45,15 @@ function showcomments(postId) {
                 post_comments.remove();
             }
             var response = JSON.parse(this.responseText);
+
             let bg_comments_popup = document.getElementById('bg_comments_popup');
             bg_comments_popup.style.display = "block";
 
             let post_fotos_coments = document.getElementById('comments_popup');
-            
-            // console.log(response);
             post_fotos_coments.innerHTML = post_fotos_coments.innerHTML+response.comments_html;
+
+            let popup_profile = document.getElementById('popup_profile');
+            popup_profile.innerHTML = response.post_author;
         }
     };
     var formData = new FormData(); 
