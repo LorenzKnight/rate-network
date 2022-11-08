@@ -15,10 +15,25 @@
 
             $requestData['post_id'] = $postId;
 
+            $comment_user = u_all_info((int)$userId);
+            $profile_pic = $comment_user["image"] != null ? $comment_user["image"] : 'blank_profile_picture.jpg';
+        
+            $htmlResult = '<div class="post_user_rate" style="background-color:red;">';
+                $htmlResult .= '<div class="x_small_profile_sphere">';
+                    $htmlResult .=' <img src="pic/'.$profile_pic.'" class="x_small_porfile_pic">';
+                $htmlResult .= '</div>';
+                $htmlResult .= '<div class="post_rates_info">';
+                    $htmlResult .= $comment_user['name'].' '.$comment_user['surname']; 
+                    $htmlResult .= '<br>';
+                    $htmlResult .= '<p class="comment_font">'.$comment.'</P>';
+                $htmlResult .= '</div>';
+            $htmlResult .= '</div>';
+
             $result = [
                 'post' => $postId,
                 'comment' => $comment,
                 'date' => $comment_date,
+                'last_comment' => $htmlResult,
                 'num_comments' => count_comments('*', $requestData)
             ];
 
@@ -38,10 +53,11 @@
             foreach($comment_list as $comment)
             {
                 $comment_user = u_all_info((int)$comment['userId']);
+                $profile_pic = $comment_user["image"] != null ? $comment_user["image"] : 'blank_profile_picture.jpg';
             
                 $htmlResult .= '<div class="post_user_rate" style="background-color:red;">';
                     $htmlResult .= '<div class="x_small_profile_sphere">';
-                        $htmlResult .= '<img src="../pic/'.$comment_user["image"] != null ? $comment_user["image"] : "blank_profile_picture.jpg".' class="x_small_porfile_pic">';
+                        $htmlResult .=' <img src="pic/'.$profile_pic.'" class="x_small_porfile_pic">';
                     $htmlResult .= '</div>';
                     $htmlResult .= '<div class="post_rates_info">';
                         $htmlResult .= $comment_user['name'].' '.$comment_user['surname']; 
@@ -49,7 +65,6 @@
                         $htmlResult .= '<p class="comment_font">'.$comment["comment"].'</P>';
                     $htmlResult .= '</div>';
                 $htmlResult .= '</div>';
-            
             }
             
         $htmlResult .= '</div>';

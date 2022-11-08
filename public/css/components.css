@@ -281,6 +281,7 @@
 }
 /* end to comments component */
 
+/* start to comments and fotos popup */
 .bg_popup {
     width: 100%;
     height: 100vh;
@@ -332,3 +333,4 @@
     height: 50px;
     border-top: 1px solid #CCC;
 }
+/* end to comments and fotos popup */

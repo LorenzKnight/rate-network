@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
-    let submit_button = document.getElementById('submit_comment');
-    submit_button.addEventListener('click', sendComment);
+    let submit_button = document.querySelectorAll('.submit_comments');
+    submit_button.forEach((element)=>{
+        element.addEventListener('click', sendComment);
+    });
+    // submit_button.addEventListener('click', sendComment);
 
     // var adress = "logic/start_be.php";
    
@@ -37,19 +40,23 @@ document.addEventListener("DOMContentLoaded", () => {
     // });
 });
 
-function sendComment() {
+function sendComment(event) {
+    var formComments = event.target.closest('#post_fotos_coments'); 
+    console.log(formComments);
+    var postId = formComments.querySelector('#postId').value;
+    var comment = formComments.querySelector('#comment').value;
 
-    var postId = document.getElementById('postId').value;
-    var comment = document.getElementById('comment').value;
+    console.log(postId, comment);
 
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var response = JSON.parse(this.responseText);
-                let num_comments = document.getElementById('num_comments');
-                
+                let num_comments = formComments.querySelector('#num_comments');
                 num_comments.innerHTML = response.num_comments;
-
+                formComments.querySelector('#comment').value = '';
+                let lastComment = formComments.querySelector('.last_comment');
+                lastComment.innerHTML = lastComment.innerHTML+response.last_comment;
             }
         };
         var formData = new FormData(); 

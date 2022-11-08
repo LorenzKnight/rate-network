@@ -39,7 +39,9 @@ foreach($publications as $post)
                     </span>
                 </div>
                 <?php include('components/modal_comment_field.php'); ?>
+                <div class="last_comment">
 
+                </div>
             </div>
 
             <div class='post_rates'>
