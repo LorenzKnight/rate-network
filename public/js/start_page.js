@@ -1,9 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
-    let submit_button = document.querySelectorAll('.submit_comments');
-    submit_button.forEach((element)=>{
+    let submit_comment_button = document.querySelectorAll('.submit_comments');
+    submit_comment_button.forEach((element)=>{
         element.addEventListener('click', sendComment);
     });
 
+    let submit_rate_button = document.querySelectorAll('.submit_rate');
+    submit_rate_button.forEach((element)=>{
+        element.addEventListener('click', ratePost);
+    });
 });
 
 function sendComment(event) {
@@ -63,6 +67,37 @@ function showcomments(postId) {
 
     xmlhttp.open("POST", "logic/start_be.php", true);
     xmlhttp.send(formData);
+}
+
+function ratePost(event) {
+    var formComments = event.target.closest('#post_fotos_coments'); 
+    console.log(formComments);
+    var postId = formComments.querySelector('#postId').value;
+    var stars = formComments.querySelector('#stars').value;
+
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var response = JSON.parse(this.responseText);
+
+                console.log(response);
+
+                // let num_comments = formComments.querySelector('#num_comments');
+                // num_comments.innerHTML = response.num_comments;
+
+                // formComments.querySelector('#comment').value = '';
+
+                // let lastComment = formComments.querySelector('.last_comment');
+                // lastComment.innerHTML = lastComment.innerHTML+response.last_comment;
+            }
+        };
+        var formData = new FormData(); 
+        formData.append('MM_insert', 'formrate');
+        formData.append('postId', postId);
+        formData.append('stars', stars);
+
+        xmlhttp.open("POST", "logic/start_be.php", true);
+        xmlhttp.send(formData);
 }
 
 function showrate()

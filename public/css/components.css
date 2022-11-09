@@ -182,7 +182,7 @@
     width: 100%;
     overflow: auto;
     /* background-color: goldenrod; */
-    margin: 8px 0 17px;
+    margin: 8px 0;
     display: flex;
 }
 .x_small_profile_sphere {
@@ -321,10 +321,21 @@
     height: 80px;
     border-bottom: 1px solid #CCC;
 }
+.popup_profile_items
+{
+    width: 96%;
+    height: 80px;
+    padding: 0 2%;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+}
+.popup_profile_name {
+    padding: 0 15px;
+}
 .comments_popup {
-    padding: 15px;
+    padding: 0 15px 15px;
     height: 438px;
-    background-color: bisque;
     overflow: auto;
 }
 .popup_comment_area

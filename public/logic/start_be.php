@@ -53,11 +53,11 @@
         $htmlPostProfile = '';
         $Postprofile_pic = $userInfo['image'] != null ? $userInfo['image'] : 'blank_profile_picture.jpg';
 
-        $htmlPostProfile .= '<div class="post_user_rate" style="background-color:red;">';
+        $htmlPostProfile .= '<div class="popup_profile_items">';
             $htmlPostProfile .= '<div class="x_small_profile_sphere">';
                 $htmlPostProfile .=' <img src="pic/'.$Postprofile_pic.'" class="x_small_porfile_pic">';
             $htmlPostProfile .= '</div>';
-            $htmlPostProfile .= '<div class="post_rates_info">';
+            $htmlPostProfile .= '<div class="popup_profile_name">';
                 $htmlPostProfile .= $userInfo['name'].' '.$userInfo['surname'];
             $htmlPostProfile .= '</div>';
         $htmlPostProfile .= '</div>';
@@ -94,5 +94,50 @@
         ];
 
         echo json_encode($result);
+    }
+
+    if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formrate")) {
+        $userId             = $_SESSION['rt_UserId'];
+        $stars              = $_POST['stars'];
+        $postId             = $_POST['postId'];
+
+        $requestData['user_id'] = $userId;
+        $requestData['post_id'] = $postId;
+
+        $doIrate = count_rates($columns = "*", $requestData);
+
+        if($doIrate < 1)
+        {
+            add_rate($userId, $stars, $postId);
+
+            // $requestData['post_id'] = $postId;
+
+            // $comment_user = u_all_info((int)$userId);
+            // $profile_pic = $comment_user["image"] != null ? $comment_user["image"] : 'blank_profile_picture.jpg';
+        
+            // $htmlResult = '';
+
+            // $htmlResult .= '<div class="post_user_rate" style="background-color:red;">';
+            //     $htmlResult .= '<div class="x_small_profile_sphere">';
+            //         $htmlResult .=' <img src="pic/'.$profile_pic.'" class="x_small_porfile_pic">';
+            //     $htmlResult .= '</div>';
+            //     $htmlResult .= '<div class="post_rates_info">';
+            //         $htmlResult .= $comment_user['name'].' '.$comment_user['surname']; 
+            //         $htmlResult .= '<br>';
+            //         $htmlResult .= '<p class="comment_font">'.$comment.'</P>';
+            //     $htmlResult .= '</div>';
+            // $htmlResult .= '</div>';
+
+            $result = [
+                'user'          => $userId,
+                'post'          => $postId,
+                'stars'         => $stars
+
+                // 'date'          => $comment_date
+                // 'last_comment'  => $htmlResult
+            ];
+
+            echo json_encode($result);
+        }
     }
 ?>

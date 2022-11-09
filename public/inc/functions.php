@@ -274,6 +274,11 @@ function count_rates($columns = "*", $requestData = array()) : int
   //check other conditions
 	$conditions = "";
 
+  if(isset($requestData['user_id']) && !empty($requestData['user_id']))
+	{
+		$conditions .= " and user_id = " . $requestData['user_id']. ' ';
+	}
+
   if(isset($requestData['post_id']) && !empty($requestData['post_id']))
 	{
 		$conditions .= " and post_id = " . $requestData['post_id']. ' ';
@@ -407,4 +412,72 @@ function count_comments($columns = "*", $requestData = array()) : int
 
   return $totalPost_rates_list;
 }
+
+function add_rate(int $userId, int $stars, $postId = null)
+{
+  $rateBonus = $stars;
+  $rateDate  = date("Y-m-d H:i:s");
+
+  $query = "INSERT INTO rates (user_id, stars, rate_bonus, post_id, rate_date) VALUES ($userId, $stars, $rateBonus, $postId, '$rateDate')";
+	$sql = pg_query($query);
+		
+	return true;
+}
+
+//update exemple
+// function rankbooster_update($requestData = array(), $rankboosterData = array())
+// {
+// 	if(empty($requestData) || empty($rankboosterData))
+// 	{
+// 		return false;
+// 	}
+
+// 	if(!isset($rankboosterData['rid']))
+// 	{
+// 		return false;
+// 	}
+
+// 	if(empty($rankboosterData['rid']))
+// 	{
+// 		return false;
+// 	}
+	
+// 	$validColumns = dbRankboosterColumnNames();
+// 	unset($validColumns['rid']);
+	
+// 	//validate requestData
+// 	foreach ($requestData as $keyColumn => $value) 
+// 	{
+// 		if(!in_array($keyColumn, $validColumns))
+// 		{
+// 			unset($requestData[$keyColumn]);
+// 		}
+
+// 		if(isset($rankboosterData[$keyColumn]) && $value === $rankboosterData[$keyColumn])
+// 		{
+// 			unset($requestData[$keyColumn]);
+// 		}
+// 	}
+// 	if(empty($requestData))
+// 	{
+// 		return false;
+// 	}
+	
+// 	$queryParams = "";
+// 	foreach ($requestData as $keyColumn => $value) 
+// 	{
+// 		$queryParams .= $keyColumn."='".pg_escape_string($value)."',";
+// 	}
+
+// 	if(empty($queryParams))
+// 	{
+// 		return false;
+// 	}
+
+// 	$query = "UPDATE rankbooster SET " . substr($queryParams, 0, -1) . " WHERE rid=".$rankboosterData['rid'];
+// 	// echo "Q1: $query \n";die;
+// 	$sql = pg_query($query);
+
+// 	return $sql;
+// }
 ?>

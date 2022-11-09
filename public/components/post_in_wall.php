@@ -24,16 +24,14 @@ foreach($publications as $post)
                     <a href="#" onclick="showcomments(<?= $post['postId']; ?>)"><span id="num_comments"><?= count_comments('*', $requestData); ?></span> comments</a>
                     <input type="hidden" name="post_id" id="post_id" value="<?= $post['postId']; ?>"/>
                     <span style='float: right;'>
-                        <form action="start_be.php" method="post" name="formcomments" id="formcomments">
+                        <form action="start_be.php" method="post" name="formrate" id="formrate">
                         <div class="rate_buttom">
-                                <!-- <div class="rate_popup" id="rate_popup<?= $post['postId']; ?>"> -->
-                                    <a href="start.php#?postId=<?= $post['postId']; ?>?postRate=1" onmouseover="fyllUp(1)" onmouseout="fyllOut(1)"><span id="star_mo1" class="fa fa-star" style="font-size: 18px;"></span></a> 
-                                    <a href="start.php#?postId=<?= $post['postId']; ?>?postRate=2" onmouseover="fyllUp(2)" onmouseout="fyllOut(2)"><span id="star_mo2" class="fa fa-star" style="font-size: 18px;"></span></a>
-                                    <a href="start.php#?postId=<?= $post['postId']; ?>?postRate=3" onmouseover="fyllUp(3)" onmouseout="fyllOut(3)"><span id="star_mo3" class="fa fa-star" style="font-size: 18px;"></span></a>
-                                    <a href="start.php#?postId=<?= $post['postId']; ?>?postRate=4" onmouseover="fyllUp(4)" onmouseout="fyllOut(4)"><span id="star_mo4" class="fa fa-star" style="font-size: 18px;"></span></a>
-                                    <a href="start.php#?postId=<?= $post['postId']; ?>?postRate=5" onmouseover="fyllUp(5)" onmouseout="fyllOut(5)"><span id="star_mo5" class="fa fa-star" style="font-size: 18px;"></span></a>
-                                <!-- </div> -->
-                            <!-- <a href="#" onclick="showrate(<?= $post['postId']; ?>)">Rate it</a> -->
+                            <input type="text" id="stars" name="stars" class="cfield" style="width: 50px;">
+                            <span><input id="submit_rate" type="button" class="cbutton submit_rate" value="Rate" /></span>
+                            <input type="hidden" name="postId" id="postId" value="<?= $post['postId']; ?>"/>
+                            <input type="hidden" name="MM_insert" id="MM_insert" value="formrate" />
+
+                                
                         </div>
                         </form>
                     </span>
