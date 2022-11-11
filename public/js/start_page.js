@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
         element.addEventListener('click', sendComment);
     });
 
-    let submit_rate_button = document.querySelectorAll('.submit_rate');
+    let submit_rate_button = document.querySelectorAll('.rating_star');
     submit_rate_button.forEach((element)=>{
         element.addEventListener('click', ratePost);
     });
@@ -70,34 +70,31 @@ function showcomments(postId) {
 }
 
 function ratePost(event) {
-    var formComments = event.target.closest('#post_fotos_coments'); 
-    console.log(formComments);
+    var formComments = event.target.closest('.post_container'); 
     var postId = formComments.querySelector('#postId').value;
-    var stars = formComments.querySelector('#stars').value;
+    var stars = event.target.getAttribute('data-rate');
 
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var response = JSON.parse(this.responseText);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var response = JSON.parse(this.responseText);
 
-                console.log(response);
+            console.log(response);
 
-                // let num_comments = formComments.querySelector('#num_comments');
-                // num_comments.innerHTML = response.num_comments;
+            let post_rates = formComments.querySelector('#post_rates');
+            post_rates.innerHTML = post_rates.innerHTML+response.all_rates;
 
-                // formComments.querySelector('#comment').value = '';
+            let num_rate = formComments.querySelector('#num_rate');
+            num_rate.innerHTML = response.num_rate;
+        }
+    };
+    var formData = new FormData(); 
+    formData.append('MM_insert', 'formrate');
+    formData.append('postId', postId);
+    formData.append('stars', stars);
 
-                // let lastComment = formComments.querySelector('.last_comment');
-                // lastComment.innerHTML = lastComment.innerHTML+response.last_comment;
-            }
-        };
-        var formData = new FormData(); 
-        formData.append('MM_insert', 'formrate');
-        formData.append('postId', postId);
-        formData.append('stars', stars);
-
-        xmlhttp.open("POST", "logic/start_be.php", true);
-        xmlhttp.send(formData);
+    xmlhttp.open("POST", "logic/start_be.php", true);
+    xmlhttp.send(formData);
 }
 
 function showrate()

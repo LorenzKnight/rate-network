@@ -415,69 +415,108 @@ function count_comments($columns = "*", $requestData = array()) : int
 
 function add_rate(int $userId, int $stars, $postId = null)
 {
-  $rateBonus = $stars;
+
+  $rate      = u_all_info($userId);
+  $rateBonus = rate_bonus($stars, $rate['rate']);
   $rateDate  = date("Y-m-d H:i:s");
 
-  $query = "INSERT INTO rates (user_id, stars, rate_bonus, post_id, rate_date) VALUES ($userId, $stars, $rateBonus, $postId, '$rateDate')";
+  $query = "INSERT INTO rates (user_id, stars, rate_bonus, post_id, rate_date) VALUES ($userId, $stars, $rateBonus, $postId, '$rateDate') RETURNING rate_bonus";
 	$sql = pg_query($query);
+
+  $ultimo = pg_fetch_row($sql);
 		
-	return true;
+	return $ultimo;
 }
 
 //update exemple
-// function rankbooster_update($requestData = array(), $rankboosterData = array())
-// {
-// 	if(empty($requestData) || empty($rankboosterData))
-// 	{
-// 		return false;
-// 	}
+function rate_update($requestData = array(), $rateData = array(), $rateData2 = array())
+{
+	if(empty($requestData) || empty($rateData))
+	{
+		return false;
+	}
 
-// 	if(!isset($rankboosterData['rid']))
-// 	{
-// 		return false;
-// 	}
+	if(!isset($rateData['rate_id']))
+	{
+		return false;
+	}
 
-// 	if(empty($rankboosterData['rid']))
-// 	{
-// 		return false;
-// 	}
+	if(empty($rateData['rate_id']))
+	{
+		return false;
+	}
 	
-// 	$validColumns = dbRankboosterColumnNames();
-// 	unset($validColumns['rid']);
+	$validColumns = dbRatesColumnNames();
+	unset($validColumns['rate_id']);
 	
-// 	//validate requestData
-// 	foreach ($requestData as $keyColumn => $value) 
-// 	{
-// 		if(!in_array($keyColumn, $validColumns))
-// 		{
-// 			unset($requestData[$keyColumn]);
-// 		}
+	//validate requestData
+	foreach ($requestData as $keyColumn => $value) 
+	{
+		if(!in_array($keyColumn, $validColumns))
+		{
+			unset($requestData[$keyColumn]);
+		}
 
-// 		if(isset($rankboosterData[$keyColumn]) && $value === $rankboosterData[$keyColumn])
-// 		{
-// 			unset($requestData[$keyColumn]);
-// 		}
-// 	}
-// 	if(empty($requestData))
-// 	{
-// 		return false;
-// 	}
+		if(isset($rateData[$keyColumn]) && $value === $rateData[$keyColumn])
+		{
+			unset($requestData[$keyColumn]);
+		}
+	}
+	if(empty($requestData))
+	{
+		return false;
+	}
 	
-// 	$queryParams = "";
-// 	foreach ($requestData as $keyColumn => $value) 
-// 	{
-// 		$queryParams .= $keyColumn."='".pg_escape_string($value)."',";
-// 	}
+	$queryParams = "";
+	foreach ($requestData as $keyColumn => $value) 
+	{
+		$queryParams .= $keyColumn."='".pg_escape_string($value)."',";
+	}
 
-// 	if(empty($queryParams))
-// 	{
-// 		return false;
-// 	}
+	if(empty($queryParams))
+	{
+		return false;
+	}
 
-// 	$query = "UPDATE rankbooster SET " . substr($queryParams, 0, -1) . " WHERE rid=".$rankboosterData['rid'];
-// 	// echo "Q1: $query \n";die;
-// 	$sql = pg_query($query);
+	$query = "UPDATE rates SET ". substr($queryParams, 0, -1) ." WHERE post_id=".$rateData['post_id']." AND user_id=".$rateData2['user_id'];
+	// echo "Q: $query \n"; die;
+	$sql = pg_query($query);
 
-// 	return $sql;
-// }
+	return $sql;
+}
+
+function rate_star($rateData, $star)
+{
+    if ($rateData >= $star)
+    {
+        return 'star_checked';
+    }
+    else
+    {
+        return '';
+    }
+}
+
+function rate_bonus($stars, $rate)
+{
+  return $stars * $rate / 1000;
+}
+
+function update_user_rate($stars, $returRateBonus, $postId)
+{
+  $postUser = (int)post_all_data($postId)['userId'];
+
+  if($stars <= 3)
+  {
+    $query = "UPDATE users SET rate = (SELECT rate FROM users WHERE user_id = $postUser)-$returRateBonus[0] WHERE user_id = $postUser";
+  }
+  else if($stars > 3)
+  {
+    $query = "UPDATE users SET rate = (SELECT rate FROM users WHERE user_id = $postUser)+$returRateBonus[0] WHERE user_id = $postUser";
+  }
+
+  pg_query($query);
+
+  return true;
+}
 ?>
