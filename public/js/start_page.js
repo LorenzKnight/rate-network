@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function sendComment(event) {
-    var formComments = event.target.closest('#post_fotos_coments'); 
+    var formComments = event.target.closest('.post_container'); 
     console.log(formComments);
     var postId = formComments.querySelector('#postId').value;
     var comment = formComments.querySelector('#comment').value;
@@ -27,7 +27,14 @@ function sendComment(event) {
                 formComments.querySelector('#comment').value = '';
 
                 let lastComment = formComments.querySelector('.last_comment');
-                lastComment.innerHTML = lastComment.innerHTML+response.last_comment;
+                if(lastComment != null) {
+                    lastComment.innerHTML = lastComment.innerHTML+response.last_comment;
+                }
+                else
+                {
+                    let post_comments = formComments.querySelector('.post_comments');
+                    post_comments.innerHTML = post_comments.innerHTML+response.last_comment;
+                }
             }
         };
         var formData = new FormData(); 
@@ -58,6 +65,9 @@ function showcomments(postId) {
 
             let popup_profile = document.getElementById('popup_profile');
             popup_profile.innerHTML = response.post_author;
+
+            let num_comments = document.querySelector('#bg_comments_popup #num_comments');
+            num_comments.innerHTML = response.num_comments;
         }
     };
     var formData = new FormData(); 
@@ -81,11 +91,13 @@ function ratePost(event) {
 
             console.log(response);
 
-            let post_rates = formComments.querySelector('#post_rates');
-            post_rates.innerHTML = post_rates.innerHTML+response.all_rates;
+            let post_rate_list = formComments.querySelector('#post_rate_list');
+            if(post_rate_list != null) {
+                post_rate_list.innerHTML = response.all_rates;
 
-            let num_rate = formComments.querySelector('#num_rate');
-            num_rate.innerHTML = response.num_rate;
+                let num_rate = formComments.querySelector('#num_rate');
+                num_rate.innerHTML = response.num_rate;
+            }
         }
     };
     var formData = new FormData(); 

@@ -23,22 +23,7 @@ foreach($publications as $post)
                     ?>
                     <a href="#" onclick="showcomments(<?= $post['postId']; ?>)"><span id="num_comments"><?= count_comments('*', $requestData); ?></span> comments</a>
                     <input type="hidden" name="post_id" id="post_id" value="<?= $post['postId']; ?>"/>
-                    <span style='float: right;'>
-                        <!-- <form action="start_be.php" method="post" name="formrate" id="formrate"> -->
-                        <div class="rate_buttom">
-                            <div class="rate_popup" id="rate_popup<?= $post['postId']; ?>">
-                                <span onmouseover="fyllUp(1)" onmouseout="fyllOut(1)" id="star_mo1" class="fa fa-star rating_star" style="font-size: 18px;" data-rate="1"></span>
-                                <span onmouseover="fyllUp(2)" onmouseout="fyllOut(2)" id="star_mo2" class="fa fa-star rating_star" style="font-size: 18px;" data-rate="2"></span>
-                                <span onmouseover="fyllUp(3)" onmouseout="fyllOut(3)" id="star_mo3" class="fa fa-star rating_star" style="font-size: 18px;" data-rate="3"></span>
-                                <span onmouseover="fyllUp(4)" onmouseout="fyllOut(4)" id="star_mo4" class="fa fa-star rating_star" style="font-size: 18px;" data-rate="4"></span>
-                                <span onmouseover="fyllUp(5)" onmouseout="fyllOut(5)" id="star_mo5" class="fa fa-star rating_star" style="font-size: 18px;" data-rate="5"></span>
-                            </div>
-                            <!-- <input type="hidden" name="postId" id="postId" value="<?= $post['postId']; ?>"/> -->
-                            <!-- <input type="hidden" name="MM_insert" id="MM_insert" value="formrate" /> -->
-                            <!-- <a href="#" onclick="showrate(<?= $post['postId']; ?>)">Rate it</a> -->
-                        </div>
-                        <!-- </form> -->
-                    </span>
+                    <?php include('components/modal_add_rate.php'); ?>
                 </div>
                 <?php include('components/modal_comment_field.php'); ?>
                 <div class="last_comment">

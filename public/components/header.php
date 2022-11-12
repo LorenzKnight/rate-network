@@ -10,8 +10,8 @@
             <div class="rank" id="rank">
             </div>
             <div class="title" id="title">
-                Currently working<br>
-                at Hoddicker
+                <!-- Currently working<br>
+                at Hoddicker -->
             </div>
         </div>
     </div>

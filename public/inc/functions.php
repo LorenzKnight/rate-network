@@ -34,7 +34,8 @@ function u_all_info($id = null) : array
       'surname'     => false,
       'image'       => false,
       'email'       => false,
-      'rate'        => false
+      'rate'        => false,
+      'job'         => false
   ];
   
   if(!empty($totalRows_userInfo))
@@ -46,7 +47,8 @@ function u_all_info($id = null) : array
           'surname'     => $row_userinfo['surname'],
           'image'       => $row_userinfo['image'],
           'email'       => $row_userinfo['email'],
-          'rate'        => $row_userinfo['rate']
+          'rate'        => $row_userinfo['rate'],
+          'job'         => $row_userinfo['job']
       ];
   }
   
@@ -79,11 +81,37 @@ function post_all_data(int $postId) : array
   return $res;
 }
 
+function followers_list(int $userId)
+{
+  $query = "SELECT * FROM followers WHERE user_id = $userId";
+  $sql = pg_query($query);
+
+  $totalRows_followersList = pg_num_rows($sql);
+  
+  $res = [];
+  
+  if(!empty($totalRows_followersList))
+  {
+      $row_followersList = pg_fetch_all($sql);
+
+      foreach($row_followersList as $item)
+      {
+        $res [] = (int)$item['is_following'];
+      }
+  }
+  
+  return $res;
+}
+
 function post_wall_profile($userId = null) : array
 {
+  $userId = substr($userId, 1, -1);
+  // var_dump($userId);
+  // exit();
+
   if(!empty($userId))
   {
-    $query_postwall = "SELECT * FROM river WHERE user_id = $userId";
+    $query_postwall = "SELECT * FROM river WHERE user_id in ($userId)";
   }
   else
   {

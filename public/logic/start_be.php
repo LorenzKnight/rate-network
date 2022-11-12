@@ -1,8 +1,12 @@
 <?php 
     require_once __DIR__ .'/../connections/conexion.php';
 
-    $publications   = post_wall_profile();
+    $followers_list = followers_list($_SESSION['rt_UserId']);
+    $userList = json_encode($followers_list);
+   
+    $publications   = post_wall_profile($userList);
 
+    
     if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formcomments")) {
         $userId             = $_SESSION['rt_UserId'];
         $postId             = $_POST['postId'];
@@ -66,7 +70,7 @@
         // post comments list
         $htmlResult = '';
         $htmlResult .= '<div class="post_comments" id="post_comments">';
-            
+        $htmlResult .= '<input type="hidden" name="post_id" id="postId" value="'.$postId.'"/>';
             $comment_list = comment_in_post($postId);
             
             foreach($comment_list as $comment)
@@ -88,9 +92,12 @@
             
         $htmlResult .= '</div>';
 
+        $requestData['post_id'] = $postId;
+
         $result = [
             'post_author'           => $htmlPostProfile,
-            'comments_html'         => $htmlResult
+            'comments_html'         => $htmlResult,
+            'num_comments'          => count_comments('*', $requestData)
         ];
 
         echo json_encode($result);

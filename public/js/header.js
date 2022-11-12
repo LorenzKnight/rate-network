@@ -6,10 +6,13 @@ document.addEventListener("DOMContentLoaded", () => {
         var profile_pic = document.getElementById("profile_sphere");
         var names = document.getElementById("names");
         var rankcont = document.getElementById("rank");
+        var title = document.getElementById("title");
 
         var firstname = data.name;
         var lastname = data.surname;
         var pic = data.image;
+        var job = data.job;
+        console.log(job);
         
         var rate = data.rate;
         var rate = rate.toString();
@@ -34,5 +37,9 @@ document.addEventListener("DOMContentLoaded", () => {
         profile_pic.innerHTML = "<img src=pic/"+pic+" class='porfile_pic'>";
         names.innerHTML = firstname+' '+lastname;
         rankcont.innerHTML = '<div>'+desimalpri+'<span style="font-size: 2.5rem;">'+desimalsec+'</span></div>';
+        if(typeof(job) != 'undefined' && job !== null)
+        {
+            title.innerHTML = 'Currently working<br>at '+job;
+        }
 	});
 });

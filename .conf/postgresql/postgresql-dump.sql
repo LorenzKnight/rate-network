@@ -6,16 +6,19 @@ CREATE TABLE IF NOT EXISTS users (
 	password varchar(255) NULL,
 	image varchar(255) NULL,
 	rate FLOAT NULL,
-	signup_date TIMESTAMP NULL,
+	job varchar(255) NULL,
+	verified INTEGER null,
 	birthday TIMESTAMP NULL,
+	signup_date TIMESTAMP NULL,
 	rank INTEGER null,
-	status INTEGER NULL
+	status INTEGER NULL,
+	status_by_admin INTEGER NULL
 );
 
--- INSERT INTO users (name, surname, email, password, image, rate, signup_date, birthday, status)
--- VALUES ('Lorenz', 'Knight', 'lorenz.knight@gmail.com', 123456, 'profile_pic.jpg', 0, '2022-10-18 00:00:00', '1984-09-03 00:00:00', 1),
---        ('Joel', 'Knight', 'joel.knight@gmail.com', 123456, 'profile_pic.jpg', 0, '2022-10-18 00:00:00', '1984-09-03 00:00:00', 1),
---        ('Shael', 'Knight', 'shael.knight@gmail.com', 123456, 'profile_pic.jpg', 0, '2022-10-18 00:00:00', '1984-09-03 00:00:00', 1);
+INSERT INTO users (name, surname, email, password, image, rate, job, verified, signup_date, birthday, status)
+VALUES ('Lorenz', 'Knight', 'lorenz.knight@gmail.com', 123456, 'profile_pic.jpg', 0, null, 0, '2022-10-18 00:00:00', '1984-09-03 00:00:00', 1, 0),
+       ('Joel', 'Knight', 'joel.knight@gmail.com', 123456, null, 0, null, 0, '2022-10-18 00:00:00', '1984-09-03 00:00:00', 1, 0),
+       ('Shael', 'Knight', 'shael.knight@gmail.com', 123456, 'shael_pic.png', 0, null, 0, '2022-10-18 00:00:00', '1984-09-03 00:00:00', 1, 0);
 
 -- select * from users;
 
@@ -62,4 +65,13 @@ CREATE TABLE IF NOT EXISTS comments (
 	post_id INTEGER null,
 	comment varchar(255) null,
 	comment_date TIMESTAMP NULL
+);
+
+CREATE TABLE IF NOT EXISTS followers (
+	follow_id SERIAL PRIMARY KEY,
+	user_id INTEGER null,
+	is_following INTEGER null,
+	accepted INTEGER null,
+	condition varchar(255) null, --if it is limited or not
+	follow_date TIMESTAMP NULL
 );
