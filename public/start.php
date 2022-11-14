@@ -10,6 +10,7 @@
 <script defer src="js/header.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script defer src="js/start_page.js"></script>
+<script defer src="js/foto_slider.js"></script>
 <!-- <script src="js/jquery.taconite.js"></script>
 <script src="js/jquery-1.11.3.min.js"></script> -->
 

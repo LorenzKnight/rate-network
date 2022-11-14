@@ -16,6 +16,7 @@ foreach($publications as $post)
         <div class='content post_container'>
             <div class='post_fotos_coments' id="post_fotos_coments">
                 <div class='post_fotos'>
+                    <?php include('components/foto_slider.php'); ?>
                 </div>
                 <div class='post_options'>
                     <?php

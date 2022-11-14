@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
         var lastname = data.surname;
         var pic = data.image;
         var job = data.job;
-        console.log(job);
+        // console.log(job);
         
         var rate = data.rate;
         var rate = rate.toString();
