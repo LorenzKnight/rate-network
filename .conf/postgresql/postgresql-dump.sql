@@ -75,3 +75,13 @@ CREATE TABLE IF NOT EXISTS followers (
 	condition varchar(255) null, --if it is limited or not
 	follow_date TIMESTAMP NULL
 );
+
+CREATE TABLE IF NOT EXISTS media (
+	media_id SERIAL PRIMARY KEY,
+	user_id INTEGER null,
+	post_id INTEGER null,
+	name varchar(255) null,
+	format varchar(255) null,
+	is_changed INTEGER null,
+	media_date TIMESTAMP NULL
+);

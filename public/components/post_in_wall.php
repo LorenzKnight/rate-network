@@ -4,6 +4,7 @@ foreach($publications as $post)
     $u_info = u_all_info($post['userId']);
 ?>
     <div class='public_post_in_wall'>
+        <a href="#" onclick="addpost()"><div class="add_button">+</div></a>
         <div class='post_profil'>
             <div class='small_profile_sphere'>
                 <img src='pic/<?= $u_info['image'] != null ? $u_info['image'] : 'blank_profile_picture.jpg' ; ?>' class='small_porfile_pic'>

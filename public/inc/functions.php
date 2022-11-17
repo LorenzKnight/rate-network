@@ -547,4 +547,9 @@ function update_user_rate($stars, $returRateBonus, $postId)
 
   return true;
 }
+
+function post_images()
+{
+  
+}
 ?>

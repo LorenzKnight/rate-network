@@ -28,9 +28,9 @@
             </div>
         </div>
         <div class="sidebar">
-            <button class="button_form1" onclick="location.href='logout.php'" type="button">Log out</button>
+            <?php include("components/modal_search.php"); ?>
         </div>
     </div>
-    <?php include("components/zoon_comments.php"); ?>
+    <?php include("components/popup_bg.php"); ?>
 </body>
 </html>

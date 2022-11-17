@@ -57,8 +57,11 @@ function showcomments(postId) {
             }
             var response = JSON.parse(this.responseText);
 
-            let bg_comments_popup = document.getElementById('bg_comments_popup');
-            bg_comments_popup.style.display = "block";
+            let bg_popup = document.getElementById('bg_popup');
+            bg_popup.style.display = "block";
+
+            let comment_fotos_popup = document.getElementById('comment_fotos_popup');
+            comment_fotos_popup.style.display = "block";
 
             let post_fotos_coments = document.getElementById('comments_popup');
             post_fotos_coments.innerHTML = post_fotos_coments.innerHTML+response.comments_html;
@@ -66,7 +69,7 @@ function showcomments(postId) {
             let popup_profile = document.getElementById('popup_profile');
             popup_profile.innerHTML = response.post_author;
 
-            let num_comments = document.querySelector('#bg_comments_popup #num_comments');
+            let num_comments = document.querySelector('#bg_popup #num_comments');
             num_comments.innerHTML = response.num_comments;
         }
     };
@@ -77,6 +80,14 @@ function showcomments(postId) {
 
     xmlhttp.open("POST", "logic/start_be.php", true);
     xmlhttp.send(formData);
+}
+
+function addpost() {
+    let bg_popup = document.getElementById('bg_popup');
+    bg_popup.style.display = 'block';
+
+    let post_form = document.getElementById('post_form');
+    post_form.style.display = 'block';
 }
 
 function ratePost(event) {
@@ -116,11 +127,17 @@ function showrate()
 }
 
 document.addEventListener('mouseup', function(e) {
-    var popup = document.getElementById('comment_fotos_popup');
-    var bg_popup = document.getElementById('bg_comments_popup');
+    var bg_popup = document.getElementById('bg_popup');
+    var bg_container = document.getElementById('bg_container');
 
-    if (!popup.contains(e.target)) {
+    var comment_fotos_popup = document.getElementById('comment_fotos_popup');
+    var post_form = document.getElementById('post_form');
+
+    if (!bg_container.contains(e.target)) {
         bg_popup.style.display = 'none';
+
+        comment_fotos_popup.style.display = 'none';
+        post_form.style.display = 'none';
     }
 });
 
