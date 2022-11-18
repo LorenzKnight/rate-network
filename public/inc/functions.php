@@ -548,8 +548,27 @@ function update_user_rate($stars, $returRateBonus, $postId)
   return true;
 }
 
-function post_images()
+function post_images(int $psotId) : array
 {
+  $query = "SELECT * FROM media WHERE post_id = $psotId ORDER BY media_id DESC";
+  $sql = pg_query($query);
+  $totalRows_postmedia = pg_num_rows($sql);
   
+  $res = [];
+  
+  if(!empty($totalRows_postmedia))
+  {
+      $row_postmedia = pg_fetch_all($sql);
+
+      foreach($row_postmedia as $item)
+      {
+        $res [] = [
+            'name'        => $item['name'],
+            'format'        => $item['format']
+        ];
+      }
+  }
+  
+  return $res;
 }
 ?>

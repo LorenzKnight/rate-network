@@ -24,7 +24,8 @@
 
         <!-- post form -->
         <div class="post_form" id="post_form">
-
+            <input type="text" id="comment" name="comment" class="cfield"> 
+            <span><input id="create_post" type="button" class="cbutton" value="Send" /></span>
         </div>
     </div>
 </div>

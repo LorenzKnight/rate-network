@@ -8,6 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
     submit_rate_button.forEach((element)=>{
         element.addEventListener('click', ratePost);
     });
+
+    let slide_button = document.querySelectorAll('.slideshow-container .prev, .slideshow-container .next');
+    slide_button.forEach((element)=>{
+        element.addEventListener('click', showSlides);
+    });
 });
 
 function sendComment(event) {
@@ -88,6 +93,22 @@ function addpost() {
 
     let post_form = document.getElementById('post_form');
     post_form.style.display = 'block';
+}
+
+function createpost() {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var response = JSON.parse(this.responseText);
+        }
+    };
+    var formData = new FormData(); 
+    formData.append('MM_insert', 'formrate');
+    formData.append('postId', postId);
+    formData.append('stars', stars);
+
+    xmlhttp.open("POST", "logic/start_be.php", true);
+    xmlhttp.send(formData);
 }
 
 function ratePost(event) {
@@ -215,4 +236,67 @@ function fyllOut(star)
             star5.style.color = "#666"
             break
     }
+}
+
+// FOTO SLIDER
+let slideInitIndex = 1;
+
+function initSlides() {
+    let slides = document.querySelectorAll(".slideshow-container");
+    slides.forEach((element)=>{
+        element.setAttribute('slideIndex', slideInitIndex);
+        let slides = element.getElementsByClassName("mySlides");
+        let dots = element.getElementsByClassName("dot");
+
+        if(slideInitIndex == 1) {
+            let prevButton = element.querySelector('.prev');
+            prevButton.style.display = 'none';
+        }
+
+        slides[slideInitIndex-1].style.display = "block";
+        dots[slideInitIndex-1].className += " active";
+    });
+}
+initSlides();
+
+function showSlides(event) {
+
+    let sliderContainer = event.target.closest('.slideshow-container');
+    let n = parseInt(event.target.getAttribute('data-direction'));
+    let slideIndex = parseInt(sliderContainer.getAttribute('slideIndex'));
+    let prevButton = sliderContainer.querySelector('.prev');
+    let nextButton = sliderContainer.querySelector('.next');
+
+    let i;
+    let slides = sliderContainer.getElementsByClassName("mySlides");
+
+    slideIndex += n;
+
+    if(slideIndex <= 1) {
+        prevButton.style.display = 'none';
+    } 
+    if (slideIndex > 1) {
+        prevButton.style.display = 'block';
+    }
+    if (slideIndex >= slides.length-1) {
+        nextButton.style.display = 'none';
+    }
+    if (slideIndex <= slides.length-1) {
+        nextButton.style.display = 'block';
+    }
+ 
+    let dots = sliderContainer.getElementsByClassName("dot");
+    if (slideIndex > slides.length) {slideIndex = 1}
+
+    if (slideIndex < 1) {slideIndex = slides.length}
+    
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+    }
+    sliderContainer.setAttribute('slideIndex', slideIndex);
+    slides[slideIndex-1].style.display = "block";
+    dots[slideIndex-1].className += " active";
 }
