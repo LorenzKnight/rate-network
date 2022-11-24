@@ -64,7 +64,6 @@ function post_all_data(int $postId) : array
     'postId'      => false,
     'userId'      => false,
     'content'     => false,
-    'mediaId'     => false,
     'status'      => false
   ];
 
@@ -74,7 +73,6 @@ function post_all_data(int $postId) : array
     'postId'      => $row_postalldata['r_id'],
     'userId'      => $row_postalldata['user_id'],
     'content'     => $row_postalldata['content'],
-    'mediaId'     => $row_postalldata['media_id'],
     'status'      => $row_postalldata['status']
   ];
 
@@ -133,7 +131,6 @@ function post_wall_profile($userId = null) : array
         'postId'      => $item['r_id'],
         'userId'      => $item['user_id'],
         'content'     => $item['content'],
-        'mediaId'     => $item['media_id'],
         'status'      => $item['status']
       ];
     }
@@ -548,7 +545,42 @@ function update_user_rate($stars, $returRateBonus, $postId)
   return true;
 }
 
-function post_images(int $psotId) : array
+function create_new_post(int $userId, string $content, $status = null) 
+{
+  $postDate  = date("Y-m-d H:i:s");
+
+  $query = "INSERT INTO river (user_id, content, status, post_date) VALUES ($userId, '$content', $status, '$postDate') RETURNING r_id";
+	$sql = pg_query($query);
+
+  $return_post_id = pg_fetch_row($sql);
+		
+	return $return_post_id[0];
+}
+
+function add_post_media($insertValues)
+{
+	$inserQuery = '';
+
+	foreach($insertValues as $value)
+	{
+		$inserQuery .= "({$value['userId']}, {$value['postId']}, '{$value['name']}', '{$value['mediaDate']}')";
+		if (count($insertValues) > 1)
+		{
+			$inserQuery .= ",";
+		}
+	}
+
+	if (count($insertValues) > 1) {
+		$inserQuery = substr($inserQuery, 0, -1);
+	}
+
+  $query = "INSERT INTO media (user_id, post_id, name, media_date) VALUES $inserQuery";
+	pg_query($query);
+
+  return true;
+}
+
+function show_post_images(int $psotId) : array
 {
   $query = "SELECT * FROM media WHERE post_id = $psotId ORDER BY media_id DESC";
   $sql = pg_query($query);
@@ -564,7 +596,8 @@ function post_images(int $psotId) : array
       {
         $res [] = [
             'name'        => $item['name'],
-            'format'        => $item['format']
+            'format'      => $item['format'],
+            'total_pic'   => $totalRows_postmedia
         ];
       }
   }

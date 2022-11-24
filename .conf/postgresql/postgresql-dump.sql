@@ -31,14 +31,14 @@ CREATE TABLE IF NOT EXISTS river (
 	r_id SERIAL PRIMARY KEY,
     user_id INTEGER NULL,
     content varchar(255) null,
-    media_id INTEGER null,
-    status INTEGER NULL
+    status INTEGER NULL,
+	post_date TIMESTAMP NULL
 );
 
--- INSERT INTO river (user_id, content, media_id, status)
--- VALUES (1, 'post 1', 1, 1),
---        (2, 'post 2', 2, 1),
---        (3, 'post 3', 3, 1);
+-- INSERT INTO river (user_id, content, status, post_date)
+-- VALUES (1, 'post 1', 1, '2022-10-18 00:00:00'),
+--        (2, 'post 2', 1, '2022-10-18 00:00:00'),
+--        (3, 'post 3', 1, '2022-10-18 00:00:00');
        
 -- select * from river;
 

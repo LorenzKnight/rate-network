@@ -163,4 +163,22 @@
         //     rate_update(array('stars' => $stars, 'rate_bonus' => $rateBonus), array('post_id' => $rankbooster_id), array('user_id' => $rankbooster_id));
         // }
     }
+
+    if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formnewpost")) {
+        $userId         = $_SESSION['rt_UserId'];
+        $postContent    = $_POST['post_content'];
+        $picNames       = json_decode($_POST['pic_name'], true);
+        $mediaDate      = date("Y-m-d H:i:s");
+
+        $postId = create_new_post($userId, $postContent, 1);
+        
+        $insertValues = [];
+
+        foreach($picNames as $item)
+        {
+            $insertValues[] = ['userId' => $userId, 'postId' => $postId, 'name' => "$item", 'mediaDate' => "$mediaDate"];
+        }
+        
+        add_post_media($insertValues);
+    }
 ?>

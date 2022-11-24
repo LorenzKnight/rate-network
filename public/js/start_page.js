@@ -13,6 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
     slide_button.forEach((element)=>{
         element.addEventListener('click', showSlides);
     });
+
+    let submit_post_button = document.getElementById('create_post');
+    submit_post_button.addEventListener('click', createpost);
 });
 
 function sendComment(event) {
@@ -68,6 +71,14 @@ function showcomments(postId) {
             let comment_fotos_popup = document.getElementById('comment_fotos_popup');
             comment_fotos_popup.style.display = "block";
 
+            var displaySize = {
+                "width": "1050px",
+                "height": "600px"
+            };
+             
+            var bgContainer = document.getElementById("bg_container");
+            Object.assign(bgContainer.style, displaySize);
+
             let post_fotos_coments = document.getElementById('comments_popup');
             post_fotos_coments.innerHTML = post_fotos_coments.innerHTML+response.comments_html;
 
@@ -91,21 +102,33 @@ function addpost() {
     let bg_popup = document.getElementById('bg_popup');
     bg_popup.style.display = 'block';
 
+    var displaySize = {
+        "width": "600px",
+        "height": "600px"
+    };
+     
+    var bgContainer = document.getElementById("bg_container");
+    Object.assign(bgContainer.style, displaySize);
+
     let post_form = document.getElementById('post_form');
     post_form.style.display = 'block';
 }
 
 function createpost() {
+    var picNames = document.getElementById('pic_name').value;
+    var postContent = document.getElementById('post_content').value;
+    
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             var response = JSON.parse(this.responseText);
+            console.log(response);
         }
     };
     var formData = new FormData(); 
-    formData.append('MM_insert', 'formrate');
-    formData.append('postId', postId);
-    formData.append('stars', stars);
+    formData.append('MM_insert', 'formnewpost');
+    formData.append('pic_name', picNames);
+    formData.append('post_content', postContent);
 
     xmlhttp.open("POST", "logic/start_be.php", true);
     xmlhttp.send(formData);
@@ -147,6 +170,7 @@ function showrate()
     bgPopUp.style.display = "block";
 }
 
+//Close popups
 document.addEventListener('mouseup', function(e) {
     var bg_popup = document.getElementById('bg_popup');
     var bg_container = document.getElementById('bg_container');

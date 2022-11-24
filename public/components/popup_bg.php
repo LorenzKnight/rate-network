@@ -3,7 +3,7 @@
         <!-- zoon comments -->
         <div class="comment_fotos_popup" id="comment_fotos_popup">
             <div class="fotos_content">
-                
+                <?php //include('components/foto_slider.php'); ?>
             </div>
             <div class="comments_content post_container">
                 <div class="popup_profile" id="popup_profile">
@@ -24,8 +24,7 @@
 
         <!-- post form -->
         <div class="post_form" id="post_form">
-            <input type="text" id="comment" name="comment" class="cfield"> 
-            <span><input id="create_post" type="button" class="cbutton" value="Send" /></span>
+            <?php include('components/modal_create_post.php'); ?>
         </div>
     </div>
 </div>
