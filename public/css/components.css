@@ -558,8 +558,13 @@ a .add_button:hover {
 }
 .userlist ul {
     padding: 0;
+    margin: 0;
     list-style: none;
     /* background-color: orange; */
+}
+.userlist ul a {
+    text-decoration: none;
+    color: #000;
 }
 .userlist ul li {
     /* background-color: #999; */
@@ -568,5 +573,8 @@ a .add_button:hover {
     padding: 0 2%;
     display: flex;
     align-items: center;
+}
+.userlist ul a li:hover {
+    background-color: #F0F0F0;
 }
 /* end to search */

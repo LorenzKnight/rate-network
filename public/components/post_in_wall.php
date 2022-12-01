@@ -1,3 +1,4 @@
+
 <a href="#" onclick="addpost()"><div class="add_button">+</div></a>
 <?php 
 foreach($publications as $post)
@@ -17,7 +18,7 @@ foreach($publications as $post)
         <div class='content post_container'>
             <div class='post_fotos_coments' id="post_fotos_coments">
                 <div class='post_fotos'>
-                    <?php include('components/foto_slider.php'); ?>
+                    <?php include(__DIR__.'/foto_slider.php'); ?>
                 </div>
                 <div class='post_options'>
                     <?php
@@ -25,9 +26,9 @@ foreach($publications as $post)
                     ?>
                     <a href="#" onclick="showcomments(<?= $post['postId']; ?>)"><span id="num_comments"><?= count_comments('*', $requestData); ?></span> comments</a>
                     <input type="hidden" name="post_id" id="post_id" value="<?= $post['postId']; ?>"/>
-                    <?php include('components/modal_add_rate.php'); ?>
+                    <?php include(__DIR__.'/modal_add_rate.php'); ?>
                 </div>
-                <?php include('components/modal_comment_field.php'); ?>
+                <?php include(__DIR__.'/modal_comment_field.php'); ?>
                 <div class="last_comment">
 
                 </div>

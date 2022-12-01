@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
+    initButtons();
+});
+
+function initButtons() {
     let submit_comment_button = document.querySelectorAll('.submit_comments');
     submit_comment_button.forEach((element)=>{
         element.addEventListener('click', sendComment);
@@ -16,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let submit_post_button = document.getElementById('create_post');
     submit_post_button.addEventListener('click', createpost);
-});
+}
 
 function sendComment(event) {
     var formComments = event.target.closest('.post_container'); 
@@ -121,8 +125,12 @@ function createpost() {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            var response = JSON.parse(this.responseText);
-            // console.log(response);
+            document.getElementById('content').innerHTML = this.responseText;
+            initButtons();
+            initSlides();
+            
+            let bg_popup = document.getElementById('bg_popup');
+            bg_popup.style.display = 'none';
         }
     };
     var formData = new FormData(); 
