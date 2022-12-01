@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    fetch("logic/header_logic.php")
+    fetch("logic/header_be.php")
 	.then(res => res.json())
 	.then(data => {
         // console.log(data.name)

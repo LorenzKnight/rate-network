@@ -1,5 +1,5 @@
 <?php 
-function comprobaremailunico($email)
+function checkUniqueEmail($email)
 {
 	$query_ConsultaFuncion = "SELECT email FROM users WHERE email = $email";
 	//echo $query_ConsultaFuncion;
@@ -104,12 +104,13 @@ function followers_list(int $userId)
 function post_wall_profile($userId = null) : array
 {
   $userId = substr($userId, 1, -1);
+
   // var_dump($userId);
   // exit();
 
   if(!empty($userId))
   {
-    $query_postwall = "SELECT * FROM river WHERE user_id in ($userId)";
+    $query_postwall = "SELECT * FROM river WHERE user_id in ($userId) ORDER BY r_id DESC";
   }
   else
   {
@@ -598,6 +599,35 @@ function show_post_images(int $psotId) : array
             'name'        => $item['name'],
             'format'      => $item['format'],
             'total_pic'   => $totalRows_postmedia
+        ];
+      }
+  }
+  
+  return $res;
+}
+
+function search_users() : array
+{
+  $query_userInfo = "SELECT * FROM users ORDER BY user_id ASC";
+  $sql = pg_query($query_userInfo);
+  $totalRows_userInfo = pg_num_rows($sql);
+  
+  $res = [];
+  
+  if(!empty($totalRows_userInfo))
+  {
+      $row_userinfo = pg_fetch_all($sql);
+ 
+      foreach($row_userinfo as $item)
+      {
+        $res [] = [
+            'id'          => $item['user_id'],
+            'name'        => $item['name'],
+            'surname'     => $item['surname'],
+            'image'       => $item['image'],
+            'email'       => $item['email'],
+            'rate'        => $item['rate'],
+            'job'         => $item['job']
         ];
       }
   }

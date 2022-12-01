@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function sendComment(event) {
     var formComments = event.target.closest('.post_container'); 
-    console.log(formComments);
+    // console.log(formComments);
     var postId = formComments.querySelector('#postId').value;
     var comment = formComments.querySelector('#comment').value;
 
@@ -115,14 +115,14 @@ function addpost() {
 }
 
 function createpost() {
-    var picNames = document.getElementById('pic_name').value;
+    var picNames = document.querySelector('.post_foto_prev').getAttribute('data-pic-names');
     var postContent = document.getElementById('post_content').value;
     
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             var response = JSON.parse(this.responseText);
-            console.log(response);
+            // console.log(response);
         }
     };
     var formData = new FormData(); 
@@ -144,7 +144,7 @@ function ratePost(event) {
         if (this.readyState == 4 && this.status == 200) {
             var response = JSON.parse(this.responseText);
 
-            console.log(response);
+            // console.log(response);
 
             let post_rate_list = formComments.querySelector('#post_rate_list');
             if(post_rate_list != null) {
@@ -266,10 +266,14 @@ function fyllOut(star)
 let slideInitIndex = 1;
 
 function initSlides() {
-    let slides = document.querySelectorAll(".slideshow-container");
-    slides.forEach((element)=>{
+    let slides_container = document.querySelectorAll(".slideshow-container");
+    slides_container.forEach((element)=>{
         element.setAttribute('slideIndex', slideInitIndex);
         let slides = element.getElementsByClassName("mySlides");
+        if(slides.length == 0) {
+            return;
+        }
+        // console.log(slides);
         let dots = element.getElementsByClassName("dot");
 
         if(slideInitIndex == 1) {

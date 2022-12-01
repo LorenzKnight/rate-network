@@ -2,10 +2,10 @@
     require_once __DIR__ .'/../connections/conexion.php';
 
     $followers_list = followers_list($_SESSION['rt_UserId']);
+    $followers_list[] = (int)$_SESSION['rt_UserId'];
     $userList = json_encode($followers_list);
    
     $publications   = post_wall_profile($userList);
-
     
     if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formcomments")) {
         $userId             = $_SESSION['rt_UserId'];
@@ -180,5 +180,7 @@
         }
         
         add_post_media($insertValues);
+
+        
     }
 ?>

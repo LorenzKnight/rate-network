@@ -95,8 +95,8 @@
     width: 25%;
     height: 98.85vh;
     background-color: orange;
-    display: flex;
-    justify-content: center;
+    /* display: flex;
+    justify-content: center; */
     /* align-items: center; */
 }
 /* end to sidebar */
@@ -170,6 +170,7 @@
     justify-content: center;
     align-items: center;
 }
+
 .post_rates {
     width: 27%;
     padding: 0 1.5%;
@@ -529,9 +530,16 @@ a .add_button:hover {
 /* end to foto slide */
 
 /* start to search */
+.search_container {
+    width: 100%;
+    /* height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center; */
+}
 .search_field {
     width: 80%;
-    margin: 5px 0;
+    margin: 15px 10% 0;
     padding: 5px 10px;
     font-size: 14px;
     border-radius: 10px;
@@ -542,5 +550,23 @@ a .add_button:hover {
     -ms-appearance:inherit;
     appearance:inherit;
     -webkit-appearance:inherit;
+}
+.userlist {
+    width: 100%;
+    /* height: 50px; */
+    /* background-color: red; */
+}
+.userlist ul {
+    padding: 0;
+    list-style: none;
+    /* background-color: orange; */
+}
+.userlist ul li {
+    /* background-color: #999; */
+    width: 100%;
+    height: 55px;
+    padding: 0 2%;
+    display: flex;
+    align-items: center;
 }
 /* end to search */

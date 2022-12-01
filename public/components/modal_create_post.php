@@ -17,8 +17,8 @@
                                                 
             $cadenadeparametros="'".$nombrecampoimagen."','".$nombrecampoimagenmostrar."','".$nombrecarpetadestino."','".$nombrecampofichero."','".$nombrecampostatus."','".$nombrebarraprogreso."','".$maximotamanofichero."','".$tiposficheropermitidos."','".$limiteancho."','".$limitealto."'";                              
         ?>
-        <div class="post_foto_prev">
-            <img src="" alt="" id="<?php echo $nombrecampoimagenmostrar;?>" height="150">
+            <div class="post_foto_prev">
+                <!-- <img src="" alt="" id="<?php echo $nombrecampoimagenmostrar;?>" height="150"> -->
             </div>
         </div>
         <input type="hidden" size="40" name="settings" id="settings">

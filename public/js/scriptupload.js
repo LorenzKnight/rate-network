@@ -38,14 +38,11 @@ function progressHandler(event){
 	_(nombrestatus).innerHTML = Math.round(percent)+"% Loading... please wait";
 }
 function completeHandler(event){
-	//_("status").innerHTML = event.target.responseText;
 	nombrestatus=event.target.myParam;
 	nombrebarra=event.target.myParam2;
 	nombrecampoimagen=event.target.myParam3;
 	nombrecampoimagenPic=event.target.myParam4;
 	nombrecarpeta=event.target.myParam5;
-	// console.log(nombrecampoimagen);
-	// console.log(nombrecampoimagenPic);
 	if (event.target.responseText.substring(0,5)=="ERROR")
 	{
 		_(nombrestatus).innerHTML = event.target.responseText;
@@ -55,24 +52,24 @@ function completeHandler(event){
 	{
 		_(nombrestatus).innerHTML = "Upload completed";
 		_(nombrebarra).value = 100;
-		var fotoField = document.getElementById(nombrecampoimagen).value;
-		if(fotoField == '')
+		var fotoField = document.querySelector('.post_foto_prev').getAttribute('data-pic-names');
+		var fotoNameArray = [];
+
+		if(fotoField == null)
 		{
-			let fotoNameArray = [event.target.responseText];
-			document.getElementById(nombrecampoimagen).value = JSON.stringify(fotoNameArray);
-			document.getElementById(nombrecampoimagenPic).src = nombrecarpeta+event.target.responseText;
+			fotoNameArray = [event.target.responseText];
 		}
 		else
 		{
-			let fotoNameArray = JSON.parse(fotoField);
+			fotoNameArray = JSON.parse(fotoField);
 			fotoNameArray.push(event.target.responseText);
-			document.getElementById(nombrecampoimagen).value = JSON.stringify(fotoNameArray);
-			let fotos = document.createElement('img');
-			fotos.src = nombrecarpeta+event.target.responseText;
-			fotos.style.height = '150px';
-			console.log(event.target);
-			document.getElementById(nombrecampoimagenPic).closest('.post_foto_prev').appendChild(fotos);
 		}
+		document.querySelector('.post_foto_prev').setAttribute('data-pic-names', JSON.stringify(fotoNameArray));
+		let fotos = document.createElement('img');
+		fotos.src = nombrecarpeta+event.target.responseText;
+		fotos.style.height = '150px';
+		console.log(event.target);
+		document.querySelector('.post_foto_prev').appendChild(fotos);
 	}
 	
 }
