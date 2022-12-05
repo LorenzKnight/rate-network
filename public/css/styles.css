@@ -28,12 +28,19 @@ body {
 }
 .the_wall {
     width: 100%;
-    height: 68.55vh;
+    height: 71.15vh;
     padding-top: 1vh;
     overflow: auto;
     /* background-color: red; */
     padding-bottom: 10px;
 }
+/* start to siderbar */
+.sidebar {
+    width: 25%;
+    height: 98.85vh;
+    /* background-color: orange; */
+}
+/* end to sidebar */
 
 
 .col_1 {

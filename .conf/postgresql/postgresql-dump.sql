@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS users (
 	email varchar(255) NULL,
 	password varchar(255) NULL,
 	image varchar(255) NULL,
-	rate FLOAT NULL,
+	rate varchar(255) NULL,
 	job varchar(255) NULL,
 	verified INTEGER null,
 	birthday TIMESTAMP NULL,

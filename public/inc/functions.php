@@ -1,4 +1,7 @@
-<?php 
+<?php
+
+use PhpParser\Node\Expr\Cast\Double;
+
 function checkUniqueEmail($email)
 {
 	$query_ConsultaFuncion = "SELECT email FROM users WHERE email = $email";
@@ -104,9 +107,6 @@ function followers_list(int $userId)
 function post_wall_profile($userId = null) : array
 {
   $userId = substr($userId, 1, -1);
-
-  // var_dump($userId);
-  // exit();
 
   if(!empty($userId))
   {
@@ -446,6 +446,8 @@ function add_rate(int $userId, int $stars, $postId = null)
   $rateBonus = rate_bonus($stars, $rate['rate']);
   $rateDate  = date("Y-m-d H:i:s");
 
+  // var_dump($rateBonus);
+
   $query = "INSERT INTO rates (user_id, stars, rate_bonus, post_id, rate_date) VALUES ($userId, $stars, $rateBonus, $postId, '$rateDate') RETURNING rate_bonus";
 	$sql = pg_query($query);
 
@@ -525,25 +527,36 @@ function rate_star($rateData, $star)
 
 function rate_bonus($stars, $rate)
 {
-  return $stars * $rate / 1000;
+  if($rate == 0 || $rate == '') {
+    return $stars * 0.5 / 9999;
+  }
+  else
+  {
+    return $stars * $rate / 9999;
+  }
 }
 
 function update_user_rate($stars, $returRateBonus, $postId)
 {
+  // var_dump($returRateBonus);
+
   $postUser = (int)post_all_data($postId)['userId'];
 
-  if($stars <= 3)
+  $userRate = (float)u_all_info($postUser)['rate'];
+
+  if($stars < 3)
   {
-    $query = "UPDATE users SET rate = (SELECT rate FROM users WHERE user_id = $postUser)-$returRateBonus[0] WHERE user_id = $postUser";
+    $res = $userRate - $returRateBonus;
   }
-  else if($stars > 3)
+  else if($stars >= 3)
   {
-    $query = "UPDATE users SET rate = (SELECT rate FROM users WHERE user_id = $postUser)+$returRateBonus[0] WHERE user_id = $postUser";
+    $res = $userRate + $returRateBonus;
   }
 
-  pg_query($query);
+  $query = "UPDATE users SET rate = $res WHERE user_id = $postUser";
+  $sql = pg_query($query);
 
-  return true;
+  return $sql;
 }
 
 function create_new_post(int $userId, string $content, $status = null) 

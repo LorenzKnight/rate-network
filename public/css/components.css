@@ -90,17 +90,6 @@
 }
 /* end to header */
 
-/* start to siderbar */
-.sidebar {
-    width: 25%;
-    height: 98.85vh;
-    background-color: orange;
-    /* display: flex;
-    justify-content: center; */
-    /* align-items: center; */
-}
-/* end to sidebar */
-
 /* start to post */
 .public_post_in_wall {
     width: 98%;
@@ -473,9 +462,9 @@ a .add_button:hover {
 }
 
 .slider_foto {
-    width: 150%;
+    width: 100%;
     /* height: 300px; */
-    margin: 0 -35%;
+    /* margin: 0 -35%; */
     cursor: pointer;
 }
 
@@ -531,11 +520,13 @@ a .add_button:hover {
 
 /* start to search */
 .search_container {
-    width: 100%;
-    /* height: 50px;
-    display: flex;
+    width: 25%;
+    min-height: 60px;
+    /* background-color: #666; */
+    /*display: flex;
     justify-content: center;
     align-items: center; */
+    position: absolute;
 }
 .search_field {
     width: 80%;

@@ -19,7 +19,7 @@
             <?php include("components/header.php"); ?>
             <div class="nav_bar">
                 <?php include("components/nav_bar.php"); ?>
-                <div id="aqui"></div>
+                <!-- <div id="aqui"></div> -->
             </div>
             <div class="the_wall" id="content">
                 <?php include("components/post_in_wall.php"); ?>
@@ -27,6 +27,9 @@
         </div>
         <div class="sidebar">
             <?php include("components/modal_search.php"); ?>
+            <div style="background-color: #999; width: 100%; height: 20px; margin-top: 60px;">
+
+            </div>
         </div>
     </div>
     <?php include("components/popup_bg.php"); ?>

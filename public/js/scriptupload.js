@@ -26,7 +26,7 @@ function uploadFile(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10) {
 	ajax.myParam3 = a1;
 	ajax.myParam4 = a2;
 	ajax.myParam5 = a3;
-	ajax.open("POST", "../components/upload4.php");
+	ajax.open("POST", "../components/file_uploader.php");
 	ajax.send(formdata);
 }
 function progressHandler(event){
@@ -68,7 +68,7 @@ function completeHandler(event){
 		let fotos = document.createElement('img');
 		fotos.src = nombrecarpeta+event.target.responseText;
 		fotos.style.height = '150px';
-		console.log(event.target);
+		// console.log(event.target);
 		document.querySelector('.post_foto_prev').appendChild(fotos);
 	}
 	

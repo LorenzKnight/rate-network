@@ -1,5 +1,5 @@
 <?php
-    require_once('../connections/conexion.php');
+    require_once __DIR__ .'/../connections/conexion.php';
     
     $current_user   = search_users();
 
