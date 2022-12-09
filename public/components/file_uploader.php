@@ -6,7 +6,7 @@ if (!isset($_FILES["file1"])) { // no se ha seleccionado fichero
     exit();
 }
 
-$fileName = $_FILES["file1"]["name"]; // Nombre de fichero
+$fileName = uniqid().'.'.getExtension($_FILES["file1"]["name"]); // Nombre de fichero
 $fileTmpLoc = $_FILES["file1"]["tmp_name"]; // Fichero en la carpeta TMP
 $fileType = $_FILES["file1"]["type"]; // Tipo de fichero
 
@@ -36,8 +36,6 @@ if (strpos($fileName, " "))
 		exit();
 }
 
-
-
 //Comprobación tamaño fichero
 if ($_POST["a7"]!="0")
 {
@@ -48,7 +46,6 @@ if ($_POST["a7"]!="0")
 		exit();
 	}
 }
-
 
 //Comprobación Ancho Fichero ****
 if ($_POST["a9"]!="0")
@@ -77,10 +74,28 @@ if ($_POST["a10"]!="0")
 }
 
 //Copiamos ya el fichero al server
-if(move_uploaded_file($fileTmpLoc, $_POST["a3"].$fileName)){
+if(move_uploaded_file($fileTmpLoc, '../tmp_images/'.$fileName)){
     echo $fileName;
 
 } else {
-    echo "ERROR: Fallo en la carga. Revisa los permisos de la carpeta destino.";
+    echo "ERROR: Load failed. Check the permissions of the destination folder.";
+}
+
+//Get extencion of the uploaded file//
+function getExtension($file, $tolower=true)
+{
+    $file = basename($file);
+    $pos = strrpos($file, '.');
+
+    if ($file == '' || $pos === false) {
+        return '';
+    }
+
+    $extension = substr($file, $pos+1);
+    if ($tolower) {
+        $extension = strtolower($extension);
+    }
+
+    return $extension;
 }
 ?>

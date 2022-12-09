@@ -538,8 +538,6 @@ function rate_bonus($stars, $rate)
 
 function update_user_rate($stars, $returRateBonus, $postId)
 {
-  // var_dump($returRateBonus);
-
   $postUser = (int)post_all_data($postId)['userId'];
 
   $userRate = (float)u_all_info($postUser)['rate'];
@@ -646,5 +644,26 @@ function search_users() : array
   }
   
   return $res;
+}
+
+function profileRateInPost($rateData) {
+  if ($rateData !== 'null' && strlen($rateData) == 1) {
+    $desimalpri = $rateData.'.0';
+    $desimalsec = '00';
+  }
+  else if ($rateData !== 'null' && strlen($rateData) > 1 && strlen($rateData) < 4) {
+    $desimalpri = substr($rateData, 0, 3);
+    $desimalsec = '00';
+  }
+  else if ($rateData !== 'null' && strlen($rateData) == 4) {
+    $desimalpri = substr($rateData, 0, 3);
+    $desimalsec = substr($rateData, 3, 4)+'0';
+  }
+  else if ($rateData !== 'null' && strlen($rateData) > 4) {
+    $desimalpri = substr($rateData, 0, 3);
+    $desimalsec = substr($rateData, 3, 5);
+  }
+
+  return $desimalpri;
 }
 ?>

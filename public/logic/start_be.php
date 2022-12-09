@@ -116,7 +116,6 @@
         if($doIrate < 1)
         {
             $returRateBonus = add_rate($userId, $stars, $postId);
-            var_dump((float)$returRateBonus[0]);
 
             update_user_rate($stars, (float)$returRateBonus[0], $postId);
 
@@ -175,9 +174,10 @@
         
         $insertValues = [];
 
-        foreach($picNames as $item)
+        foreach($picNames as $picName)
         {
-            $insertValues[] = ['userId' => $userId, 'postId' => $postId, 'name' => "$item", 'mediaDate' => "$mediaDate"];
+            move_uploaded_file('../tmp_images/'.$picName, '../images/'.$picName);
+            $insertValues[] = ['userId' => $userId, 'postId' => $postId, 'name' => "$picName", 'mediaDate' => "$mediaDate"];
         }
         
         add_post_media($insertValues);

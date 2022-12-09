@@ -3,33 +3,32 @@
         <script src="../js/scriptupload.js"></script>
 
         <?php 
-            //***********************PARÁMETROS DE IMAGEN**************************//
-            $nombrecampoimagen="pic_name";
-            $nombrecampoimagenmostrar="fotopic";
-            $nombrecarpetadestino="../images/"; //carpeta destino con barra al final
-            $nombrecampofichero="file1";
-            $nombrecampostatus="status1";
-            $nombrebarraprogreso="progressBar1";
-            $maximotamanofichero="0"; //en Bytes, "0" para ilimitado. 1000000 Bytes = 1000Kb = 1Mb
-            $tiposficheropermitidos="jpg,png"; //  Por ejemplo "jpg,doc,png", separados por comas y poner "0" para permitir todos los tipos
-            $limiteancho="0"; // En píxels, "0" significa cualquier tamaño permitido
-            $limitealto="0"; // En píxels, "0" significa cualquier tamaño permitido
+            //***********************Image Parameters**************************//
+            $imageFieldName="pic_name";
+            $destinationFolderName="../tmp_images/"; // destination folder
+            $fileFieldName="file1"; // Input field name 
+            $nameFieldStatus="status1"; // show name of uploaded file
+            $progressBarName="progressBar1"; // Progressbar
+            $maximumFileSize="0"; // in Bytes, "0" for unlimited. 1000000 Bytes = 1000Kb = 1Mb
+            $allowedFileTypes="jpg,png"; // for example "jpg,doc,png", separated by commas, if you put "0" you allow all types
+            $limitWidth="0"; // In pixels, "0" means any size allowed
+            $limitHigh="0"; // In pixels, "0" means any size allowed
                                                 
-            $cadenadeparametros="'".$nombrecampoimagen."','".$nombrecampoimagenmostrar."','".$nombrecarpetadestino."','".$nombrecampofichero."','".$nombrecampostatus."','".$nombrebarraprogreso."','".$maximotamanofichero."','".$tiposficheropermitidos."','".$limiteancho."','".$limitealto."'";                              
+            $parameterString="'".$imageFieldName."','".$destinationFolderName."','".$fileFieldName."','".$nameFieldStatus."','".$progressBarName."','".$maximumFileSize."','".$allowedFileTypes."','".$limitWidth."','".$limitHigh."'";                              
         ?>
             <div class="post_foto_prev">
-                <!-- <img src="" alt="" id="<?php echo $nombrecampoimagenmostrar;?>" height="150"> -->
+                <!-- <img src="" alt="" id="<?= $nombrecampoimagenmostrar; ?>" height="150"> -->
             </div>
         </div>
         <input type="hidden" size="40" name="settings" id="settings">
         <div class="progresbar">
-            <progress id="<?php echo $nombrebarraprogreso;?>" value="0" max="80" style="width: 100%;"></progress></br>
-            <h5 id="<?php echo $nombrecampostatus;?>" style="margin: 0 auto;"></h5>
+            <progress id="<?= $progressBarName; ?>" value="0" max="80" style="width: 100%;"></progress></br>
+            <h5 id="<?= $nameFieldStatus; ?>" style="margin: 0 auto;"></h5>
         </div>
         <div class="upload_buttons">
-            <input type="hidden" class="cfield" size="40" name="<?php echo $nombrecampoimagen; ?>" id="<?php echo $nombrecampoimagen;?>" >
-            <input type="file" name="<?php echo $nombrecampofichero;?>" id="<?php echo $nombrecampofichero;?>">
-            <input type="button" value="Ladda up file" onclick="uploadFile(<?php echo $cadenadeparametros;?>)">
+            <input type="hidden" class="cfield" size="40" name="<?= $imageFieldName; ?>" id="<?= $imageFieldName; ?>" >
+            <input type="file" name="<?= $fileFieldName; ?>" id="<?= $fileFieldName; ?>">
+            <input type="button" value="Ladda up file" onclick="uploadFile(<?= $parameterString; ?>)">
         </div>
     </div>
     <div class="text_send">

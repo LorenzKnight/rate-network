@@ -44,7 +44,7 @@ function search() {
 
         document.getElementById("usersresult").innerHTML ="";
         for (j=0; j < search_list.length; j++) {
-            var profilePic = search_list[j].image == '' ? 'blank_profile_picture.jpg' : search_list[j].image ;
+            var profilePic = search_list[j].image == null || search_list[j].image == '' ? 'blank_profile_picture.jpg' : search_list[j].image ;
 
             document.getElementById("usersresult").innerHTML += `
             <a href='#' onclick='goToUser(`+search_list[j].id+`)'>

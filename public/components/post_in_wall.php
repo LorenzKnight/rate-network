@@ -11,7 +11,7 @@ foreach($publications as $post)
                 <img src='pic/<?= $u_info['image'] != null ? $u_info['image'] : 'blank_profile_picture.jpg' ; ?>' class='small_porfile_pic'>
             </div>
             <div class='post_profile_desc' id='post_profile_desc'>
-                <?= $u_info['name'].' '.$u_info['surname']; ?> <span style="font-size: 1.3em"><?= substr($u_info['rate'], 0, 3); ?></span></br>
+                <?= $u_info['name'].' '.$u_info['surname']; ?> <span style="font-size: 1.3em"><?= profileRateInPost($u_info['rate']); ?></span></br>
                 <span style="font-weight: 400; font-size: 1.1em;"><?= $post['content']; ?></span>
             </div>
         </div>
@@ -53,7 +53,7 @@ foreach($publications as $post)
                         </div>
                         <div class="post_rates_info">
                             <?= $user_data['name'].' '.$user_data['surname']; ?><br>
-                            <?= substr($user_data['rate'], 0, 3); ?><br>
+                            <?= profileRateInPost($user_data['rate']); ?><br>
                             <span class="fa fa-star <?= $rateData['stars'] >= 1 ? 'star_checked' : '' ?>" style="font-size: 22px;"></span>
                             <span class="fa fa-star <?= $rateData['stars'] >= 2 ? 'star_checked' : '' ?>" style="font-size: 22px;"></span>
                             <span class="fa fa-star <?= $rateData['stars'] >= 3 ? 'star_checked' : '' ?>" style="font-size: 22px;"></span>

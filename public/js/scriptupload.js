@@ -2,8 +2,8 @@
 function _(el){
 	return document.getElementById(el);
 }
-	
-function uploadFile(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10) {
+
+function uploadFile(inputImage, a3, a4, a5, a6, a7, a8, a9, a10) {
 	var file = _(a4).files[0];
 	// console.log(URL.createObjectURL(file));
 	// document.body.style.backgroundImage = 'url("'+URL.createObjectURL(file)+'")';
@@ -23,8 +23,7 @@ function uploadFile(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10) {
 	ajax.addEventListener("abort", abortHandler, false);
 	ajax.myParam = a5;
 	ajax.myParam2 = a6;
-	ajax.myParam3 = a1;
-	ajax.myParam4 = a2;
+	ajax.myParam3 = inputImage;
 	ajax.myParam5 = a3;
 	ajax.open("POST", "../components/file_uploader.php");
 	ajax.send(formdata);
@@ -34,7 +33,7 @@ function progressHandler(event){
 	nombrestatus=event.target.myParam;
 	nombrebarra=event.target.myParam2;
 	var percent = (event.loaded / event.total) * 100;
-	_(nombrebarra).value = Math.round(percent);
+	// _(nombrebarra).value = Math.round(percent);
 	_(nombrestatus).innerHTML = Math.round(percent)+"% Loading... please wait";
 }
 function completeHandler(event){
