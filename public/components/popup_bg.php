@@ -1,4 +1,4 @@
-<div class="bg_popup" id="bg_popup">
+<div class="bg_popup" id="bg_popup" data-postID='<?= $post['postId']; ?>'>
     <div class="bg_container" id="bg_container">
         <!-- zoon comments -->
         <div class="comment_fotos_popup" id="comment_fotos_popup">

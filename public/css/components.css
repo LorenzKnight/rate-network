@@ -184,7 +184,7 @@
 }
 .post_rates_info {
     flex: 1;
-    height: 60px;
+    height: 70px;
     /* background-color: red; */
     padding-left: 5px;
 }
@@ -229,6 +229,7 @@
 
 .star_mo {
     color: #666;
+    font-size: 18px;
 }
 
 /* start to comments component */

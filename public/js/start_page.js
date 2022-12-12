@@ -154,11 +154,11 @@ function ratePost(event) {
 
             // console.log(response);
 
-            let post_rate_list = formComments.querySelector('#post_rate_list');
+            let post_rate_list = document.querySelector('[data-postID="'+postId+'"] #post_rate_list');
             if(post_rate_list != null) {
                 post_rate_list.innerHTML = response.all_rates;
 
-                let num_rate = formComments.querySelector('#num_rate');
+                let num_rate = document.querySelector('[data-postID="'+postId+'"] #num_rate');
                 num_rate.innerHTML = response.num_rate;
             }
         }
@@ -196,77 +196,21 @@ document.addEventListener('mouseup', function(e) {
 
 function fyllUp(star)
 {
-    var star1 = document.getElementById("star_mo1");
-    var star2 = document.getElementById("star_mo2");
-    var star3 = document.getElementById("star_mo3");
-    var star4 = document.getElementById("star_mo4");
-    var star5 = document.getElementById("star_mo5");
-
-    switch (star)
-    {
-        case 1:
-            star1.style.color = "pink"
-            break
-        case 2:
-            star1.style.color = "pink"
-            star2.style.color = "pink"
-            break
-        case 3:
-            star1.style.color = "pink"
-            star2.style.color = "pink"
-            star3.style.color = "pink"
-            break
-        case 4:
-            star1.style.color = "pink"
-            star2.style.color = "pink"
-            star3.style.color = "pink"
-            star4.style.color = "pink"
-            break
-        case 5:
-            star1.style.color = "pink"
-            star2.style.color = "pink"
-            star3.style.color = "pink"
-            star4.style.color = "pink"
-            star5.style.color = "pink"
-            break
+    for (i = 1; i < star+1; i++) {
+        var stars = document.querySelectorAll("#star_mo"+i);
+        stars.forEach(function(element){
+            element.style.color = "pink";
+        })
     }
 }
 
 function fyllOut(star)
 {
-    var star1 = document.getElementById("star_mo1");
-    var star2 = document.getElementById("star_mo2");
-    var star3 = document.getElementById("star_mo3");
-    var star4 = document.getElementById("star_mo4");
-    var star5 = document.getElementById("star_mo5");
-
-    switch (star)
-    {
-        case 1:
-            star1.style.color = "#666"
-            break
-        case 2:
-            star1.style.color = "#666"
-            star2.style.color = "#666"
-            break
-        case 3:
-            star1.style.color = "#666"
-            star2.style.color = "#666"
-            star3.style.color = "#666"
-            break
-        case 4:
-            star1.style.color = "#666"
-            star2.style.color = "#666"
-            star3.style.color = "#666"
-            star4.style.color = "#666"
-            break
-        case 5:
-            star1.style.color = "#666"
-            star2.style.color = "#666"
-            star3.style.color = "#666"
-            star4.style.color = "#666"
-            star5.style.color = "#666"
-            break
+    for (i = 1; i < star+1; i++) {
+        var stars = document.querySelectorAll("#star_mo"+i);
+        stars.forEach(function(element){
+            element.style.color = "#666";
+        })
     }
 }
 

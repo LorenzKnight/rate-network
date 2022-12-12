@@ -5,7 +5,7 @@ foreach($publications as $post)
 {
     $u_info = u_all_info($post['userId']);
 ?>
-    <div class='public_post_in_wall'>
+    <div class='public_post_in_wall' data-postID='<?= $post['postId']; ?>'>
         <div class='post_profil'>
             <div class='small_profile_sphere'>
                 <img src='pic/<?= $u_info['image'] != null ? $u_info['image'] : 'blank_profile_picture.jpg' ; ?>' class='small_porfile_pic'>
@@ -40,7 +40,7 @@ foreach($publications as $post)
 
                     $post_rates = rate_in_post('*', $requestData, array('order' => 'rate_id desc'));
                 ?>
-                <span class="fa fa-star"></span> <span id="num_rate"><?= count_rates('*', $requestData); ?></span> people rate your picture(s)
+                <span class="">★</span> <span id="num_rate"><?= count_rates('*', $requestData); ?></span> people rate your picture(s)
                 <div class="post_rate_list" id="post_rate_list">
                     <?php
                         foreach($post_rates as $rateData)
@@ -54,11 +54,17 @@ foreach($publications as $post)
                         <div class="post_rates_info">
                             <?= $user_data['name'].' '.$user_data['surname']; ?><br>
                             <?= profileRateInPost($user_data['rate']); ?><br>
-                            <span class="fa fa-star <?= $rateData['stars'] >= 1 ? 'star_checked' : '' ?>" style="font-size: 22px;"></span>
-                            <span class="fa fa-star <?= $rateData['stars'] >= 2 ? 'star_checked' : '' ?>" style="font-size: 22px;"></span>
+                            <?php
+                            for($i = 1; $i < 6; $i++) {
+                            ?>
+                                <span class=" <?= $rateData['stars'] >= $i ? 'star_checked' : '' ?>" style="font-size: 22px;">★</span>
+                            <?php
+                            }
+                            ?>
+                            <!-- <span class="fa fa-star <?= $rateData['stars'] >= 2 ? 'star_checked' : '' ?>" style="font-size: 22px;"></span>
                             <span class="fa fa-star <?= $rateData['stars'] >= 3 ? 'star_checked' : '' ?>" style="font-size: 22px;"></span>
                             <span class="fa fa-star <?= $rateData['stars'] >= 4 ? 'star_checked' : '' ?>" style="font-size: 22px;"></span>
-                            <span class="fa fa-star <?= $rateData['stars'] == 5 ? 'star_checked' : '' ?>" style="font-size: 22px;"></span>
+                            <span class="fa fa-star <?= $rateData['stars'] == 5 ? 'star_checked' : '' ?>" style="font-size: 22px;"></span> -->
                         </div>
                     </div>
                     <?php

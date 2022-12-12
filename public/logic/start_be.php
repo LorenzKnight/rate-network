@@ -139,11 +139,9 @@
                         $htmlRates .='<br>';
                         $htmlRates .= substr($user_data['rate'], 0, 3);
                         $htmlRates .='<br>';
-                        $htmlRates .='<span class="fa fa-star '. rate_star($rateData['stars'], 1).'" style="font-size: 22px;"></span> ';
-                        $htmlRates .='<span class="fa fa-star '. rate_star($rateData['stars'], 2).'" style="font-size: 22px;"></span> ';
-                        $htmlRates .='<span class="fa fa-star '. rate_star($rateData['stars'], 3).'" style="font-size: 22px;"></span> ';
-                        $htmlRates .='<span class="fa fa-star '. rate_star($rateData['stars'], 4).'" style="font-size: 22px;"></span> ';
-                        $htmlRates .='<span class="fa fa-star '. rate_star($rateData['stars'], 5).'" style="font-size: 22px;"></span> ';
+                        for($i = 1; $i < 6; $i++) {
+                            $htmlRates .='<span class="fa fa-star '. rate_star($rateData['stars'], $i).'" style="font-size: 22px;">★</span> ';
+                        }
                     $htmlRates .='</div>';
                 $htmlRates .='</div>';
             }
