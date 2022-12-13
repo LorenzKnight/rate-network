@@ -15,4 +15,15 @@
             </div>
         </div>
     </div>
+    <div class="profile_access">
+        <div class="access_button_container">
+            <input type="button" class="access_button" value="Follow" onclick="">
+            <input type="button" class="access_button" value="Message" onclick="">
+            <input type="button" class="access_button" value="o o o" onclick="">
+        </div>
+        <div class="follower_container">
+            <span style="font-weight: 600;">100</span> followers
+            <span style="font-weight: 600; margin-left:50px;">100</span> follow
+        </div>
+    </div>
 </div>

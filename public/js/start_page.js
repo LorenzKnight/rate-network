@@ -172,12 +172,6 @@ function ratePost(event) {
     xmlhttp.send(formData);
 }
 
-function showrate()
-{
-    bgPopUp = document.getElementById('rate_popup');
-    bgPopUp.style.display = "block";
-}
-
 //Close popups
 document.addEventListener('mouseup', function(e) {
     var bg_popup = document.getElementById('bg_popup');

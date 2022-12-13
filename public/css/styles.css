@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    background-image: linear-gradient(to bottom right, rgb(248, 217, 252), rgb(250, 250, 237));
+    background-image: linear-gradient(to bottom right, rgb(250, 232, 252), rgb(254, 254, 247));
     font-family: proxima-nova, sans-serif;
     display: flex; 
     justify-content: center;
@@ -28,7 +28,7 @@ body {
 }
 .the_wall {
     width: 100%;
-    height: 71.15vh;
+    height: 77.15vh;
     padding-top: 1vh;
     overflow: auto;
     /* background-color: red; */
