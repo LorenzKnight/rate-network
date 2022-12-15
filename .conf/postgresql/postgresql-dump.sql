@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS users (
     name varchar(255) NULL,
 	surname varchar(255) NULL,
 	email varchar(255) NULL,
+	username varchar(255) NULL,
 	password varchar(255) NULL,
 	image varchar(255) NULL,
 	rate varchar(255) NULL,
@@ -15,10 +16,11 @@ CREATE TABLE IF NOT EXISTS users (
 	status_by_admin INTEGER NULL
 );
 
-INSERT INTO users (name, surname, email, password, image, rate, job, verified, signup_date, birthday, status)
-VALUES ('Lorenz', 'Knight', 'lorenz.knight@gmail.com', 123456, 'profile_pic.jpg', 0, null, 0, '2022-10-18 00:00:00', '1984-09-03 00:00:00', 1, 0),
-       ('Joel', 'Knight', 'joel.knight@gmail.com', 123456, null, 0, null, 0, '2022-10-18 00:00:00', '1984-09-03 00:00:00', 1, 0),
-       ('Shael', 'Knight', 'shael.knight@gmail.com', 123456, 'shael_pic.png', 0, null, 0, '2022-10-18 00:00:00', '1984-09-03 00:00:00', 1, 0);
+INSERT INTO users (name, surname, email, username, password, image, rate, job, verified, signup_date, birthday, status)
+VALUES ('Lorenz', 'Knight', 'lorenz.knight@gmail.com', 'lorenz_knight', 123456, 'profile_pic.jpg', 0, null, 0, '2022-10-18 00:00:00', '1984-09-03 00:00:00', 1, 0),
+       ('Joel', 'Knight', 'joel.knight@gmail.com', 'joel_knight', 123456, null, 0, null, 0, '2022-10-18 00:00:00', '1984-09-03 00:00:00', 1, 0),
+       ('Shael', 'Knight', 'shael.knight@gmail.com', 'shael_knight', 123456, 'shael_pic.png', 0, null, 0, '2022-10-18 00:00:00', '1984-09-03 00:00:00', 1, 0),
+	   ('John', 'Doe', 'john.doe@gmail.com', 'john_doe', 123456, null, 0, null, 0, '2022-10-18 00:00:00', '1984-09-03 00:00:00', 1, 0);
 
 -- select * from users;
 

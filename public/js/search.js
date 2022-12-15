@@ -63,4 +63,5 @@ function search() {
 
 function goToUser(id) {
     console.log('user ID '+id);
+    window.location.href = 'start.php?userID='+id;  
 }

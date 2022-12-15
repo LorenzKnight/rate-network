@@ -1,11 +1,22 @@
 <?php 
     require_once __DIR__ .'/../connections/conexion.php';
 
+    if (isset($_GET['userID'])) {
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+
+        $_SESSION['get_user'] = $_GET['userID'];
+    }
+
     $followers_list = followers_list($_SESSION['rt_UserId']);
     $followers_list[] = (int)$_SESSION['rt_UserId'];
-    $userList = json_encode($followers_list);
    
-    $publications   = post_wall_profile($userList);
+    $publications   = post_wall_profile($followers_list);
+
+    // OBS post on profile
+    $postOnProfil   = post_wall_profile($_SESSION['get_user']);
+    //********************/
     
     if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formcomments")) {
         $userId             = $_SESSION['rt_UserId'];

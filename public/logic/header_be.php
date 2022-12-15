@@ -1,7 +1,8 @@
 <?php
     require_once('../connections/conexion.php');
 
-    $user_id        = $_SESSION['rt_UserId'];
+    $user_id    = $_SESSION['get_user'];
+    
     
     $current_user   = u_all_info($user_id);
 

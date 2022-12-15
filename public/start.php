@@ -22,7 +22,13 @@
                 <!-- <div id="aqui"></div> -->
             </div>
             <div class="the_wall" id="content">
-                <?php include("components/post_in_wall.php"); ?>
+                <?php 
+                if (!isset($_GET['userID'])) {
+                    include("components/post_in_wall.php"); 
+                } else {
+                    include("components/post_in_profil.php");
+                }
+                ?>
             </div>
         </div>
         <div class="sidebar">

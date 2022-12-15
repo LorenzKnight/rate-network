@@ -106,11 +106,16 @@ function followers_list(int $userId)
 
 function post_wall_profile($userId = null) : array
 {
-  $userId = substr($userId, 1, -1);
-
-  if(!empty($userId))
+  if(!empty($userId) && is_array($userId))
   {
-    $query_postwall = "SELECT * FROM river WHERE user_id in ($userId) ORDER BY r_id DESC";
+    $selectedData = json_encode($userId);
+    $selectedData = substr($selectedData, 1, -1);
+    
+    $query_postwall = "SELECT * FROM river WHERE user_id in ($selectedData) ORDER BY r_id DESC";
+  }
+  else if(!empty($userId) && !is_array($userId))
+  {
+    $query_postwall = "SELECT * FROM river WHERE user_id = $userId ORDER BY r_id DESC";
   }
   else
   {
