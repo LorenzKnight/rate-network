@@ -6,17 +6,21 @@
             session_start();
         }
 
-        $_SESSION['get_user'] = $_GET['userID'];
+        $requestUser['username'] = $_GET['userID'];
+        $get_userId = u_all_info('*', $requestUser)['user_id'];
+        
+        $_SESSION['get_user'] = $get_userId;
+    } else {
+        $_SESSION['get_user'] = $_SESSION['rt_UserId'];
     }
 
     $followers_list = followers_list($_SESSION['rt_UserId']);
     $followers_list[] = (int)$_SESSION['rt_UserId'];
-   
+    
     $publications   = post_wall_profile($followers_list);
 
-    // OBS post on profile
     $postOnProfil   = post_wall_profile($_SESSION['get_user']);
-    //********************/
+
     
     if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formcomments")) {
         $userId             = $_SESSION['rt_UserId'];
@@ -28,9 +32,10 @@
         {
             add_comments($userId, $postId, $comment, $comment_date);
 
-            $requestData['post_id'] = $postId;
+            $requestData['post_id']         = $postId;
+            $requestUserData['user_id']     = (int)$userId;
 
-            $comment_user = u_all_info((int)$userId);
+            $comment_user = u_all_info('*', $requestUserData);
             $profile_pic = $comment_user["image"] != null ? $comment_user["image"] : 'blank_profile_picture.jpg';
         
             $htmlResult = '';
@@ -62,8 +67,9 @@
         $postId             = $_POST['postId'];
         
         // post author
-        $post_all_data = post_all_data($postId);
-        $userInfo = u_all_info((int)$post_all_data['userId']);
+        $requestUserData['user_id'] = (int)post_all_data($postId)['userId'];
+
+        $userInfo = u_all_info('*', $requestUserData);
 
         $htmlPostProfile = '';
         $Postprofile_pic = $userInfo['image'] != null ? $userInfo['image'] : 'blank_profile_picture.jpg';
@@ -86,7 +92,9 @@
             
             foreach($comment_list as $comment)
             {
-                $comment_user = u_all_info((int)$comment['userId']);
+                $requestUserData['user_id'] = (int)$comment['userId'];
+
+                $comment_user = u_all_info('*', $requestUserData);
                 $profile_pic = $comment_user["image"] != null ? $comment_user["image"] : 'blank_profile_picture.jpg';
             
                 $htmlResult .= '<div class="post_user_rate" style="background-color:red;">';
@@ -138,7 +146,9 @@
             $htmlRates .= '<div class="post_rate_list" id="post_rate_list">';
             foreach($post_rates as $rateData)
             {
-                $user_data = u_all_info($rateData['userId']);
+                $requestUserData['user_id'] = $rateData['userId'];
+
+                $user_data = u_all_info('*', $requestUserData);
                 $profile_pic = $user_data["image"] != null ? $user_data["image"] : 'blank_profile_picture.jpg';
 
                 $htmlRates .='<div class="post_user_rate">';

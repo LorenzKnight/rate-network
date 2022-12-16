@@ -3,7 +3,8 @@
 <?php 
 foreach($publications as $post)
 {
-    $u_info = u_all_info($post['userId']);
+    $requestUserData['user_id'] = $post['userId'];
+    $u_info = u_all_info('*', $requestUserData);
 ?>
     <div class='public_post_in_wall' data-postID='<?= $post['postId']; ?>'>
         <div class='post_profil'>
@@ -45,7 +46,8 @@ foreach($publications as $post)
                     <?php
                         foreach($post_rates as $rateData)
                         {
-                            $user_data = u_all_info($rateData['userId'])
+                            $requestUserData['user_id'] = $rateData['userId'];
+                            $user_data = u_all_info('*', $requestUserData)
                     ?>
                     <div class="post_user_rate">
                         <div class='x_small_profile_sphere'>

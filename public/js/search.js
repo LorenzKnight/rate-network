@@ -47,7 +47,7 @@ function search() {
             var profilePic = search_list[j].image == null || search_list[j].image == '' ? 'blank_profile_picture.jpg' : search_list[j].image ;
 
             document.getElementById("usersresult").innerHTML += `
-            <a href='#' onclick='goToUser(`+search_list[j].id+`)'>
+            <a href='#' onclick='goToUser("`+search_list[j].username+`")'>
                 <li>
                     <div class='x_small_profile_sphere'>
                         <img src='pic/`+profilePic+`' class='x_small_porfile_pic'>
@@ -61,7 +61,7 @@ function search() {
     });
 }
 
-function goToUser(id) {
-    console.log('user ID '+id);
-    window.location.href = 'start.php?userID='+id;  
+function goToUser(userId) {
+    console.log('user ID '+userId);
+    window.location.href = 'start.php?userID='+userId;
 }

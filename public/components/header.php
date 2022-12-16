@@ -10,7 +10,6 @@
             <div class="rank" id="rank">
             </div>
             <div class="title" id="title">
-                <?php //echo $_SESSION['rt_UserId']; ?>
                 <!-- Currently working<br>
                 at Hoddicker -->
             </div>

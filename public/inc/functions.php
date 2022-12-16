@@ -19,44 +19,172 @@ function checkUniqueEmail($email)
 	pg_free_result($ConsultaFuncion);
 }
 
-function u_all_info($id = null) : array
+function u_all_info($columns = "*", $requestData = array(), array $options = []) : array
 {
-  if(!empty($id))
+  if(empty($columns))
+	{
+		$columns = "*";
+	}
+
+	if($columns != "*" && !is_array($columns))
+	{
+		$columns = "*";
+	}
+
+	$queryColumnNames = "*";
+	if(is_array($columns))
+	{
+		$queryColumnNames = "";
+		$validColumns = dbUsersColumnNames();
+
+		foreach ($columns as $column) 
+		{
+			if(in_array($column, $validColumns))
+			{
+				$queryColumnNames .= $column.",";
+			}
+		}
+
+		if(empty($queryColumnNames))
+		{
+			return null;
+		}
+		
+		$queryColumnNames = substr($queryColumnNames, 0, -1);
+	}
+
+  $query = "select $queryColumnNames ";
+
+  if(isset($options['count_query']) && $options['count_query'])
+	{
+		$query = "select count(*) ";
+	}
+
+	$query .= "from users ";
+
+  //check other conditions
+	$conditions = "";
+
+  if(isset($requestData['user_id']) && !empty($requestData['user_id']))
+	{
+		$conditions .= " and user_id = " . $requestData['user_id']. ' ';
+	}
+
+  if(isset($requestData['username']) && !empty($requestData['username']))
+	{
+    $requestData['username'] = pg_escape_string(trim($requestData["username"]));
+    
+		$conditions .= " and username = '" . $requestData['username']. "' ";
+	}
+
+  if(!empty($conditions))
+	{
+		$query .= " where " . substr($conditions, 5);
+	}
+
+  //set order
+  if(!isset($options['count_query']))
   {
-      $query_userInfo = "SELECT * FROM users WHERE user_id = $id";
+    $query .= "order by ";
+    if(isset($options['order']))
+    {
+      $query .= $options['order'];
+    } 
+    else
+    {
+      $query .= "user_id asc";
+    }
   }
-  else
+
+  //set limit
+  if(isset($options['limit']) && !empty($options['limit']))
   {
-      $query_userInfo = "SELECT * FROM users ORDER BY user_id ASC";
+    $query .= " limit " . intval($options['limit']);
   }
-  $sql = pg_query($query_userInfo);
-  $totalRows_userInfo = pg_num_rows($sql);
-  
-  $res = [
-      'name'        => false,
-      'surname'     => false,
-      'image'       => false,
-      'email'       => false,
-      'rate'        => false,
-      'job'         => false
-  ];
-  
-  if(!empty($totalRows_userInfo))
+
+  if(isset($options['echo_query']) && $options['echo_query'])
   {
-      $row_userinfo = pg_fetch_assoc($sql);
- 
-      $res = [
-          'name'        => $row_userinfo['name'],
-          'surname'     => $row_userinfo['surname'],
-          'image'       => $row_userinfo['image'],
-          'email'       => $row_userinfo['email'],
-          'rate'        => $row_userinfo['rate'],
-          'job'         => $row_userinfo['job']
-      ];
+    echo "Q: ".$query."<br>\t\n";
   }
+
+  $sql = pg_query($query);
+  $totalRow_userinfo = pg_num_rows($sql);
   
+  $res = [];
+
+  if(!empty($totalRow_userinfo))
+  {
+    $row_userinfo = pg_fetch_assoc($sql);
+    foreach($row_userinfo as $column => $columnData) {
+      // var_dump($row_userinfo);
+      $res[$column] = $columnData;
+    }
+  }
+
   return $res;
 }
+
+function dbUsersColumnNames()
+{
+	return array(
+		"user_id", "name", "surname", "email", "username", "password", "image", "rate", "job", "verified", "birthday", "signup_date", "rank", "status", "status_by_admin"
+	);
+}
+
+function get_followers_and_following($userId) : array
+{
+  $query_followers = "SELECT count(user_id) FROM followers WHERE user_id = $userId";
+  $sql = pg_query($query_followers);
+  $followers = pg_fetch_assoc($sql);
+
+  $query_following = "SELECT count(is_following) FROM followers WHERE is_following = $userId";
+  $sql = pg_query($query_following);
+  $following = pg_fetch_assoc($sql);
+
+  return [
+    'followers' => $followers['count'],
+    'following' => $following['count']
+  ];
+
+}
+// function u_all_info($id = null) : array
+// {
+//   if(!empty($id))
+//   {
+//       $query_userInfo = "SELECT * FROM users WHERE user_id = $id";
+//   }
+//   else
+//   {
+//       $query_userInfo = "SELECT * FROM users ORDER BY user_id ASC";
+//   }
+//   $sql = pg_query($query_userInfo);
+//   $totalRows_userInfo = pg_num_rows($sql);
+  
+//   $res = [
+//       'name'        => false,
+//       'surname'     => false,
+//       'image'       => false,
+//       'email'       => false,
+//       'rate'        => false,
+//       'job'         => false
+//   ];
+  
+//   if(!empty($totalRows_userInfo))
+//   {
+//       $row_userinfo = pg_fetch_assoc($sql);
+ 
+//       $res = [
+//           'name'        => $row_userinfo['name'],
+//           'surname'     => $row_userinfo['surname'],
+//           'image'       => $row_userinfo['image'],
+//           'email'       => $row_userinfo['email'],
+//           'rate'        => $row_userinfo['rate'],
+//           'job'         => $row_userinfo['job']
+//       ];
+//   }
+  
+//   return $res;
+// }
 
 function post_all_data(int $postId) : array
 {
@@ -446,8 +574,9 @@ function count_comments($columns = "*", $requestData = array()) : int
 
 function add_rate(int $userId, int $stars, $postId = null)
 {
+  $requestUserData['user_id'] = $userId;
 
-  $rate      = u_all_info($userId);
+  $rate      = u_all_info('*', $requestUserData);
   $rateBonus = rate_bonus($stars, $rate['rate']);
   $rateDate  = date("Y-m-d H:i:s");
 
@@ -544,8 +673,9 @@ function rate_bonus($stars, $rate)
 function update_user_rate($stars, $returRateBonus, $postId)
 {
   $postUser = (int)post_all_data($postId)['userId'];
+  $requestUserData['user_id'] = $postUser;
 
-  $userRate = (float)u_all_info($postUser)['rate'];
+  $userRate = (float)u_all_info('*', $requestUserData)['rate'];
 
   if($stars < 3)
   {
@@ -642,6 +772,7 @@ function search_users() : array
             'surname'     => $item['surname'],
             'image'       => $item['image'],
             'email'       => $item['email'],
+            'username'    => $item['username'],
             'rate'        => $item['rate'],
             'job'         => $item['job']
         ];
