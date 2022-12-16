@@ -6,12 +6,16 @@ document.addEventListener("DOMContentLoaded", () => {
         var names = document.getElementById("names");
         var rankcont = document.getElementById("rank");
         var title = document.getElementById("title");
+        var followers = document.getElementById("followers");
+        var following = document.getElementById("following");
 
         var firstname = data.name;
         var lastname = data.surname;
-        var pic = data.image;
+        var pic = data.image == null || data.image == '' ? 'blank_profile_picture.jpg' : data.image;
         var job = data.job;
-        
+        var they_follow_me = data.followers;
+        var is_following = data.following;
+
         var rate = data.rate;
         var rate = rate.toString();
         
@@ -39,5 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
         {
             title.innerHTML = 'Currently working<br>at '+job;
         }
+        followers.innerHTML = they_follow_me;
+        following.innerHTML = is_following;
 	});
 });

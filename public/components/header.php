@@ -33,8 +33,8 @@
             ?>
         </div>
         <div class="follower_container">
-            <span style="font-weight: 600;">100</span> followers
-            <span style="font-weight: 600; margin-left:50px;">100</span> follow
+            <span id="followers" style="font-weight: 600;"></span> followers
+            <span id="following" style="font-weight: 600; margin-left:50px;"></span> follow
         </div>
     </div>
 </div>
