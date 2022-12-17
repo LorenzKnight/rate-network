@@ -558,12 +558,8 @@ a .add_button:hover {
 
 /* start to search */
 .search_container {
-    width: 25%;
+    width: 100%;
     min-height: 60px;
-    /* background-color: #666; */
-    /*display: flex;
-    justify-content: center;
-    align-items: center; */
     position: absolute;
 }
 .search_field {

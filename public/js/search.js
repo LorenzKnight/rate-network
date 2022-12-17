@@ -4,25 +4,27 @@ function search() {
 	.then(data => {
     
         var searchUser = document.getElementById("searchuser").value;
-
+        
         var containerStyle = {
             "background-color": "#FFF",
             "border-radius": "5px",
             "padding-bottom": "15px",
             "box-shadow": "0 4px 10px 0 rgba(47, 48, 63, 0.193)"
         };
-        // var containerReset = {
-        //     "background-color": "",
-        //     "border-radius": "0px",
-        //     "box-shadow": "0 0 0 0 rgba(47, 48, 63, 0.193)"
-        // };
+
+        var containerReset = {
+            "background-color": "",
+            "border-radius": "0px",
+            "box-shadow": "0 0 0 0 rgba(47, 48, 63, 0.193)"
+        };
          
         var searchContainer = document.getElementById("search_container");
         Object.assign(searchContainer.style, containerStyle);
 
         if(searchUser == '') {
-            // Object.assign(searchContainer.style, containerReset);
-            document.getElementById("usersresult").innerHTML ="";
+            Object.assign(searchContainer.style, containerReset);
+            document.getElementById("usersresult").innerHTML = "";
+            
             return;
         }
         var searchUser = searchUser.toLowerCase();
@@ -32,7 +34,6 @@ function search() {
             var usersData = [];
             usersData.push(data[i].name.toLowerCase());
             usersData.push(data[i].surname.toLowerCase());
-            // console.log(usersData);
             
             for (e=0; e < usersData.length; e++) {
                 if (usersData[e].indexOf(searchUser) > -1 && !isAdded) {
@@ -62,6 +63,5 @@ function search() {
 }
 
 function goToUser(userId) {
-    console.log('user ID '+userId);
     window.location.href = 'start.php?userID='+userId;
 }

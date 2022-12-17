@@ -20,6 +20,10 @@ function initButtons() {
 
     let submit_post_button = document.getElementById('create_post');
     submit_post_button.addEventListener('click', createpost);
+
+    let search_enviroment = document.getElementById('searchuser');
+    search_enviroment.addEventListener('focusout', clean_search_enviroment);
+    search_enviroment.addEventListener('focus', search);
 }
 
 function sendComment(event) {
@@ -273,4 +277,8 @@ function showSlides(event) {
     sliderContainer.setAttribute('slideIndex', slideIndex);
     slides[slideIndex-1].style.display = "block";
     dots[slideIndex-1].className += " active";
+}
+
+function clean_search_enviroment() {
+    document.getElementById("usersresult").innerHTML = "";
 }

@@ -38,7 +38,9 @@ body {
 .sidebar {
     width: 25%;
     height: 98.85vh;
+    /* background-color: fefefe; */
     /* background-color: orange; */
+    position: relative;
 }
 /* end to sidebar */
 
