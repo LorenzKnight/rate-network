@@ -207,9 +207,18 @@
     }
 
     if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formfollowrequest")) {
-        $myId       = $_POST[''];
-        $userId     = $_POST[''];
+        $myId       = $_POST['my_Id'];
+        $userId     = $_POST['user_Id'];
 
+        // var_dump($myId, $userId);
         $requestSent = follow_request($myId, $userId);
+    }
+
+    if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formunfollow")) {
+        $myId       = $_POST['my_Id'];
+        $userId     = $_POST['user_Id'];
+
+        // var_dump($myId, $userId);
+        $requestSent = unfollow($myId, $userId);
     }
 ?>

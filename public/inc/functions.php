@@ -177,16 +177,22 @@ function follow_request($myId, $userId)
   if (!following_control($myId, $userId)['existing']) {
     $requestData['user_id'] = $userId;
 
-    if (u_all_info("*", $requestData)['status'] == 1) {
-      $status = 1;
-    } else {
-      $status = 0;
-    }
+    $status = u_all_info("*", $requestData)['status'] == 1 ? 1 : 0; 
 
     $follow_date = date("Y-m-d H:i:s");
 
     $query = "INSERT INTO followers (user_id, is_following, accepted, follow_date) values ($myId, $userId, $status, '$follow_date')";
 	  $sql = pg_query($query);
+  }
+
+  return $sql;
+}
+
+function unfollow($myId, $userId)
+{
+  if (following_control($myId, $userId)['existing']) {
+    $query_unfollow = "DELETE FROM followers WHERE user_id = $myId AND is_following = $userId";
+    $sql = pg_query($query_unfollow);
   }
 
   return $sql;

@@ -16,8 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
         var they_follow_me = data.followers;
         var is_following = data.following;
 
-        // var check = data.check;
-
         var rate = data.rate;
         var rate = rate.toString();
         
@@ -47,12 +45,64 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         followers.innerHTML = they_follow_me;
         following.innerHTML = is_following;
-
-        // if(check) {
-        //     // console.log(check);
-        //     document.getElementById("unfollow").style.display = 'block';
-        // } else {
-        //     document.getElementById("follow").style.display = 'block';
-        // }
 	});
 });
+
+// function initFollowButtons() {
+//     let search_enviroment = document.getElementById('searchuser');
+//     search_enviroment.addEventListener('focusout', clean_search_enviroment);
+// }
+
+function follow(myId, userId) {
+    // console.log(myId, userId);
+    // var picNames = document.querySelector('.post_foto_prev').getAttribute('data-pic-names');
+    // var postContent = document.getElementById('post_content').value;
+    
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            // document.getElementById('content').innerHTML = this.responseText;
+            // initButtons();
+            // initSlides();
+            
+            // let bg_popup = document.getElementById('bg_popup');
+            // bg_popup.style.display = 'none';
+        }
+    };
+    var formData = new FormData(); 
+    formData.append('MM_insert', 'formfollowrequest');
+    formData.append('my_Id', myId);
+    formData.append('user_Id', userId);
+
+    xmlhttp.open("POST", "logic/start_be.php", true);
+    xmlhttp.send(formData);
+}
+
+function unfollow(myId, userId) {
+    // console.log(myId, userId);
+    // var picNames = document.querySelector('.post_foto_prev').getAttribute('data-pic-names');
+    // var postContent = document.getElementById('post_content').value;
+    
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            // document.getElementById('content').innerHTML = this.responseText;
+            // initButtons();
+            // initSlides();
+            
+            // let bg_popup = document.getElementById('bg_popup');
+            // bg_popup.style.display = 'none';
+        }
+    };
+    var formData = new FormData(); 
+    formData.append('MM_insert', 'formunfollow');
+    formData.append('my_Id', myId);
+    formData.append('user_Id', userId);
+
+    xmlhttp.open("POST", "logic/start_be.php", true);
+    xmlhttp.send(formData);
+}
+
+function undo_follow_request() {
+    
+}
