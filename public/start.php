@@ -32,7 +32,7 @@
         </div>
         <div class="sidebar">
             <?php include("components/modal_search.php"); ?>
-            <div style="background-color: #999; width: 100%; height: 20px; margin-top: 60px;">
+            <div style="background-color: #999; width: 100%; height: 200px; margin-top: 60px;">
 
             </div>
         </div>

@@ -109,6 +109,11 @@
     border-radius: 8px;
     cursor: pointer;
 }
+.button_blue {
+    background-color: rgb(51, 172, 241);
+    color: white;
+    border:1px solid rgb(51, 172, 241);
+}
 .follower_container {
     padding: 15px 0;
     /* background-color: orange; */

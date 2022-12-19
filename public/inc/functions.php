@@ -133,58 +133,64 @@ function dbUsersColumnNames()
 
 function get_followers_and_following($userId) : array
 {
-  $query_followers = "SELECT count(user_id) FROM followers WHERE user_id = $userId";
+  $query_followers = "SELECT count(user_id) FROM followers WHERE user_id = $userId AND accepted = 1";
   $sql = pg_query($query_followers);
   $followers = pg_fetch_assoc($sql);
 
-  $query_following = "SELECT count(is_following) FROM followers WHERE is_following = $userId";
+  $query_following = "SELECT count(is_following) FROM followers WHERE is_following = $userId AND accepted = 1";
   $sql = pg_query($query_following);
   $following = pg_fetch_assoc($sql);
 
   return [
-    'followers' => $followers['count'],
-    'following' => $following['count']
+    'followers'   => $followers['count'],
+    'following'   => $following['count']
+  ];
+}
+
+function following_control(int $myId, int $userId) : array
+{
+  $query_following_control = "SELECT * FROM followers WHERE user_id = $myId AND is_following = $userId";
+  $sql = pg_query($query_following_control);
+  $totalRow_following = pg_num_rows($sql);
+
+  $res = [
+    'accepted'    => false,
+    'existing'    => false
   ];
 
+  if (empty($totalRow_following)) {
+    return $res;
+  }
+
+  $following_control = pg_fetch_assoc($sql);
+  
+  $res = [
+    'accepted'    => $following_control['accepted'] == 1 ? true : false,
+    'existing'    => $totalRow_following > 0 ? true : false
+  ];
+
+  return $res;
 }
-// function u_all_info($id = null) : array
-// {
-//   if(!empty($id))
-//   {
-//       $query_userInfo = "SELECT * FROM users WHERE user_id = $id";
-//   }
-//   else
-//   {
-//       $query_userInfo = "SELECT * FROM users ORDER BY user_id ASC";
-//   }
-//   $sql = pg_query($query_userInfo);
-//   $totalRows_userInfo = pg_num_rows($sql);
-  
-//   $res = [
-//       'name'        => false,
-//       'surname'     => false,
-//       'image'       => false,
-//       'email'       => false,
-//       'rate'        => false,
-//       'job'         => false
-//   ];
-  
-//   if(!empty($totalRows_userInfo))
-//   {
-//       $row_userinfo = pg_fetch_assoc($sql);
- 
-//       $res = [
-//           'name'        => $row_userinfo['name'],
-//           'surname'     => $row_userinfo['surname'],
-//           'image'       => $row_userinfo['image'],
-//           'email'       => $row_userinfo['email'],
-//           'rate'        => $row_userinfo['rate'],
-//           'job'         => $row_userinfo['job']
-//       ];
-//   }
-  
-//   return $res;
-// }
+
+function follow_request($myId, $userId)
+{
+  if (!following_control($myId, $userId)['existing']) {
+    $requestData['user_id'] = $userId;
+
+    if (u_all_info("*", $requestData)['status'] == 1) {
+      $status = 1;
+    } else {
+      $status = 0;
+    }
+
+    $follow_date = date("Y-m-d H:i:s");
+
+    $query = "INSERT INTO followers (user_id, is_following, accepted, follow_date) values ($myId, $userId, $status, '$follow_date')";
+	  $sql = pg_query($query);
+  }
+
+  return $sql;
+}
 
 function post_all_data(int $postId) : array
 {
@@ -580,8 +586,6 @@ function add_rate(int $userId, int $stars, $postId = null)
   $rateBonus = rate_bonus($stars, $rate['rate']);
   $rateDate  = date("Y-m-d H:i:s");
 
-  // var_dump($rateBonus);
-
   $query = "INSERT INTO rates (user_id, stars, rate_bonus, post_id, rate_date) VALUES ($userId, $stars, $rateBonus, $postId, '$rateDate') RETURNING rate_bonus";
 	$sql = pg_query($query);
 
@@ -641,7 +645,7 @@ function rate_update($requestData = array(), $rateData = array(), $rateData2 = a
 	}
 
 	$query = "UPDATE rates SET ". substr($queryParams, 0, -1) ." WHERE post_id=".$rateData['post_id']." AND user_id=".$rateData2['user_id'];
-	// echo "Q: $query \n"; die;
+	
 	$sql = pg_query($query);
 
 	return $sql;
@@ -785,19 +789,19 @@ function search_users() : array
 function profileRateInPost($rateData) {
   if ($rateData !== 'null' && strlen($rateData) == 1) {
     $desimalpri = $rateData.'.0';
-    $desimalsec = '00';
+    // $desimalsec = '00';
   }
   else if ($rateData !== 'null' && strlen($rateData) > 1 && strlen($rateData) < 4) {
     $desimalpri = substr($rateData, 0, 3);
-    $desimalsec = '00';
+    // $desimalsec = '00';
   }
   else if ($rateData !== 'null' && strlen($rateData) == 4) {
     $desimalpri = substr($rateData, 0, 3);
-    $desimalsec = substr($rateData, 3, 4)+'0';
+    // $desimalsec = substr($rateData, 3, 4)+'0';
   }
   else if ($rateData !== 'null' && strlen($rateData) > 4) {
     $desimalpri = substr($rateData, 0, 3);
-    $desimalsec = substr($rateData, 3, 5);
+    // $desimalsec = substr($rateData, 3, 5);
   }
 
   return $desimalpri;

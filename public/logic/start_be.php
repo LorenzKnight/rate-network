@@ -195,14 +195,21 @@
 
         foreach($picNames as $picName)
         {
-            move_uploaded_file('../tmp_images/'.$picName, '../images/'.$picName);
+            rename('../tmp_images/'.$picName, '../images/'.$picName);
             $insertValues[] = ['userId' => $userId, 'postId' => $postId, 'name' => "$picName", 'mediaDate' => "$mediaDate"];
         }
         
         add_post_media($insertValues);
 
-        $publications   = post_wall_profile($userList);
+        $publications   = post_wall_profile($followers_list);
 
         include('../components/post_in_wall.php');
+    }
+
+    if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formfollowrequest")) {
+        $myId       = $_POST[''];
+        $userId     = $_POST[''];
+
+        $requestSent = follow_request($myId, $userId);
     }
 ?>

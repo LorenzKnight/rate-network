@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
         var they_follow_me = data.followers;
         var is_following = data.following;
 
+        // var check = data.check;
+
         var rate = data.rate;
         var rate = rate.toString();
         
@@ -45,5 +47,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         followers.innerHTML = they_follow_me;
         following.innerHTML = is_following;
+
+        // if(check) {
+        //     // console.log(check);
+        //     document.getElementById("unfollow").style.display = 'block';
+        // } else {
+        //     document.getElementById("follow").style.display = 'block';
+        // }
 	});
 });

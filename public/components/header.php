@@ -19,11 +19,26 @@
         <div class="access_button_container">
             <?php
             if ($_SESSION['get_user'] != $_SESSION['rt_UserId']) {
-            ?>
-                <input type="button" class="access_button" value="Follow" onclick="">
-                <input type="button" class="access_button" value="Message" onclick="">
-                <input type="button" class="access_button" value="o o o" onclick="">
-            <?php
+                // var_dump(following_control($_SESSION['get_user'], $_SESSION['rt_UserId']));
+
+                if (!following_control($_SESSION['rt_UserId'], $_SESSION['get_user'])['existing']) {
+                ?>
+                    <input type="button" class="access_button button_blue" id="follow" value="Follow" onclick="">
+                    
+                <?php
+                } else if (!following_control($_SESSION['rt_UserId'], $_SESSION['get_user'])['accepted']) {
+                ?>
+                    <input type="button" class="access_button" id=""  value="pending" onclick="">
+                <?php
+                } else {
+                ?>
+                    <input type="button" class="access_button" id="unfollow"  value="Unfollow" onclick="">
+                <?php
+                }
+                ?>
+                    <input type="button" class="access_button" value="Message" onclick="">
+                    <input type="button" class="access_button" value="o o o" onclick="">
+                <?php
             } else {
             ?>
                 <input type="button" class="access_button" value="Edit profile" onclick="">
