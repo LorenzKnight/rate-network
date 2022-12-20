@@ -74,14 +74,15 @@ function showcomments(postId) {
             var response = JSON.parse(this.responseText);
 
             let bg_popup = document.getElementById('bg_popup');
-            bg_popup.style.display = "block";
+            bg_popup.style.display = 'block';
 
             let comment_fotos_popup = document.getElementById('comment_fotos_popup');
-            comment_fotos_popup.style.display = "block";
+            comment_fotos_popup.style.display = 'block';
 
             var displaySize = {
                 "width": "1050px",
-                "height": "600px"
+                "height": "600px",
+                "margin": "5vh auto"
             };
              
             var bgContainer = document.getElementById("bg_container");
@@ -112,7 +113,8 @@ function addpost() {
 
     var displaySize = {
         "width": "600px",
-        "height": "600px"
+        "height": "600px",
+        "margin": "5vh auto"
     };
      
     var bgContainer = document.getElementById("bg_container");

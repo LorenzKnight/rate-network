@@ -51,7 +51,7 @@ function search() {
             <a href='#' onclick='goToUser("`+search_list[j].username+`")'>
                 <li>
                     <div class='x_small_profile_sphere'>
-                        <img src='pic/`+profilePic+`' class='x_small_porfile_pic'>
+                        <img src='pic/`+profilePic+`' class='x_small_profile_pic'>
                     </div>
                     <div class='popup_profile_name'>
                         `+search_list[j].name+` `+search_list[j].surname+`

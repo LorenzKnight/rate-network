@@ -9,7 +9,7 @@ foreach($publications as $post)
     <div class='public_post_in_wall' data-postID='<?= $post['postId']; ?>'>
         <div class='post_profil'>
             <div class='small_profile_sphere'>
-                <img src='pic/<?= $u_info['image'] != null ? $u_info['image'] : 'blank_profile_picture.jpg' ; ?>' class='small_porfile_pic'>
+                <img src='pic/<?= $u_info['image'] != null ? $u_info['image'] : 'blank_profile_picture.jpg' ; ?>' class='small_profile_pic'>
             </div>
             <div class='post_profile_desc' id='post_profile_desc'>
                 <?= $u_info['name'].' '.$u_info['surname']; ?> <span style="font-size: 1.3em"><?= profileRateInPost($u_info['rate']); ?></span></br>
@@ -51,7 +51,7 @@ foreach($publications as $post)
                     ?>
                     <div class="post_user_rate">
                         <div class='x_small_profile_sphere'>
-                            <img src='pic/<?= $user_data['image'] != null ? $user_data['image'] : 'blank_profile_picture.jpg' ; ?>' class='x_small_porfile_pic'>
+                            <img src='pic/<?= $user_data['image'] != null ? $user_data['image'] : 'blank_profile_picture.jpg' ; ?>' class='x_small_profile_pic'>
                         </div>
                         <div class="post_rates_info">
                             <?= $user_data['name'].' '.$user_data['surname']; ?><br>

@@ -54,19 +54,11 @@ document.addEventListener("DOMContentLoaded", () => {
 // }
 
 function follow(myId, userId) {
-    // console.log(myId, userId);
-    // var picNames = document.querySelector('.post_foto_prev').getAttribute('data-pic-names');
-    // var postContent = document.getElementById('post_content').value;
     
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            // document.getElementById('content').innerHTML = this.responseText;
-            // initButtons();
-            // initSlides();
-            
-            // let bg_popup = document.getElementById('bg_popup');
-            // bg_popup.style.display = 'none';
+            document.querySelector('.profile_access').outerHTML = this.responseText;
         }
     };
     var formData = new FormData(); 
@@ -79,19 +71,10 @@ function follow(myId, userId) {
 }
 
 function unfollow(myId, userId) {
-    // console.log(myId, userId);
-    // var picNames = document.querySelector('.post_foto_prev').getAttribute('data-pic-names');
-    // var postContent = document.getElementById('post_content').value;
-    
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            // document.getElementById('content').innerHTML = this.responseText;
-            // initButtons();
-            // initSlides();
-            
-            // let bg_popup = document.getElementById('bg_popup');
-            // bg_popup.style.display = 'none';
+            document.querySelector('.profile_access').outerHTML = this.responseText;
         }
     };
     var formData = new FormData(); 
@@ -104,5 +87,18 @@ function unfollow(myId, userId) {
 }
 
 function undo_follow_request() {
-    
+    let bg_popup = document.getElementById('bg_popup');
+    bg_popup.style.display = 'block';
+
+    var displaySize = {
+        "width": "300px",
+        "height": "250px",
+        "margin": "20vh auto"
+    };
+     
+    var bgContainer = document.getElementById("bg_container");
+    Object.assign(bgContainer.style, displaySize);
+
+    let pending_menu = document.getElementById('pending_menu');
+    pending_menu.style.display = 'block';
 }

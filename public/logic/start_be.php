@@ -5,7 +5,7 @@
         if (!isset($_SESSION)) {
             session_start();
         }
-
+        
         $requestUser['username'] = $_GET['userID'];
         $get_userId = u_all_info('*', $requestUser)['user_id'];
         
@@ -42,7 +42,7 @@
 
             $htmlResult .= '<div class="post_user_rate" style="background-color:red;">';
                 $htmlResult .= '<div class="x_small_profile_sphere">';
-                    $htmlResult .=' <img src="pic/'.$profile_pic.'" class="x_small_porfile_pic">';
+                    $htmlResult .=' <img src="pic/'.$profile_pic.'" class="x_small_profile_pic">';
                 $htmlResult .= '</div>';
                 $htmlResult .= '<div class="post_rates_info">';
                     $htmlResult .= $comment_user['name'].' '.$comment_user['surname']; 
@@ -76,7 +76,7 @@
 
         $htmlPostProfile .= '<div class="popup_profile_items">';
             $htmlPostProfile .= '<div class="x_small_profile_sphere">';
-                $htmlPostProfile .=' <img src="pic/'.$Postprofile_pic.'" class="x_small_porfile_pic">';
+                $htmlPostProfile .=' <img src="pic/'.$Postprofile_pic.'" class="x_small_profile_pic">';
             $htmlPostProfile .= '</div>';
             $htmlPostProfile .= '<div class="popup_profile_name">';
                 $htmlPostProfile .= $userInfo['name'].' '.$userInfo['surname'];
@@ -99,7 +99,7 @@
             
                 $htmlResult .= '<div class="post_user_rate" style="background-color:red;">';
                     $htmlResult .= '<div class="x_small_profile_sphere">';
-                        $htmlResult .=' <img src="pic/'.$profile_pic.'" class="x_small_porfile_pic">';
+                        $htmlResult .=' <img src="pic/'.$profile_pic.'" class="x_small_profile_pic">';
                     $htmlResult .= '</div>';
                     $htmlResult .= '<div class="post_rates_info">';
                         $htmlResult .= $comment_user['name'].' '.$comment_user['surname']; 
@@ -153,7 +153,7 @@
 
                 $htmlRates .='<div class="post_user_rate">';
                     $htmlRates .='<div class="x_small_profile_sphere">';
-                        $htmlRates .='<img src="pic/'.$profile_pic.'" class="x_small_porfile_pic">';
+                        $htmlRates .='<img src="pic/'.$profile_pic.'" class="x_small_profile_pic">';
                     $htmlRates .='</div>';
                     $htmlRates .='<div class="post_rates_info">';
                         $htmlRates .= $user_data['name'].' '.$user_data['surname']; 
@@ -210,15 +210,23 @@
         $myId       = $_POST['my_Id'];
         $userId     = $_POST['user_Id'];
 
-        // var_dump($myId, $userId);
         $requestSent = follow_request($myId, $userId);
+
+        $_SESSION['get_user'] = $userId;
+        $following  = get_followers_and_following($userId);
+        
+        include('../components/profile_access.php');
     }
 
     if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formunfollow")) {
         $myId       = $_POST['my_Id'];
         $userId     = $_POST['user_Id'];
 
-        // var_dump($myId, $userId);
         $requestSent = unfollow($myId, $userId);
+
+        $_SESSION['get_user'] = $userId;
+        $following  = get_followers_and_following($userId);
+
+        include('../components/profile_access.php');
     }
 ?>

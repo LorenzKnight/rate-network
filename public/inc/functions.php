@@ -133,11 +133,11 @@ function dbUsersColumnNames()
 
 function get_followers_and_following($userId) : array
 {
-  $query_followers = "SELECT count(user_id) FROM followers WHERE user_id = $userId AND accepted = 1";
+  $query_followers = "SELECT count(is_following) FROM followers WHERE is_following = $userId AND accepted = 1";
   $sql = pg_query($query_followers);
   $followers = pg_fetch_assoc($sql);
 
-  $query_following = "SELECT count(is_following) FROM followers WHERE is_following = $userId AND accepted = 1";
+  $query_following = "SELECT count(user_id) FROM followers WHERE user_id = $userId AND accepted = 1";
   $sql = pg_query($query_following);
   $following = pg_fetch_assoc($sql);
 
