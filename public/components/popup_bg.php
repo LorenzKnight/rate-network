@@ -16,8 +16,8 @@
                     If you regret it, you must send a request<br/>
                     to follow <?= $get_user_info['username']; ?> again.
                 </li>
-                <a href=""><li style="color: red;">unfollow</li></a>
-                <a href=""><li>cancel</li></a>
+                <a href="#" onclick="unfollow(<?= $_SESSION['rt_UserId'].', '.$get_user_info['user_id']; ?>)"><li style="color: red;">unfollow</li></a>
+                <a href="#" onclick="close_popup()"><li>cancel</li></a>
             </ul>
         </div>
 

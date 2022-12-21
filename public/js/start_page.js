@@ -180,19 +180,26 @@ function ratePost(event) {
 
 //Close popups
 document.addEventListener('mouseup', function(e) {
-    var bg_popup = document.getElementById('bg_popup');
     var bg_container = document.getElementById('bg_container');
 
-    var comment_fotos_popup = document.getElementById('comment_fotos_popup');
-    var post_form = document.getElementById('post_form');
-
     if (!bg_container.contains(e.target)) {
-        bg_popup.style.display = 'none';
-
-        comment_fotos_popup.style.display = 'none';
-        post_form.style.display = 'none';
+        close_popup();
     }
 });
+
+function close_popup() {
+    var bg_popup = document.getElementById('bg_popup');
+    bg_popup.style.display = 'none';
+
+    var comment_fotos_popup = document.getElementById('comment_fotos_popup');
+    comment_fotos_popup.style.display = 'none';
+
+    var post_form = document.getElementById('post_form');
+    post_form.style.display = 'none';
+
+    var pending_menu = document.getElementById('pending_menu');
+    pending_menu.style.display = 'none';
+}
 
 function fyllUp(star)
 {

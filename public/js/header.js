@@ -75,6 +75,12 @@ function unfollow(myId, userId) {
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             document.querySelector('.profile_access').outerHTML = this.responseText;
+
+            var bg_popup = document.getElementById('bg_popup');
+            bg_popup.style.display = 'none';
+
+            var pending_menu = document.getElementById('pending_menu');
+            pending_menu.style.display = 'none';
         }
     };
     var formData = new FormData(); 
