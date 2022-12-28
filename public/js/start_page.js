@@ -21,6 +21,9 @@ function initButtons() {
     let submit_post_button = document.getElementById('create_post');
     submit_post_button.addEventListener('click', createpost);
 
+    let notices = document.getElementById('all_notices');
+    notices.addEventListener('mouseover', show_notices);
+
     // let search_enviroment = document.getElementById('searchuser');
     // search_enviroment.addEventListener('focusout', clean_search_enviroment);
     // search_enviroment.addEventListener('focus', search);
@@ -288,6 +291,13 @@ function showSlides(event) {
     dots[slideIndex-1].className += " active";
 }
 
+function show_notices() {
+    var tNoticeList = document.getElementById('triangulo_notices_list');
+    var NoticeList = document.getElementById('notices_list');
+
+    tNoticeList.style.display = 'block';
+    NoticeList.style.display = 'block';
+}
 // function clean_search_enviroment() {
 //     document.getElementById("usersresult").innerHTML = "";
 // }

@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS followers (
 	is_following INTEGER null,
 	accepted INTEGER null,
 	condition varchar(255) null, --if it is limited or not
-	follow_date TIMESTAMP NULL
+	follow_date TIMESTAMP null
 );
 
 CREATE TABLE IF NOT EXISTS media (
@@ -85,5 +85,16 @@ CREATE TABLE IF NOT EXISTS media (
 	name varchar(255) null,
 	format varchar(255) null,
 	is_changed INTEGER null,
-	media_date TIMESTAMP NULL
+	media_date TIMESTAMP null
+);
+
+CREATE TABLE IF NOT EXISTS log (
+	log_id SERIAL PRIMARY KEY,
+	from_userid INTEGER null,
+	action varchar(255) null, -- if it's comment, if it's follow, if it's rate...
+	obj_id INTEGER null, -- comment id, follow id, rate lever exemp: 3 star....
+	to_userid INTEGER null,
+	commentary varchar(255) null,
+	checked INTEGER DEFAULT 0 NOT null,
+	log_date TIMESTAMP null
 );

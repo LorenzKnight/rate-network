@@ -18,9 +18,9 @@
             <?php include("components/header.php"); ?>
             <div class="nav_bar">
                 <?php include("components/nav_bar.php"); ?>
-                <!-- <div id="aqui"></div> -->
             </div>
             <div class="the_wall" id="content">
+                <a href="#" onclick="addpost()"><div class="add_button">+</div></a>
                 <?php 
                 if (!isset($_GET['userID'])) {
                     include("components/post_in_wall.php"); 

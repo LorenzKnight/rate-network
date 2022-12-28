@@ -30,7 +30,9 @@
         ?>
     </div>
     <div class="follower_container">
-        <span id="followers" style="font-weight: 600;"><?= $following['followers'] ?? ''; ?></span> followers
-        <span id="following" style="font-weight: 600; margin-left:50px;"><?= $following['following'] ?? ''; ?></span> follow
+        <?php //var_dump($postcount['allpost']); ?>
+        <span id="posts" style="font-weight: 600;"><?= $postcount['allpost'] ?? ''; ?></span> posts
+        <span id="followers" style="font-weight: 600; margin-left: 50px;"><?= $following['followers'] ?? ''; ?></span> followers
+        <span id="following" style="font-weight: 600; margin-left: 50px;"><?= $following['following'] ?? ''; ?></span> follow
     </div>
 </div>

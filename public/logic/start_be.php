@@ -88,7 +88,10 @@
         $htmlResult = '';
         $htmlResult .= '<div class="post_comments" id="post_comments">';
         $htmlResult .= '<input type="hidden" name="post_id" id="postId" value="'.$postId.'"/>';
-            $comment_list = comment_in_post($postId);
+
+            $requestData['post_id'] = $postId;
+
+            $comment_list = comment_in_post('*', $requestData);
             
             foreach($comment_list as $comment)
             {
@@ -110,8 +113,6 @@
             }
             
         $htmlResult .= '</div>';
-
-        $requestData['post_id'] = $postId;
 
         $result = [
             'post_author'           => $htmlPostProfile,
@@ -214,6 +215,7 @@
 
         $_SESSION['get_user'] = $userId;
         $following  = get_followers_and_following($userId);
+        $postcount  = count_posts($userId);
         
         include('../components/profile_access.php');
     }
@@ -226,6 +228,7 @@
 
         $_SESSION['get_user'] = $userId;
         $following  = get_followers_and_following($userId);
+        $postcount  = count_posts($userId);
 
         include('../components/profile_access.php');
     }

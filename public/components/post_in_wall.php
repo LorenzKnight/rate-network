@@ -1,5 +1,5 @@
 
-<a href="#" onclick="addpost()"><div class="add_button">+</div></a>
+<!-- <a href="#" onclick="addpost()"><div class="add_button">+</div></a> -->
 <?php 
 foreach($publications as $post)
 {

@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
         var title = document.getElementById("title");
         var followers = document.getElementById("followers");
         var following = document.getElementById("following");
+        var posts = document.getElementById("posts");
 
         var firstname = data.name;
         var lastname = data.surname;
@@ -15,6 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
         var job = data.job;
         var they_follow_me = data.followers;
         var is_following = data.following;
+        var allposts = data.allpost;
+        // console.log(data);
 
         var rate = data.rate;
         var rate = rate.toString();
@@ -36,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
             var desimalsec = rate.slice(3,5);
         }
 
-        profile_pic.innerHTML = "<img src=pic/"+pic+" class='porfile_pic'>";
+        profile_pic.innerHTML = "<img src=pic/"+pic+" class='profile_foto'>";
         names.innerHTML = firstname+' '+lastname;
         rankcont.innerHTML = '<div>'+desimalpri+'<span style="font-size: 2.5rem;">'+desimalsec+'</span></div>';
         if(typeof(job) != 'undefined' && job !== null)
@@ -45,6 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         followers.innerHTML = they_follow_me;
         following.innerHTML = is_following;
+        posts.innerHTML = allposts;
 	});
 });
 

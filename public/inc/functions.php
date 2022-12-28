@@ -147,6 +147,17 @@ function get_followers_and_following($userId) : array
   ];
 }
 
+function count_posts($userId) : array
+{
+  $query_count_post = "SELECT count(user_id) FROM river WHERE user_id = $userId";
+  $sql = pg_query($query_count_post);
+  $count_post = pg_fetch_assoc($sql);
+
+  return [
+    'allpost'   => $count_post['count']
+  ];
+}
+
 function following_control(int $myId, int $userId) : array
 {
   $query_following_control = "SELECT * FROM followers WHERE user_id = $myId AND is_following = $userId";
@@ -207,16 +218,19 @@ function post_all_data(int $postId) : array
     'postId'      => false,
     'userId'      => false,
     'content'     => false,
-    'status'      => false
+    'status'      => false,
+    'postcount'   => false
   ];
 
   $row_postalldata = pg_fetch_assoc($sql);
+  $totalRows_postalldata = pg_num_rows($sql);
 
   $res = [
     'postId'      => $row_postalldata['r_id'],
     'userId'      => $row_postalldata['user_id'],
     'content'     => $row_postalldata['content'],
-    'status'      => $row_postalldata['status']
+    'status'      => $row_postalldata['status'],
+    'postcount'   => $totalRows_postalldata
   ];
 
   return $res;
@@ -283,13 +297,6 @@ function post_wall_profile($userId = null) : array
   }
 
   return $res;
-}
-
-function dbRatesColumnNames()
-{
-	return array(
-		"rate_id", "stars", "rate_bonus", "user_id", "to_user_id", "post_id", "comment_id", "rate_date"
-	);
 }
 
 function rate_in_post($columns = "*", $requestData = array(), array $options = []) : array
@@ -399,6 +406,13 @@ function rate_in_post($columns = "*", $requestData = array(), array $options = [
   return $res;
 }
 
+function dbRatesColumnNames()
+{
+	return array(
+		"rate_id", "stars", "rate_bonus", "user_id", "to_user_id", "post_id", "comment_id", "rate_date"
+	);
+}
+
 function count_rates($columns = "*", $requestData = array()) : int
 {
   if(empty($columns))
@@ -484,38 +498,141 @@ function add_comments($userId, $postId, $comment, $comment_date)
 	return true;
 }
 
-function comment_in_post($rId) : array
+function comment_in_post($columns = "*", $requestData = array(), array $options = []) : array
 {
-  $query_postcomment = "SELECT * FROM comments WHERE post_id = $rId ORDER BY comment_id DESC";
-  $sql = pg_query($query_postcomment);
+  if(empty($columns))
+	{
+		$columns = "*";
+	}
+
+	if($columns != "*" && !is_array($columns))
+	{
+		$columns = "*";
+	}
+
+	$queryColumnNames = "*";
+	if(is_array($columns))
+	{
+		$queryColumnNames = "";
+		$validColumns = dbCommentsColumnNames();
+
+		foreach ($columns as $column) 
+		{
+			if(in_array($column, $validColumns))
+			{
+				$queryColumnNames .= $column.",";
+			}
+		}
+
+		if(empty($queryColumnNames))
+		{
+			return null;
+		}
+		
+		$queryColumnNames = substr($queryColumnNames, 0, -1);
+	}
+
+  $query = "select $queryColumnNames ";
+
+  if(isset($options['count_query']) && $options['count_query'])
+	{
+		$query = "select count(*) ";
+	}
+
+	$query .= "from comments ";
+
+  //check other conditions
+	$conditions = "";
+
+  if(isset($requestData['comment_id']) && !empty($requestData['comment_id']))
+	{
+		$conditions .= " and comment_id = " . $requestData['comment_id']. ' ';
+	}
+
+  if(isset($requestData['post_id']) && !empty($requestData['post_id']))
+	{
+		$conditions .= " and post_id = " . $requestData['post_id']. ' ';
+	}
+
+  if(!empty($conditions))
+	{
+		$query .= " where " . substr($conditions, 5);
+	}
+
+  //set order
+  if(!isset($options['count_query']))
+  {
+    $query .= "order by ";
+    if(isset($options['order']))
+    {
+      $query .= $options['order'];
+    } 
+    else
+    {
+      $query .= "comment_id asc";
+    }
+  }
+
+  //set limit
+  if(isset($options['limit']) && !empty($options['limit']))
+  {
+    $query .= " limit " . intval($options['limit']);
+  }
+
+  if(isset($options['echo_query']) && $options['echo_query'])
+  {
+    echo "Q: ".$query."<br>\t\n";
+  }
+
+  $sql = pg_query($query);
   $totalRows_postcomment = pg_num_rows($sql);
   
   $res = [];
   
   if(!empty($totalRows_postcomment))
   {
-      $row_postcomment = pg_fetch_all($sql);
+    $row_postcomment = pg_fetch_all($sql);
 
-      foreach($row_postcomment as $item)
-      {
-        $res [] = [
-            'userId'        => $item['user_id'],
-            'postId'        => $item['post_id'],
-            'comment'       => $item['comment'],
-            'commentDate'   => $item['comment_date']
-        ];
-      }
+    foreach($row_postcomment as $item)
+    {
+      $res [] = [
+          'userId'          => $item['user_id'],
+          'postId'          => $item['post_id'],
+          'comment'         => $item['comment'],
+          'commentDate'     => $item['comment_date'],
+          'totalComments'   => $totalRows_postcomment
+      ];
+    }
   }
-  
+
   return $res;
 }
 
-function dbCommentsColumnNames()
-{
-	return array(
-		"comment_id", "user_id", "post_id", "comment", "comment_date"
-	);
-}
+// function comment_in_post2($rId) : array
+// {
+//   $query_postcomment = "SELECT * FROM comments WHERE post_id = $rId ORDER BY comment_id DESC";
+//   $sql = pg_query($query_postcomment);
+//   $totalRows_postcomment = pg_num_rows($sql);
+  
+//   $res = [];
+  
+//   if(!empty($totalRows_postcomment))
+//   {
+//       $row_postcomment = pg_fetch_all($sql);
+
+//       foreach($row_postcomment as $item)
+//       {
+//         $res [] = [
+//             'userId'            => $item['user_id'],
+//             'postId'            => $item['post_id'],
+//             'comment'           => $item['comment'],
+//             'commentDate'       => $item['comment_date']
+//         ];
+//       }
+//   }
+  
+//   return $res;
+// }
 
 function count_comments($columns = "*", $requestData = array()) : int
 {
@@ -582,6 +699,13 @@ function count_comments($columns = "*", $requestData = array()) : int
   $totalPost_rates_list = pg_num_rows($sql);
 
   return $totalPost_rates_list;
+}
+
+function dbCommentsColumnNames()
+{
+	return array(
+		"comment_id", "user_id", "post_id", "comment", "comment_date"
+	);
 }
 
 function add_rate(int $userId, int $stars, $postId = null)
@@ -737,9 +861,9 @@ function add_post_media($insertValues)
   return true;
 }
 
-function show_post_images(int $psotId) : array
+function show_post_images(int $postId) : array
 {
-  $query = "SELECT * FROM media WHERE post_id = $psotId ORDER BY media_id DESC";
+  $query = "SELECT * FROM media WHERE post_id = $postId ORDER BY media_id DESC";
   $sql = pg_query($query);
   $totalRows_postmedia = pg_num_rows($sql);
   
@@ -811,5 +935,185 @@ function profileRateInPost($rateData) {
   }
 
   return $desimalpri;
+}
+
+function read_log($columns = "*", $requestData = array(), array $options = []) : array
+{
+  if(empty($columns))
+	{
+		$columns = "*";
+	}
+
+	if($columns != "*" && !is_array($columns))
+	{
+		$columns = "*";
+	}
+
+	$queryColumnNames = "*";
+	if(is_array($columns))
+	{
+		$queryColumnNames = "";
+		$validColumns = dbLogColumnNames();
+
+		foreach ($columns as $column) 
+		{
+			if(in_array($column, $validColumns))
+			{
+				$queryColumnNames .= $column.",";
+			}
+		}
+
+		if(empty($queryColumnNames))
+		{
+			return null;
+		}
+		
+		$queryColumnNames = substr($queryColumnNames, 0, -1);
+	}
+
+  $query = "select $queryColumnNames ";
+
+  if(isset($options['count_query']) && $options['count_query'])
+	{
+		$query = "select count(*) ";
+	}
+
+	$query .= "from log ";
+
+  //check other conditions
+	$conditions = "";
+
+  if(isset($requestData['from_userid']) && !empty($requestData['from_userid']))
+	{
+		$conditions .= " and from_userid = " . $requestData['from_userid']. ' ';
+	}
+
+  if(isset($requestData['action']) && !empty($requestData['action']))
+	{
+    // rate-post
+    // rate-comment
+    // comment
+    // answer-comment
+    // follow-request
+    // follow
+
+    $requestData['action'] = pg_escape_string(trim($requestData["action"]));
+    
+		$conditions .= " and action = '" . $requestData['action']. "' ";
+	}
+
+  if(isset($requestData['obj_id']) && !empty($requestData['obj_id']))
+	{
+		$conditions .= " and obj_id = " . $requestData['obj_id']. ' ';
+	}
+
+  if(isset($requestData['to_userid']) && !empty($requestData['to_userid']))
+	{
+		$conditions .= " and to_userid = " . $requestData['to_userid']. ' ';
+	}
+
+  if(isset($requestData['checked']) && !empty($requestData['checked']))
+	{
+		$conditions .= " and checked = " . $requestData['checked']. ' ';
+	}
+
+  if(isset($requestData['log_date']) && !empty($requestData['log_date']))
+	{
+    // if($requestData['date'] == null)
+    // {
+    //     $requestData['date'] = date("Y-m-d H:i:s");
+    // }
+
+    $requestData['log_date'] = pg_escape_string(trim($requestData["log_date"]));
+    
+		$conditions .= " and log_date = '" . $requestData['log_date']. "' ";
+	}
+
+  if(!empty($conditions))
+	{
+		$query .= " where " . substr($conditions, 5);
+	}
+
+  //set order
+  if(!isset($options['count_query']))
+  {
+    $query .= "order by ";
+    if(isset($options['order']))
+    {
+      $query .= $options['order'];
+    } 
+    else
+    {
+      $query .= "log_id asc";
+    }
+  }
+
+  //set limit
+  if(isset($options['limit']) && !empty($options['limit']))
+  {
+    $query .= " limit " . intval($options['limit']);
+  }
+
+  if(isset($options['echo_query']) && $options['echo_query'])
+  {
+    echo "Q: ".$query."<br>\t\n";
+  }
+
+  $sql = pg_query($query);
+  $totalRow_loginfo = pg_num_rows($sql);
+  
+  $res = [];
+
+  if(!empty($totalRow_loginfo))
+  {
+    $row_loginfo = pg_fetch_all($sql);
+
+    foreach($row_loginfo as $columnData) {
+      
+      $res [] = [
+        'logId'       => $columnData['log_id'],
+        'fromUserId'  => $columnData['from_userid'],
+        'action'      => $columnData['action'],
+        'objId'       => $columnData['obj_id'],
+        'toUserId'    => $columnData['to_userid'],
+        'commentary'  => $columnData['commentary'],
+        'checked'     => $columnData['checked'],
+        'logDate'     => $columnData['log_date']
+      ];
+
+    }
+  }
+
+  return $res;
+}
+
+function dbLogColumnNames() 
+{
+  return array(
+		"log_id", "user_id", "action", "obj_id", "commentary", "checked", "log_date"
+	);
+}
+
+function brind_post_preview($post_id) : array
+{
+  $query_postPreview = "SELECT * FROM media WHERE post_id = $post_id ORDER BY media_id DESC";
+  $sql = pg_query($query_postPreview);
+  $totalRow_postPreview = pg_num_rows($sql);
+
+  $res = [
+    'preview'    => false
+  ];
+
+  if (empty($totalRow_postPreview)) {
+    return $res;
+  }
+
+  $preview = pg_fetch_assoc($sql);
+  
+  $res = [
+    'preview'   => $preview['name']
+  ];
+
+  return $res;
 }
 ?>

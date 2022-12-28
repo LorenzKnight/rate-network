@@ -55,6 +55,7 @@
     display: flex; 
     justify-content: center;
     align-items: center;
+    /* background-color: red; */
 }
 .profile_sphere {
     width: 110px;
@@ -64,8 +65,8 @@
     border: 1px solid #000;
     overflow: auto;
 }
-.porfile_pic {
-    width: 110px;
+.profile_foto {
+    width: 108.2px;
 }
 .name {
     font-size: 2.5em;
@@ -144,7 +145,7 @@
     overflow: auto;
 }
 .small_profile_pic {
-    width: 80px;
+    width: 75.5px;
 }
 .post_profile_desc {
     height: 80px;
@@ -219,7 +220,7 @@
     padding-left: 5px;
 }
 .x_small_profile_pic {
-    width: 45px;
+    width: 43px;
 }
 /* end to post */
 
@@ -230,6 +231,17 @@
     background-color: grey;
     margin: 5px 1% 15px;
     float: left;
+}
+.message_in_wall {
+    width: 98%;
+    min-height: 200px;
+    color: #666;
+    margin: 0 auto;
+    border: 1px solid #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 /* end post on profil*/
 
@@ -260,6 +272,37 @@
 }
 .menu ul li a:hover {
     color: #666;
+}
+.notices {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: red;
+    color: #FFF;
+    border: 2px solid #FFF;
+    position: absolute;
+    top: -8px;
+    right: -10px;
+}
+.notices_list {
+    min-width: 50px;
+    height: 35px;
+    background-color: red;
+    border-radius: 4px;
+    position: absolute;
+    margin-top: 80px;
+    display: none;
+}
+.triangulo_notices_list {
+    width: 0;
+    height: 0;
+    border-right: 10px solid transparent;
+    border-top: 10px solid transparent;
+    border-left: 10px solid transparent;
+    border-bottom: 10px solid red;
+    position: absolute;
+    margin-top: 25px;
+    display: none;
 }
 /* end to navigation bar */
 
@@ -309,7 +352,7 @@
 .bg_popup {
     width: 100%;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.486);
+    background-color: rgba(0, 0, 0, 0.668);
     position: fixed;
 
     /* display: flex;
@@ -654,3 +697,66 @@ a .add_button:hover {
     color: #666;
 }
 /* end pending menu */
+
+.activity_list {
+    width: 450px;
+    height: 600px;
+    background-color: #FFF;
+    border-radius: 4px;
+    margin: 5vh auto;
+    /* display: none; */
+}
+
+.activity_title {
+    width: 100%;
+    height: 40px;
+    /* background-color: red; */
+    font-size: 1.3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.activity_list ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    /* background-color: orange; */
+}
+/* .userlist ul a {
+    text-decoration: none;
+    color: #000;
+} */
+.activity_list ul li {
+    background-color: #999;
+    width: 100%;
+    height: 70px;
+    padding: 0 2%;
+    display: flex;
+    align-items: center;
+}
+/* .activity_list ul a li:hover {
+    background-color: #F0F0F0;
+} */
+
+.activity_desc {
+    flex: 1;
+    height: 70px;
+    background-color: orange;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+}
+.activity_action {
+    height: 70px;
+    background-color: pink;
+    display: flex;
+    align-items: center;
+}
+.frame_activity_preview {
+    width: 60px;
+    height: 60px;
+    background-color: red;
+    margin: 0 5px;
+    overflow: auto;
+}
