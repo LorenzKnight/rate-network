@@ -183,7 +183,7 @@ function following_control(int $myId, int $userId) : array
   return $res;
 }
 
-function follow_request($myId, $userId)
+function follow_request(int $myId, int $userId)
 {
   if (!following_control($myId, $userId)['existing']) {
     $requestData['user_id'] = $userId;
@@ -199,7 +199,17 @@ function follow_request($myId, $userId)
   return $sql;
 }
 
-function unfollow($myId, $userId)
+function follow_confirm(int $myId, int $userId)
+{
+  if (following_control($myId, $userId)['existing']) {
+    $query = "UPDATE followers SET accepted = 1 WHERE user_id = $userId AND is_following = $myId";
+    $sql = pg_query($query);
+  }
+
+  return $sql;
+}
+
+function unfollow(int $myId, int $userId)
 {
   if (following_control($myId, $userId)['existing']) {
     $query_unfollow = "DELETE FROM followers WHERE user_id = $myId AND is_following = $userId";
@@ -495,7 +505,7 @@ function add_comments($userId, $postId, $comment, $comment_date)
   $query = "INSERT INTO comments (user_id, post_id, comment, comment_date) values ($userId, $postId, '$comment', '$comment_date')";
 	$sql = pg_query($query);
 		
-	return true;
+	return $sql;
 }
 
 function comment_in_post($columns = "*", $requestData = array(), array $options = []) : array
@@ -1115,5 +1125,15 @@ function brind_post_preview($post_id) : array
   ];
 
   return $res;
+}
+
+function insert_log(int $fromUserid, string $action, int $objId, int $toUserid, string $commentary, int $checked)
+{
+  $log_date = date("Y-m-d H:i:s");
+
+  $query = "INSERT INTO log (from_userid, action, obj_id, to_userid, commentary, checked, log_date) VALUES ($fromUserid, '$action', $objId, $toUserid, '$commentary', $checked, '$log_date')";
+	$sql = pg_query($query);
+		
+	return $sql;
 }
 ?>

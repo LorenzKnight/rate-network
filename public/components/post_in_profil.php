@@ -18,24 +18,24 @@
     
             switch ($log['action']) {
                 case 'rate-post':
-                    $notice_array = [u_all_info('*', $requestFromUserId)['username'].' rated '.$log['commentary'].' your post', '<div class="frame_activity_preview"><img src="images/' .brind_post_preview($log['objId'])['preview'].'" height="80px"></div>'];
+                    $notice_array = [u_all_info('*', $requestFromUserId)['username'].' rated '.$log['commentary'].' your post', '<div class="frame_activity_preview"><img src="images/' .brind_post_preview($log['objId'])['preview'].'" class="activity_preview"></div>'];
                     break;
                 case 'rate-comment':
                     // var_dump(brind_post_preview( comment_in_post('*', $requestData)['0']['postId'] )['preview']);
-                    $notice_array = [u_all_info('*', $requestFromUserId)['username'].' rated '.$log['commentary'].' your comment "'.comment_in_post('*', $requestData)['0']['comment'].'"', '<div class="frame_activity_preview"><img src="images/' .brind_post_preview( comment_in_post('*', $requestData)['0']['postId'] )['preview'].'" height="80px"></div>'];
-                    break;
-                case 'comment':
-                    $options['order'] = 'desc';
-                    $notice_array = [u_all_info('*', $requestFromUserId)['username'].' has commented on your post: "comment"', '<div class="frame_activity_preview"><img src="images/' .brind_post_preview($log['objId'])['preview'].'" height="80px"></div>'];
-                    break;
-                case 'answer-comment':
-                    $notice_array = ["3", 0];
+                    $notice_array = [u_all_info('*', $requestFromUserId)['username'].' rated '.$log['commentary'].' your comment "'.comment_in_post('*', $requestData)['0']['comment'].'"', '<div class="frame_activity_preview"><img src="images/' .brind_post_preview( comment_in_post('*', $requestData)['0']['postId'] )['preview'].'" class="activity_preview"></div>'];
                     break;
                 case 'follow-request':
                     $notice_array = [u_all_info('*', $requestFromUserId)['username'].' sent a request', '<input type="button" class="access_button button_blue" id="follow" value="Confirm" onclick="follow('. $_SESSION['rt_UserId'].' ,'. $log['fromUserId'].')"> <input type="button" class="access_button" id="follow" value="Remove" onclick="follow('. $_SESSION['rt_UserId'].' ,'. $log['fromUserId'].')">'];
                     break;
                 case 'follow':
                     $notice_array = [u_all_info('*', $requestFromUserId)['username'].' has started following you', '<input type="button" class="access_button button_blue" id="follow" value="Follow" onclick="follow('. $_SESSION['rt_UserId'].' ,'. $log['fromUserId'].')">'];
+                    break;
+                case 'comment':
+                    $options['order'] = 'desc';
+                    $notice_array = [u_all_info('*', $requestFromUserId)['username'].' has commented on your post: "comment"', '<div class="frame_activity_preview"><img src="images/' .brind_post_preview($log['objId'])['preview'].'" class="activity_preview"></div>'];
+                    break;
+                case 'answer-comment':
+                    $notice_array = ["3", 0];
                     break;
             }
     ?>
