@@ -112,3 +112,30 @@ function undo_follow_request() {
     let pending_menu = document.getElementById('pending_menu');
     pending_menu.style.display = 'block';
 }
+
+function follow_confirm(myId, userId) {
+    console.log(myId, userId);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            // document.querySelector('.profile_access').outerHTML = this.responseText;
+
+            // var bg_popup = document.getElementById('bg_popup');
+            // bg_popup.style.display = 'none';
+
+            // var pending_menu = document.getElementById('pending_menu');
+            // pending_menu.style.display = 'none';
+        }
+    };
+    var formData = new FormData(); 
+    formData.append('MM_insert', 'formunfollowconfirm');
+    formData.append('my_Id', myId);
+    formData.append('user_Id', userId);
+
+    xmlhttp.open("POST", "logic/start_be.php", true);
+    xmlhttp.send(formData);
+}
+
+function remove_request(myId, userId) {
+    console.log(myId, userId);
+}

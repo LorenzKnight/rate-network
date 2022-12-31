@@ -232,4 +232,13 @@
 
         include('../components/profile_access.php');
     }
+
+    if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formunfollowconfirm")) {
+        $myId       = $_POST['my_Id'];
+        $userId     = $_POST['user_Id'];
+
+        if(following_control($userId, $myId)['existing']) {
+            follow_confirm($myId, $userId);
+        }
+    }
 ?>

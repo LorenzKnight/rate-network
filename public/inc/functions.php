@@ -201,9 +201,11 @@ function follow_request(int $myId, int $userId)
 
 function follow_confirm(int $myId, int $userId)
 {
-  if (following_control($myId, $userId)['existing']) {
+  if (!following_control($userId, $myId)['accepted']) {
     $query = "UPDATE followers SET accepted = 1 WHERE user_id = $userId AND is_following = $myId";
     $sql = pg_query($query);
+  } else {
+    return false;
   }
 
   return $sql;
@@ -212,8 +214,22 @@ function follow_confirm(int $myId, int $userId)
 function unfollow(int $myId, int $userId)
 {
   if (following_control($myId, $userId)['existing']) {
-    $query_unfollow = "DELETE FROM followers WHERE user_id = $myId AND is_following = $userId";
+    $query_unfollow = "DELETE FROM followers WHERE user_id = $myId AND is_following = $userId AND accepted = 1";
     $sql = pg_query($query_unfollow);
+  } else {
+    return false;
+  }
+
+  return $sql;
+}
+
+function remove_request(int $myId, int $userId)
+{
+  if (following_control($myId, $userId)['existing']) {
+    $query_unfollow = "DELETE FROM followers WHERE user_id = $userId AND is_following = $myId AND accepted = 0";
+    $sql = pg_query($query_unfollow);
+  } else {
+    return false;
   }
 
   return $sql;
@@ -579,7 +595,7 @@ function comment_in_post($columns = "*", $requestData = array(), array $options 
     } 
     else
     {
-      $query .= "comment_id asc";
+      $query .= "comment_id desc";
     }
   }
 
@@ -609,8 +625,8 @@ function comment_in_post($columns = "*", $requestData = array(), array $options 
           'userId'          => $item['user_id'],
           'postId'          => $item['post_id'],
           'comment'         => $item['comment'],
-          'commentDate'     => $item['comment_date'],
-          'totalComments'   => $totalRows_postcomment
+          'commentDate'     => $item['comment_date']
+          // 'totalComments'   => $totalRows_postcomment
       ];
     }
   }
