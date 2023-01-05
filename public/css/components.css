@@ -291,7 +291,8 @@
     border-radius: 4px;
     position: absolute;
     margin-top: 80px;
-    display: none;
+    /* display: none; */
+    z-index: 1;
 }
 .triangulo_notices_list {
     width: 0;
@@ -302,7 +303,8 @@
     border-bottom: 10px solid red;
     position: absolute;
     margin-top: 25px;
-    display: none;
+    /* display: none; */
+    z-index: 1;
 }
 /* end to navigation bar */
 
@@ -704,7 +706,7 @@ a .add_button:hover {
     background-color: #FFF;
     border-radius: 4px;
     margin: 5vh auto;
-    /* display: none; */
+    display: none;
 }
 
 .activity_title {
@@ -720,7 +722,7 @@ a .add_button:hover {
 .activity_container {
     height: 560px;
     overflow: auto;
-    background-color: rgba(255, 166, 0, 0.495);
+    /* background-color: rgba(255, 166, 0, 0.495); */
 }
 .activity_list ul {
     padding: 0;

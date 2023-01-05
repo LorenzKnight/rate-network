@@ -204,7 +204,14 @@
 
         $publications   = post_wall_profile($followers_list);
 
-        include('../components/post_in_wall.php');
+        $test = include('../components/post_in_wall.php');
+    }
+
+    if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "getpostcount")) {
+        $userId         = $_SESSION['rt_UserId'];
+        $postcount  = count_posts($userId);
+
+        echo $postcount['allpost'];
     }
 
     if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formfollowrequest")) {
@@ -233,12 +240,25 @@
         include('../components/profile_access.php');
     }
 
-    if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formunfollowconfirm")) {
+    if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formfollowconfirm")) {
         $myId       = $_POST['my_Id'];
         $userId     = $_POST['user_Id'];
 
         if(following_control($userId, $myId)['existing']) {
-            follow_confirm($myId, $userId);
+            follow_confirm($myId, $userId, 1);
         }
+
+        include('../components/activity_list.php');
+    }
+
+    if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formrequestdelete")) {
+        $myId       = $_POST['my_Id'];
+        $userId     = $_POST['user_Id'];
+
+        remove_request($myId, $userId);
+
+        log_checked($myId, $userId, 2);
+        
+        include('../components/activity_list.php');
     }
 ?>

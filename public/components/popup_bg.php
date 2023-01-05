@@ -1,5 +1,9 @@
 <div class="bg_popup" id="bg_popup" data-postID='<?= $post['postId']; ?>'>
     <div class="bg_container" id="bg_container">
+        <div class="activity_list" id="activity_list">
+            <?php include('components/activity_list.php'); ?>
+        </div>
+
         <!-- pending menu -->
         <div class="pending_menu" id="pending_menu">
             <div class="pending_info">

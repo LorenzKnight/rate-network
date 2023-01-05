@@ -22,7 +22,7 @@ function initButtons() {
     submit_post_button.addEventListener('click', createpost);
 
     let notices = document.getElementById('all_notices');
-    notices.addEventListener('mouseover', show_notices);
+    notices.addEventListener('click', show_notices);
 
     // let search_enviroment = document.getElementById('searchuser');
     // search_enviroment.addEventListener('focusout', clean_search_enviroment);
@@ -140,12 +140,28 @@ function createpost() {
             
             let bg_popup = document.getElementById('bg_popup');
             bg_popup.style.display = 'none';
+
+            updatePostCount();
         }
     };
     var formData = new FormData(); 
     formData.append('MM_insert', 'formnewpost');
     formData.append('pic_name', picNames);
     formData.append('post_content', postContent);
+
+    xmlhttp.open("POST", "logic/start_be.php", true);
+    xmlhttp.send(formData);
+}
+
+function updatePostCount() {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById('posts').innerHTML = this.responseText;
+        }
+    };
+    var formData = new FormData(); 
+    formData.append('MM_insert', 'getpostcount');
 
     xmlhttp.open("POST", "logic/start_be.php", true);
     xmlhttp.send(formData);
@@ -202,6 +218,9 @@ function close_popup() {
 
     var pending_menu = document.getElementById('pending_menu');
     pending_menu.style.display = 'none';
+
+    var activity_list = document.getElementById('activity_list');
+    activity_list.style.display = 'none';
 }
 
 function fyllUp(star)
@@ -292,11 +311,20 @@ function showSlides(event) {
 }
 
 function show_notices() {
-    var tNoticeList = document.getElementById('triangulo_notices_list');
-    var NoticeList = document.getElementById('notices_list');
+    let bg_popup = document.getElementById('bg_popup');
+    bg_popup.style.display = 'block';
 
-    tNoticeList.style.display = 'block';
-    NoticeList.style.display = 'block';
+    var displaySize = {
+        "width": "450px",
+        "height": "600px",
+        "margin": "5vh auto"
+    };
+     
+    var bgContainer = document.getElementById("bg_container");
+    Object.assign(bgContainer.style, displaySize);
+
+    let activity_list = document.getElementById('activity_list');
+    activity_list.style.display = 'block';
 }
 // function clean_search_enviroment() {
 //     document.getElementById("usersresult").innerHTML = "";

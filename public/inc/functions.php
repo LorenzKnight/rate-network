@@ -158,9 +158,9 @@ function count_posts($userId) : array
   ];
 }
 
-function following_control(int $myId, int $userId) : array
+function following_control(int $userId, int $myId) : array
 {
-  $query_following_control = "SELECT * FROM followers WHERE user_id = $myId AND is_following = $userId";
+  $query_following_control = "SELECT * FROM followers WHERE user_id = $userId AND is_following = $myId";
   $sql = pg_query($query_following_control);
   $totalRow_following = pg_num_rows($sql);
 
@@ -177,7 +177,7 @@ function following_control(int $myId, int $userId) : array
   
   $res = [
     'accepted'    => $following_control['accepted'] == 1 ? true : false,
-    'existing'    => $totalRow_following > 0 ? true : false
+    'existing'    => $totalRow_following > 0 && $following_control['accepted'] != 2 ? true : false
   ];
 
   return $res;
@@ -199,10 +199,10 @@ function follow_request(int $myId, int $userId)
   return $sql;
 }
 
-function follow_confirm(int $myId, int $userId)
+function follow_confirm(int $myId, int $userId, int $confirm)
 {
   if (!following_control($userId, $myId)['accepted']) {
-    $query = "UPDATE followers SET accepted = 1 WHERE user_id = $userId AND is_following = $myId";
+    $query = "UPDATE followers SET accepted = $confirm WHERE user_id = $userId AND is_following = $myId";
     $sql = pg_query($query);
   } else {
     return false;
@@ -231,6 +231,20 @@ function remove_request(int $myId, int $userId)
   } else {
     return false;
   }
+
+  return $sql;
+}
+
+function log_checked(int $myId, $userId = null , int $status)
+{
+  if ($userId == null) {
+    $query = "UPDATE log SET checked = $status WHERE to_userid = $myId AND checked = 0";
+  }
+  else
+  {
+    $query = "UPDATE log SET checked = $status WHERE from_userid = $userId AND to_userid = $myId AND checked = 0";
+  }
+  $sql = pg_query($query);
 
   return $sql;
 }
@@ -991,7 +1005,7 @@ function read_log($columns = "*", $requestData = array(), array $options = []) :
 
 		if(empty($queryColumnNames))
 		{
-			return null;
+			return [];
 		}
 		
 		$queryColumnNames = substr($queryColumnNames, 0, -1);
@@ -1006,7 +1020,7 @@ function read_log($columns = "*", $requestData = array(), array $options = []) :
 
 	$query .= "from log ";
 
-  //check other conditions
+  // check other conditions
 	$conditions = "";
 
   if(isset($requestData['from_userid']) && !empty($requestData['from_userid']))
@@ -1038,18 +1052,20 @@ function read_log($columns = "*", $requestData = array(), array $options = []) :
 		$conditions .= " and to_userid = " . $requestData['to_userid']. ' ';
 	}
 
-  if(isset($requestData['checked']) && !empty($requestData['checked']))
+  if(isset($requestData['checked']))
 	{
-		$conditions .= " and checked = " . $requestData['checked']. ' ';
+    if($requestData['checked'] == 2) 
+    {
+      $conditions .= " and checked != 2 ";
+    }
+    else
+    {
+		  $conditions .= " and checked = " . $requestData['checked']. ' ';
+    }
 	}
 
   if(isset($requestData['log_date']) && !empty($requestData['log_date']))
 	{
-    // if($requestData['date'] == null)
-    // {
-    //     $requestData['date'] = date("Y-m-d H:i:s");
-    // }
-
     $requestData['log_date'] = pg_escape_string(trim($requestData["log_date"]));
     
 		$conditions .= " and log_date = '" . $requestData['log_date']. "' ";
@@ -1060,7 +1076,8 @@ function read_log($columns = "*", $requestData = array(), array $options = []) :
 		$query .= " where " . substr($conditions, 5);
 	}
 
-  //set order
+  // set order
+  // Ex: read_log('*', $requestData, ['order' => 'log_id asc']);
   if(!isset($options['count_query']))
   {
     $query .= "order by ";
@@ -1074,7 +1091,7 @@ function read_log($columns = "*", $requestData = array(), array $options = []) :
     }
   }
 
-  //set limit
+  // set limit
   if(isset($options['limit']) && !empty($options['limit']))
   {
     $query .= " limit " . intval($options['limit']);
@@ -1090,10 +1107,20 @@ function read_log($columns = "*", $requestData = array(), array $options = []) :
   
   $res = [];
 
+  if(isset($options['count_query'])) {
+    $logcount = pg_fetch_assoc($sql);
+
+    foreach($logcount as $columnName => $columnValue) {
+      $res[$columnName] = $columnValue;
+    }
+
+    return $res;
+  }
+
   if(!empty($totalRow_loginfo))
   {
     $row_loginfo = pg_fetch_all($sql);
-
+    
     foreach($row_loginfo as $columnData) {
       
       $res [] = [
@@ -1119,6 +1146,14 @@ function dbLogColumnNames()
 		"log_id", "user_id", "action", "obj_id", "commentary", "checked", "log_date"
 	);
 }
+
+// function remove_from_log(string $action, int $userId, int $myId)
+// {
+//   $query_removeLog = "DELETE FROM log WHERE action = $action AND from_userid = $userId AND to_userid = $myId";
+//   $sql = pg_query($query_removeLog);
+
+//   return $sql;
+// }
 
 function brind_post_preview($post_id) : array
 {

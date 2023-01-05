@@ -118,7 +118,7 @@ function follow_confirm(myId, userId) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            // document.querySelector('.profile_access').outerHTML = this.responseText;
+            document.querySelector('.activity_list').outerHTML = this.responseText;
 
             // var bg_popup = document.getElementById('bg_popup');
             // bg_popup.style.display = 'none';
@@ -128,7 +128,7 @@ function follow_confirm(myId, userId) {
         }
     };
     var formData = new FormData(); 
-    formData.append('MM_insert', 'formunfollowconfirm');
+    formData.append('MM_insert', 'formfollowconfirm');
     formData.append('my_Id', myId);
     formData.append('user_Id', userId);
 
@@ -138,4 +138,23 @@ function follow_confirm(myId, userId) {
 
 function remove_request(myId, userId) {
     console.log(myId, userId);
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.querySelector('.activity_list').outerHTML = this.responseText;
+
+            // var bg_popup = document.getElementById('bg_popup');
+            // bg_popup.style.display = 'none';
+
+            // var pending_menu = document.getElementById('pending_menu');
+            // pending_menu.style.display = 'none';
+        }
+    };
+    var formData = new FormData(); 
+    formData.append('MM_insert', 'formrequestdelete');
+    formData.append('my_Id', myId);
+    formData.append('user_Id', userId);
+
+    xmlhttp.open("POST", "logic/start_be.php", true);
+    xmlhttp.send(formData);
 }
