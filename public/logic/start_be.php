@@ -261,4 +261,19 @@
         
         include('../components/activity_list.php');
     }
+
+    if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formchecknotices")) {
+        $myId = $_SESSION['rt_UserId'];
+
+        $requestData['to_userid'] = $myId;
+        $requestData['checked'] = 0;
+
+        $isChecked = read_log('*', $requestData, ['count_query' => true])["count"] > 0;
+
+        if($isChecked) {
+            // log_checked($myId, null, 1);
+        }
+
+        include('../components/nav_bar.php');
+    }
 ?>

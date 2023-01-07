@@ -325,6 +325,22 @@ function show_notices() {
 
     let activity_list = document.getElementById('activity_list');
     activity_list.style.display = 'block';
+
+    checked_notices();
+}
+
+function checked_notices() {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.querySelector('.menu').outerHTML = this.responseText;
+        }
+    };
+    var formData = new FormData(); 
+    formData.append('MM_insert', 'formchecknotices');
+
+    xmlhttp.open("POST", "logic/start_be.php", true);
+    xmlhttp.send(formData);
 }
 // function clean_search_enviroment() {
 //     document.getElementById("usersresult").innerHTML = "";

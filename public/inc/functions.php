@@ -242,7 +242,7 @@ function log_checked(int $myId, $userId = null , int $status)
   }
   else
   {
-    $query = "UPDATE log SET checked = $status WHERE from_userid = $userId AND to_userid = $myId AND checked = 0";
+    $query = "UPDATE log SET checked = $status WHERE from_userid = $userId AND to_userid = $myId";
   }
   $sql = pg_query($query);
 

@@ -273,6 +273,7 @@
 .menu ul li a:hover {
     color: #666;
 }
+
 .notices {
     width: 15px;
     height: 15px;
@@ -284,17 +285,8 @@
     top: -8px;
     right: -10px;
 }
-.notices_list {
-    min-width: 50px;
-    height: 35px;
-    background-color: red;
-    border-radius: 4px;
-    position: absolute;
-    margin-top: 80px;
-    /* display: none; */
-    z-index: 1;
-}
-.triangulo_notices_list {
+
+.triangle_notices_list {
     width: 0;
     height: 0;
     border-right: 10px solid transparent;
@@ -305,6 +297,24 @@
     margin-top: 25px;
     /* display: none; */
     z-index: 1;
+}
+
+.notices_list {
+    min-width: 50px;
+    height: 35px;
+    background-color: red;
+    color: #FFF;
+    border-radius: 4px;
+    position: absolute;
+    margin-top: 80px;
+    /* display: none; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+.notices_icons {
+    margin: 0 5px;
 }
 /* end to navigation bar */
 
