@@ -44,9 +44,14 @@
                         ];
                         break;
                     case 'follow':
+                        if(following_control($_SESSION['rt_UserId'], $log['fromUserId'])['existing']) {
+                            $actionSeccion = '<input type="button" class="access_button" id="unfollow"  value="Unfollow" onclick="unfollow('. $_SESSION['rt_UserId'].' ,'. $_SESSION['get_user'].')">';
+                        } else {
+                            $actionSeccion = '<input type="button" class="access_button button_blue" id="follow" value="Follow" onclick="follow('. $_SESSION['rt_UserId'].' ,'. $log['fromUserId'].')">';
+                        }
                         $notice_array = [
                             u_all_info('*', $requestFromUserId)['username'].' has started following you', 
-                            '<input type="button" class="access_button button_blue" id="follow" value="Follow" onclick="follow('. $_SESSION['rt_UserId'].' ,'. $log['fromUserId'].')">'
+                            $actionSeccion
                         ];
                         break;
                     case 'comment':
