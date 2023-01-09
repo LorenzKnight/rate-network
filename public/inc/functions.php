@@ -194,6 +194,8 @@ function follow_request(int $myId, int $userId)
 
     $query = "INSERT INTO followers (user_id, is_following, accepted, follow_date) values ($myId, $userId, $status, '$follow_date')";
 	  $sql = pg_query($query);
+  } else {
+    $sql = false;
   }
 
   return $sql;
@@ -205,7 +207,7 @@ function follow_confirm(int $myId, int $userId, int $confirm)
     $query = "UPDATE followers SET accepted = $confirm WHERE user_id = $userId AND is_following = $myId";
     $sql = pg_query($query);
   } else {
-    return false;
+    $sql = false;
   }
 
   return $sql;
@@ -217,7 +219,7 @@ function unfollow(int $myId, int $userId)
     $query_unfollow = "DELETE FROM followers WHERE user_id = $myId AND is_following = $userId AND accepted = 1";
     $sql = pg_query($query_unfollow);
   } else {
-    return false;
+    $sql = false;
   }
 
   return $sql;
@@ -229,7 +231,7 @@ function remove_request(int $myId, int $userId)
     $query_unfollow = "DELETE FROM followers WHERE user_id = $userId AND is_following = $myId AND accepted = 0";
     $sql = pg_query($query_unfollow);
   } else {
-    return false;
+    $sql = false;
   }
 
   return $sql;

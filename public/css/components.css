@@ -716,7 +716,7 @@ a .add_button:hover {
     background-color: #FFF;
     border-radius: 4px;
     margin: 5vh auto;
-    display: none;
+    /* display: none; */
 }
 
 .activity_title {

@@ -334,6 +334,9 @@ function checked_notices() {
     xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             document.querySelector('.menu').outerHTML = this.responseText;
+
+            let notices = document.getElementById('all_notices');
+            notices.addEventListener('click', show_notices);
         }
     };
     var formData = new FormData(); 
