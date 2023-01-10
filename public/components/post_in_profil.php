@@ -6,7 +6,10 @@ if (following_control($_SESSION['rt_UserId'], $_SESSION['get_user'])['accepted']
     {
 ?>
     <div class='post_on_profil'>
-        <?= $post['postId']; ?>
+        <?php //echo $post['postId']; ?>
+        <div class='post_fotos'>
+            <?php include(__DIR__.'/foto_slider.php'); ?>
+        </div>
     </div>
 <?php
     }
