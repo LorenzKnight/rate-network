@@ -32,6 +32,9 @@
         {
             add_comments($userId, $postId, $comment, $comment_date);
 
+            $toUserid = (int)post_all_data($postId)['userId'];
+            insert_log($userId, 'comment', $postId, $toUserid, null, 0);
+
             $requestData['post_id']         = $postId;
             $requestUserData['user_id']     = (int)$userId;
 
@@ -131,13 +134,16 @@
         $requestData['user_id'] = $userId;
         $requestData['post_id'] = $postId;
 
-        $doIrate = count_rates($columns = "*", $requestData);
+        $doIrate = rate_in_post('*', $requestData, ['count_query' => true])["count"];
 
         if($doIrate < 1)
         {
             $returRateBonus = add_rate($userId, $stars, $postId);
 
             update_user_rate($stars, (float)$returRateBonus[0], $postId);
+
+            $toUserid = (int)post_all_data($postId)['userId'];
+            insert_log($userId, 'rate-post', $postId, $toUserid, $stars.' ★', 0);
 
             $requestRateData['post_id'] = $postId;
             $post_rates = rate_in_post('*', $requestRateData, array('order' => 'rate_id desc'));
@@ -172,7 +178,7 @@
             $requestRateNum['post_id'] = $postId;
             $result = [
                 'all_rates'  => $htmlRates,
-                'num_rate'   => count_rates('*', $requestRateNum)
+                'num_rate'   => rate_in_post('*', $requestRateNum, ['count_query' => true])["count"]
             ];
 
             echo json_encode($result);

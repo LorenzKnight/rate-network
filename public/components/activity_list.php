@@ -15,7 +15,7 @@
                 $profilePic = u_all_info('*', $requestFromUserId)['image'] == null || u_all_info('*', $requestFromUserId)['image'] == '' ? 'blank_profile_picture.jpg' : u_all_info('*', $requestFromUserId)['image'];
                 $requestDataIds['comment_id'] = $log['objId'];
 
-                $requestDataComment['comment_id'] = (int)$log['objId'];
+                $requestDataComment['post_id'] = (int)$log['objId'];
         
                 switch ($log['action']) {
                     case 'rate-post':

@@ -43,9 +43,19 @@
         <?php if($isChecked) { ?> 
             <div class="triangle_notices_list" id="triangle_notices_list"></div>
             <div class="notices_list" id="notices_list">
-                <div class="notices_icons"><span>R</span><?= $rates; ?></div>
-                <div class="notices_icons"><span>F</span><?= $allfollow; ?></div>
-                <div class="notices_icons"><span>C</span><?= $comments; ?></div>
+                <?php if($rates) { ?>
+                    <div class="notices_icons"><span>R</span><?= $rates; ?></div>
+                <?php 
+                }
+                if ($allfollow) {
+                ?>
+                    <div class="notices_icons"><span>F</span><?= $allfollow; ?></div>
+                <?php 
+                }
+                if ($comments) {
+                ?>
+                    <div class="notices_icons"><span>C</span><?= $comments; ?></div>
+                <?php } ?>
             </div>
         <?php } ?>
         </li>

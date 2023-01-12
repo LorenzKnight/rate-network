@@ -369,7 +369,7 @@ function rate_in_post($columns = "*", $requestData = array(), array $options = [
 
 		if(empty($queryColumnNames))
 		{
-			return null;
+			return [];
 		}
 		
 		$queryColumnNames = substr($queryColumnNames, 0, -1);
@@ -386,6 +386,11 @@ function rate_in_post($columns = "*", $requestData = array(), array $options = [
 
   //check other conditions
 	$conditions = "";
+
+  if(isset($requestData['user_id']) && !empty($requestData['user_id']))
+	{
+		$conditions .= " and user_id = " . $requestData['user_id']. ' ';
+	}
 
   if(isset($requestData['post_id']) && !empty($requestData['post_id']))
 	{
@@ -427,6 +432,16 @@ function rate_in_post($columns = "*", $requestData = array(), array $options = [
 
   $res = [];
 
+  if(isset($options['count_query'])) {
+    $postRatecount = pg_fetch_assoc($sql);
+
+    foreach($postRatecount as $columnName => $columnValue) {
+      $res[$columnName] = $columnValue;
+    }
+
+    return $res;
+  }
+
   if(!empty($totalPost_rates_list))
   {
     $row_postRates_list = pg_fetch_all($sql);
@@ -453,83 +468,6 @@ function dbRatesColumnNames()
 	return array(
 		"rate_id", "stars", "rate_bonus", "user_id", "to_user_id", "post_id", "comment_id", "rate_date"
 	);
-}
-
-function count_rates($columns = "*", $requestData = array()) : int
-{
-  if(empty($columns))
-	{
-		$columns = "*";
-	}
-
-	if($columns != "*" && !is_array($columns))
-	{
-		$columns = "*";
-	}
-
-	$queryColumnNames = "*";
-	if(is_array($columns))
-	{
-		$queryColumnNames = "";
-		$validColumns = dbRatesColumnNames();
-
-		foreach ($columns as $column) 
-		{
-			if(in_array($column, $validColumns))
-			{
-				$queryColumnNames .= $column.",";
-			}
-		}
-
-		if(empty($queryColumnNames))
-		{
-			return null;
-		}
-		
-		$queryColumnNames = substr($queryColumnNames, 0, -1);
-	}
-
-  $query = "select $queryColumnNames ";
-
-  if(isset($options['count_query']) && $options['count_query'])
-	{
-		$query = "select count(*) ";
-	}
-
-	$query .= "from rates ";
-
-  //check other conditions
-	$conditions = "";
-
-  if(isset($requestData['user_id']) && !empty($requestData['user_id']))
-	{
-		$conditions .= " and user_id = " . $requestData['user_id']. ' ';
-	}
-
-  if(isset($requestData['post_id']) && !empty($requestData['post_id']))
-	{
-		$conditions .= " and post_id = " . $requestData['post_id']. ' ';
-	}
-
-  if(isset($requestData['comment_id']) && !empty($requestData['comment_id']))
-	{
-		$conditions .= " and comment_id = " . $requestData['comment_id']. ' ';
-	}
-
-  if(isset($requestData['to_user_id']) && !empty($requestData['to_user_id']))
-	{
-		$conditions .= " and to_user_id = " . $requestData['to_user_id']. ' ';
-	}
-
-  if(!empty($conditions))
-	{
-		$query .= " where " . substr($conditions, 5);
-	}
-
-  $sql = pg_query($query);
-  $totalPost_rates_list = pg_num_rows($sql);
-
-  return $totalPost_rates_list;
 }
 
 function add_comments($userId, $postId, $comment, $comment_date)
@@ -649,32 +587,6 @@ function comment_in_post($columns = "*", $requestData = array(), array $options 
 
   return $res;
 }
-
-// function comment_in_post2($rId) : array
-// {
-//   $query_postcomment = "SELECT * FROM comments WHERE post_id = $rId ORDER BY comment_id DESC";
-//   $sql = pg_query($query_postcomment);
-//   $totalRows_postcomment = pg_num_rows($sql);
-  
-//   $res = [];
-  
-//   if(!empty($totalRows_postcomment))
-//   {
-//       $row_postcomment = pg_fetch_all($sql);
-
-//       foreach($row_postcomment as $item)
-//       {
-//         $res [] = [
-//             'userId'            => $item['user_id'],
-//             'postId'            => $item['post_id'],
-//             'comment'           => $item['comment'],
-//             'commentDate'       => $item['comment_date']
-//         ];
-//       }
-//   }
-  
-//   return $res;
-// }
 
 function count_comments($columns = "*", $requestData = array()) : int
 {
@@ -1123,8 +1035,8 @@ function read_log($columns = "*", $requestData = array(), array $options = []) :
   {
     $row_loginfo = pg_fetch_all($sql);
     
-    foreach($row_loginfo as $columnData) {
-      
+    foreach($row_loginfo as $columnData)
+    {  
       $res [] = [
         'logId'       => $columnData['log_id'],
         'fromUserId'  => $columnData['from_userid'],
@@ -1135,7 +1047,6 @@ function read_log($columns = "*", $requestData = array(), array $options = []) :
         'checked'     => $columnData['checked'],
         'logDate'     => $columnData['log_date']
       ];
-
     }
   }
 
@@ -1180,7 +1091,7 @@ function brind_post_preview($post_id) : array
   return $res;
 }
 
-function insert_log(int $fromUserid, string $action, int $objId, int $toUserid, string $commentary, int $checked)
+function insert_log(int $fromUserid, string $action, int $objId, int $toUserid, $commentary = null, int $checked)
 {
   $log_date = date("Y-m-d H:i:s");
 
