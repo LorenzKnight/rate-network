@@ -1093,6 +1093,13 @@ function brind_post_preview($post_id) : array
 
 function insert_log(int $fromUserid, string $action, int $objId, int $toUserid, $commentary = null, int $checked)
 {
+  // rate-post
+  // rate-comment
+  // comment
+  // answer-comment
+  // follow-request
+  // follow
+  
   $log_date = date("Y-m-d H:i:s");
 
   $query = "INSERT INTO log (from_userid, action, obj_id, to_userid, commentary, checked, log_date) VALUES ($fromUserid, '$action', $objId, $toUserid, '$commentary', $checked, '$log_date')";

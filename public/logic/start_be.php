@@ -226,6 +226,16 @@
 
         $requestSent = follow_request($myId, $userId);
 
+        $requestData['user_id'] = $userId;
+
+        if(u_all_info("*", $requestData)['status'] == 1) {
+            insert_log($myId, 'follow', 0, $userId, null, 0);
+        }
+        else
+        {
+            insert_log($myId, 'follow-request', 0, $userId, null, 0);
+        }
+
         $_SESSION['get_user'] = $userId;
         $following  = get_followers_and_following($userId);
         $postcount  = count_posts($userId);

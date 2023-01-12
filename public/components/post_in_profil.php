@@ -1,7 +1,7 @@
 <?php //include("components/activity_list.php"); ?>
 
 <?php
-if (following_control($_SESSION['rt_UserId'], $_SESSION['get_user'])['accepted'] || $_SESSION['get_user'] == $_SESSION['rt_UserId']) {
+if (following_control($_SESSION['get_user'], $_SESSION['rt_UserId'])['accepted'] || $_SESSION['get_user'] == $_SESSION['rt_UserId']) {
     foreach($postOnProfil as $post)
     {
 ?>
