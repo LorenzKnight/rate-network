@@ -33,7 +33,7 @@
                     case 'follow-request':
                         if(following_control($log['fromUserId'], $_SESSION['rt_UserId'])['accepted']) {
                             $messageSeccion = 'have started following you';
-                            $actionSeccion = '<input type="button" class="access_button" id="" value="follow back" onclick="follow('. $_SESSION['rt_UserId'].' ,'. $log['fromUserId'].')">';
+                            $actionSeccion = '<input type="button" class="access_button" id="" value="follow back" onclick="follow('. $_SESSION['rt_UserId'].' ,'. $log['fromUserId'].' ,2)">';
                         } else {
                             $messageSeccion = 'sent a request';
                             $actionSeccion = '<input type="button" class="access_button button_blue" id="" value="Confirm" onclick="follow_confirm('. $_SESSION['rt_UserId'].' ,'. $log['fromUserId'].')"> <input type="button" class="access_button" id="" value="Remove" onclick="remove_request('. $_SESSION['rt_UserId'].' ,'. $log['fromUserId'].')">';
@@ -44,10 +44,12 @@
                         ];
                         break;
                     case 'follow':
-                        if(following_control($_SESSION['rt_UserId'], $log['fromUserId'])['existing']) {
-                            $actionSeccion = '<input type="button" class="access_button" id="unfollow"  value="Unfollow" onclick="unfollow('. $_SESSION['rt_UserId'].' ,'. $_SESSION['get_user'].')">';
+                        if(following_control($log['fromUserId'], $_SESSION['rt_UserId'])['existing'] && !following_control($_SESSION['rt_UserId'], $log['fromUserId'])['existing']) {
+                                $actionSeccion = '<input type="button" class="access_button button_blue" id="follow" value="Follow" onclick="follow('. $_SESSION['rt_UserId'].' ,'. $log['fromUserId'].' ,2)">';
+                        } else if(following_control($_SESSION['rt_UserId'], $log['fromUserId'])['existing'] && !following_control($_SESSION['rt_UserId'], $log['fromUserId'])['accepted']) {
+                            $actionSeccion = 'pending';
                         } else {
-                            $actionSeccion = '<input type="button" class="access_button button_blue" id="follow" value="Follow" onclick="follow('. $_SESSION['rt_UserId'].' ,'. $log['fromUserId'].')">';
+                            $actionSeccion = '<input type="button" class="access_button" id="unfollow"  value="Unfollow" onclick="unfollow('. $_SESSION['rt_UserId'].' ,'. $log['fromUserId'].' ,2)">';
                         }
                         $notice_array = [
                             u_all_info('*', $requestFromUserId)['username'].' has started following you', 

@@ -275,6 +275,48 @@
     color: #666;
 }
 
+.menu ul li:hover ul {
+    display: block;
+    animation: keepUp ease-in 8s;
+    /* -webkit-animation: keepUp ease 8s;
+    -moz-animation: keepUp ease 8s;
+    -o-animation: keepUp ease 8s;
+    -ms-animation: keepUp ease 8s; */
+}
+
+@keyframes keepUp {
+    0% {
+        opacity: 0;
+    }
+    5% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.menu ul li ul {
+    width: 180px;
+    /* height: 100px; */
+    background-color: #FFF;
+    border-radius: 4px;
+    box-shadow: 0 0 15px 0 rgba(47, 48, 63, 0.193);
+    display: none;
+    position: absolute;
+    top: 39px;
+    z-index: 1;
+}
+.menu ul li ul a:hover li {
+    background-color: #F0F0F0;
+    color: #000;
+}
+.menu ul li ul a li {
+    width: 100%;
+    /* background-color: red; */
+    text-transform: none;
+}
+
 .notices {
     width: 15px;
     height: 15px;

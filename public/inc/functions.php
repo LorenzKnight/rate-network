@@ -1107,4 +1107,68 @@ function insert_log(int $fromUserid, string $action, int $objId, int $toUserid, 
 		
 	return $sql;
 }
+
+function cipherSimplifyer($my_followers) {
+  // $my_followers = $my_followers.toString();
+      
+  if(strlen($my_followers) >= 5 && strlen($my_followers) < 6)
+  {
+      return substr($my_followers, 0, 2).''._simplifierAfterPoint(substr($my_followers, 2, 5)).'K';
+  }
+  else if(strlen($my_followers) >= 6 && strlen($my_followers) < 7)
+  {
+      return substr($my_followers, 0, 3).''._simplifierAfterPoint(substr($my_followers, 3, 6)).'K';
+  }
+  else if(strlen($my_followers) >= 7 && strlen($my_followers) < 8)
+  {
+      return substr($my_followers, 0, 1).''._simplifierAfterPoint(substr($my_followers, 1, 7)).'M';
+  }
+  else if(strlen($my_followers) >= 8 && strlen($my_followers) < 9)
+  {
+      return substr($my_followers, 0, 2).''._simplifierAfterPoint(substr($my_followers, 1, 8)).'M';
+  }
+  else if(strlen($my_followers) >= 9 && strlen($my_followers) < 10)
+  {
+      return substr($my_followers, 0, 3).''._simplifierAfterPoint(substr($my_followers, 1, 9)).'M';
+  }
+  else
+  {
+      return $my_followers;
+  }
+}
+
+function _simplifierAfterPoint($my_followers) {
+
+  if(($my_followers > 99 && $my_followers < 200) || ($my_followers > 99999 && $my_followers < 200000)){
+      return '.'+1;
+  }
+  else if(($my_followers > 199 && $my_followers < 300) || ($my_followers > 199999 && $my_followers < 300000)){
+      return '.'+2;
+  }
+  else if(($my_followers > 299 && $my_followers < 400) || ($my_followers > 299999 && $my_followers < 400000)){
+      return '.'+3;
+  }
+  else if(($my_followers > 399 && $my_followers < 500) || ($my_followers > 399999 && $my_followers < 500000)){
+      return '.'+4;
+  }
+  else if(($my_followers > 499 && $my_followers < 600) || ($my_followers > 499999 && $my_followers < 600000)){
+      return '.'+5;
+  }
+  else if(($my_followers > 599 && $my_followers < 700) || ($my_followers > 599999 && $my_followers < 700000)){
+      return '.'+6;
+  }
+  else if(($my_followers > 699 && $my_followers < 800) || ($my_followers > 699999 && $my_followers < 800000)){
+      return '.'+7;
+  }
+  else if(($my_followers > 799 && $my_followers < 900) || ($my_followers > 799999 && $my_followers < 900000)){
+      return '.'+8;
+  }
+  else if(($my_followers > 899 && $my_followers < 1000) || ($my_followers > 899999 && $my_followers < 1000000)){
+      return '.'+9;
+  }
+  else
+  {
+      return '';
+  }
+}
 ?>

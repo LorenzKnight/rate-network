@@ -5,7 +5,7 @@
 
             if (!following_control($_SESSION['rt_UserId'], $_SESSION['get_user'])['existing']) {
             ?>
-                <input type="button" class="access_button button_blue" id="follow" value="Follow" onclick="follow(<?= $_SESSION['rt_UserId'].' ,'. $_SESSION['get_user']; ?>)">
+                <input type="button" class="access_button button_blue" id="follow" value="Follow" onclick="follow(<?= $_SESSION['rt_UserId'].' ,'.$_SESSION['get_user']; ?>, 1)">
                 
             <?php
             } else if (!following_control($_SESSION['rt_UserId'], $_SESSION['get_user'])['accepted']) {
@@ -14,7 +14,7 @@
             <?php
             } else {
             ?>
-                <input type="button" class="access_button" id="unfollow"  value="Unfollow" onclick="unfollow(<?= $_SESSION['rt_UserId'].' ,'. $_SESSION['get_user']; ?>)">
+                <input type="button" class="access_button" id="unfollow"  value="Unfollow" onclick="unfollow(<?= $_SESSION['rt_UserId'].' ,'. $_SESSION['get_user']; ?>, 1)">
             <?php
             }
             ?>
@@ -32,7 +32,7 @@
     <div class="follower_container">
         <?php //var_dump($postcount['allpost']); ?>
         <span id="posts" style="font-weight: 600;"><?= $postcount['allpost'] ?? ''; ?></span> posts
-        <span id="followers" style="font-weight: 600; margin-left: 50px;"><?= $following['followers'] ?? ''; ?></span> followers
-        <span id="following" style="font-weight: 600; margin-left: 50px;"><?= $following['following'] ?? ''; ?></span> follow
+        <span id="followers" style="font-weight: 600; margin-left: 50px;"><?= cipherSimplifyer($following['followers']) ?? ''; ?></span> followers
+        <span id="following" style="font-weight: 600; margin-left: 50px;"><?= cipherSimplifyer($following['following']) ?? ''; ?></span> follow
     </div>
 </div>

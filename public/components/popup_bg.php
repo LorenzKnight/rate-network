@@ -27,7 +27,7 @@
         <!-- zoon comments -->
         <div class="comment_fotos_popup" id="comment_fotos_popup">
             <div class="fotos_content">
-                <?php //include('components/foto_slider.php'); ?>
+                <?php //include(__DIR__.'/foto_slider.php'); ?>
             </div>
             <div class="comments_content post_container">
                 <div class="popup_profile" id="popup_profile">

@@ -59,6 +59,11 @@
             </div>
         <?php } ?>
         </li>
-        <li><a href="start.php?userID=<?= $userName; ?>">Profile</a></li>
+        <li style="position: relative;"><a href="start.php?userID=<?= $userName; ?>">My Profile</a>
+            <ul>
+                <a href="#"><li style="border-radius: 4px 4px 0 0;">option 1</li></a>
+                <a href="logout.php"><li style="color: red; border-radius: 0 0 4px 4px;">Log out</li></a>
+            </ul>
+        </li>
     </ul>
 </div>

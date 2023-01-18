@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     initButtons();
+    initSlides();
 });
 
 function initButtons() {
@@ -99,6 +100,12 @@ function showcomments(postId) {
 
             let num_comments = document.querySelector('#bg_popup #num_comments');
             num_comments.innerHTML = response.num_comments;
+
+            let fotos_content = document.querySelector('.fotos_content');
+            fotos_content.innerHTML = response.post_images;
+            
+            initSlides();
+            initButtons();
         }
     };
     var formData = new FormData(); 
@@ -185,6 +192,9 @@ function ratePost(event) {
 
                 let num_rate = document.querySelector('[data-postID="'+postId+'"] #num_rate');
                 num_rate.innerHTML = response.num_rate;
+
+                let rate_popup = document.querySelector('#rate_popup'+postId);
+                rate_popup.innerHTML = response.rated_post;
             }
         }
     };
@@ -266,7 +276,6 @@ function initSlides() {
         dots[slideInitIndex-1].className += " active";
     });
 }
-initSlides();
 
 function showSlides(event) {
 

@@ -36,10 +36,8 @@ foreach($publications as $post)
             <div class='post_rates' id='post_rates'>
                 <?php
                     $requestRateList['post_id'] = $post['postId'];
-
                     $post_rates = rate_in_post('*', $requestRateList, array('order' => 'rate_id desc'));
                 ?>
-                <?php //echo rate_in_post('*', $requestData, ['count_query' => true])["count"]; ?>
                 <span class="">★</span> <span id="num_rate"><?= rate_in_post('*', $requestRateList, ['count_query' => true])["count"]; ?></span> people rate your picture(s)
                 <div class="post_rate_list" id="post_rate_list">
                     <?php
@@ -65,7 +63,7 @@ foreach($publications as $post)
                         </div>
                     </div>
                     <?php
-                    }
+                        }
                     ?>
                 </div>
             </div>

@@ -86,6 +86,36 @@
             $htmlPostProfile .= '</div>';
         $htmlPostProfile .= '</div>';
 
+        // post slider
+        $htmlPostSlider = '';
+        
+        $post_slider = show_post_images($postId);
+
+        $htmlPostSlider .= '<div class="slideshow-container">';
+
+            foreach($post_slider as $pic_data)
+            {
+                $htmlPostSlider .= '<div class="mySlides fade">';
+                    $htmlPostSlider .= '<img src="images/'.$pic_data['name'].'" class="slider_foto">';
+                $htmlPostSlider .= '</div>';
+
+            }
+
+            $htmlPostSlider .= '<a class="prev" data-direction="-1">&#10094;</a>';
+
+            if($pic_data['total_pic'] > 1) {
+                $htmlPostSlider .= '<a class="next" data-direction="1">&#10095;</a>';
+            }
+
+            $htmlPostSlider .= '<div style="text-align:center; margin-top: 5px;">';
+
+            foreach($post_slider as $pic_data)
+            {
+                $htmlPostSlider .= '<span class="dot"></span>';
+            }
+            $htmlPostSlider .= '</div>';
+        $htmlPostSlider .= '</div>';
+        $htmlPostSlider .= '<br>';
 
         // post comments list
         $htmlResult = '';
@@ -120,7 +150,8 @@
         $result = [
             'post_author'           => $htmlPostProfile,
             'comments_html'         => $htmlResult,
-            'num_comments'          => count_comments('*', $requestData)
+            'num_comments'          => count_comments('*', $requestData),
+            'post_images'           => $htmlPostSlider
         ];
 
         echo json_encode($result);
@@ -175,10 +206,18 @@
             }
             $htmlRates .='</div>';
 
+            $htmlRateRefresh = '';
+            
+            for($i = 1; $i < 6; $i++) {
+                $rated = $post_rates[0]['stars'] >= $i ? 'star_checked' : ''; 
+                $htmlRateRefresh .='<span class="'.$rated.'" style="font-size: 18px;">★</span>';
+            }
+
             $requestRateNum['post_id'] = $postId;
             $result = [
                 'all_rates'  => $htmlRates,
-                'num_rate'   => rate_in_post('*', $requestRateNum, ['count_query' => true])["count"]
+                'num_rate'   => rate_in_post('*', $requestRateNum, ['count_query' => true])["count"],
+                'rated_post' => $htmlRateRefresh
             ];
 
             echo json_encode($result);
@@ -223,6 +262,7 @@
     if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formfollowrequest")) {
         $myId       = $_POST['my_Id'];
         $userId     = $_POST['user_Id'];
+        $where      = $_POST['where'];
 
         $requestSent = follow_request($myId, $userId);
 
@@ -240,12 +280,19 @@
         $following  = get_followers_and_following($userId);
         $postcount  = count_posts($userId);
         
-        include('../components/profile_access.php');
+        if($where == 1) {
+            include('../components/profile_access.php');
+        }
+
+        if($where == 2) {
+            include('../components/activity_list.php');
+        }
     }
 
     if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formunfollow")) {
         $myId       = $_POST['my_Id'];
         $userId     = $_POST['user_Id'];
+        $where      = $_POST['where'];
 
         $requestSent = unfollow($myId, $userId);
 
@@ -253,7 +300,13 @@
         $following  = get_followers_and_following($userId);
         $postcount  = count_posts($userId);
 
-        include('../components/profile_access.php');
+        if($where == 1) {
+            include('../components/profile_access.php');
+        }
+        // var_dump($where.' AQUI');
+        if($where == 2) {
+            include('../components/activity_list.php');
+        }
     }
 
     if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formfollowconfirm")) {
@@ -277,6 +330,29 @@
         
         include('../components/activity_list.php');
     }
+
+    // if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formfollowback")) {
+    //     $myId       = $_POST['my_Id'];
+    //     $userId     = $_POST['user_Id'];
+
+    //     $requestSent = follow_request($myId, $userId);
+
+    //     $requestData['user_id'] = $userId;
+
+    //     if(u_all_info("*", $requestData)['status'] == 1) {
+    //         insert_log($myId, 'follow', 0, $userId, null, 0);
+    //     }
+    //     else
+    //     {
+    //         insert_log($myId, 'follow-request', 0, $userId, null, 0);
+    //     }
+
+    //     $_SESSION['get_user'] = $userId;
+    //     $following  = get_followers_and_following($userId);
+    //     $postcount  = count_posts($userId);
+
+    //     include('../components/activity_list.php');
+    // }
 
     if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formchecknotices")) {
         $myId = $_SESSION['rt_UserId'];
