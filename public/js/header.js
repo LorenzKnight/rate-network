@@ -220,3 +220,11 @@ function _simplifierAfterPoint(my_followers) {
         return '';
     }
 }
+
+function followers() {
+    console.log('followers');
+}
+
+function i_follow() {
+    console.log('i follow');
+}

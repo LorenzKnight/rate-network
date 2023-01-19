@@ -91,12 +91,12 @@
         
         $post_slider = show_post_images($postId);
 
-        $htmlPostSlider .= '<div class="slideshow-container">';
+        $htmlPostSlider .= '<div class="slideshow-container" style="height: 600px;">';
 
             foreach($post_slider as $pic_data)
             {
                 $htmlPostSlider .= '<div class="mySlides fade">';
-                    $htmlPostSlider .= '<img src="images/'.$pic_data['name'].'" class="slider_foto">';
+                    $htmlPostSlider .= '<img src="images/'.$pic_data['name'].'" class="slider_foto size_on_zoon">';
                 $htmlPostSlider .= '</div>';
 
             }

@@ -7,7 +7,7 @@
         <?php
             $requestLogData['to_userid'] = $_SESSION['rt_UserId'];
             $requestLogData['checked'] = 2;
-            $logs = read_log('*', $requestLogData);
+            $logs = read_log('*', $requestLogData, ['order' => 'log_id desc']);
 
             foreach($logs as $log) {
 

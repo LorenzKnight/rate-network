@@ -10,7 +10,7 @@
             $nameFieldStatus="status1"; // show name of uploaded file
             $progressBarName="progressBar1"; // Progressbar
             $maximumFileSize="0"; // in Bytes, "0" for unlimited. 1000000 Bytes = 1000Kb = 1Mb
-            $allowedFileTypes="jpg,png"; // for example "jpg,doc,png", separated by commas, if you put "0" you allow all types
+            $allowedFileTypes="jpg,jpeg,png"; // for example "jpg,doc,png", separated by commas, if you put "0" you allow all types
             $limitWidth="0"; // In pixels, "0" means any size allowed
             $limitHigh="0"; // In pixels, "0" means any size allowed
                                                 

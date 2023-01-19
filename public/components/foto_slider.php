@@ -1,4 +1,4 @@
-<div class="slideshow-container">
+<div class="slideshow-container" style="max-width: 100%;">
 <?php
     $images_list = show_post_images($post['postId']);
 
