@@ -1,5 +1,8 @@
 <div class="bg_popup" id="bg_popup" data-postID='<?= $post['postId']; ?>'>
     <div class="bg_container" id="bg_container">
+        <!-- follower list popup -->
+        <?php include('components/follower_list.php'); ?>
+        
         <!-- activity list popup -->
         <?php include('components/activity_list.php'); ?>
 
@@ -47,8 +50,6 @@
         </div>
 
         <!-- post form -->
-        <div class="post_form" id="post_form">
-            <?php include('components/modal_create_post.php'); ?>
-        </div>
+        <?php include('components/modal_create_post.php'); ?>
     </div>
 </div>

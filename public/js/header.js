@@ -223,6 +223,20 @@ function _simplifierAfterPoint(my_followers) {
 
 function followers() {
     console.log('followers');
+    let bg_popup = document.getElementById('bg_popup');
+    bg_popup.style.display = 'block';
+
+    var displaySize = {
+        "width": "450px",
+        "height": "600px",
+        "margin": "5vh auto"
+    };
+     
+    var bgContainer = document.getElementById("bg_container");
+    Object.assign(bgContainer.style, displaySize);
+
+    let follower_list = document.getElementById('followers_list');
+    follower_list.style.display = 'block';
 }
 
 function i_follow() {

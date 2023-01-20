@@ -278,6 +278,135 @@ function post_all_data(int $postId) : array
   return $res;
 }
 
+function followers($columns = "*", $requestData = array(), array $options = []) : array
+{
+  if(empty($columns))
+	{
+		$columns = "*";
+	}
+
+	if($columns != "*" && !is_array($columns))
+	{
+		$columns = "*";
+	}
+
+	$queryColumnNames = "*";
+	if(is_array($columns))
+	{
+		$queryColumnNames = "";
+		$validColumns = dbFollowersColumnNames();
+
+		foreach ($columns as $column) 
+		{
+			if(in_array($column, $validColumns))
+			{
+				$queryColumnNames .= $column.",";
+			}
+		}
+
+		if(empty($queryColumnNames))
+		{
+			return [];
+		}
+		
+		$queryColumnNames = substr($queryColumnNames, 0, -1);
+	}
+
+  $query = "select $queryColumnNames ";
+
+  if(isset($options['count_query']) && $options['count_query'])
+	{
+		$query = "select count(*) ";
+	}
+
+	$query .= "from followers ";
+
+  // check other conditions
+	$conditions = "";
+
+  if(isset($requestData['user_id']) && !empty($requestData['user_id']))
+	{
+		$conditions .= " and user_id = " . $requestData['user_id']. ' ';
+	}
+
+  if(isset($requestData['is_following']) && !empty($requestData['is_following']))
+	{
+		$conditions .= " and is_following = " . $requestData['is_following']. ' ';
+	}
+
+  if(!empty($conditions))
+	{
+		$query .= " where " . substr($conditions, 5);
+	}
+
+  // set order
+  // Ex: read_log('*', $requestData, ['order' => 'log_id desc']);
+  if(!isset($options['count_query']))
+  {
+    $query .= "order by ";
+    if(isset($options['order']))
+    {
+      $query .= $options['order'];
+    } 
+    else
+    {
+      $query .= "follow_id asc";
+    }
+  }
+
+  // set limit
+  if(isset($options['limit']) && !empty($options['limit']))
+  {
+    $query .= " limit " . intval($options['limit']);
+  }
+
+  if(isset($options['echo_query']) && $options['echo_query'])
+  {
+    echo "Q: ".$query."<br>\t\n";
+  }
+
+  $sql = pg_query($query);
+  $totalRow_followers = pg_num_rows($sql);
+  
+  $res = [];
+
+  if(isset($options['count_query'])) {
+    $logcount = pg_fetch_assoc($sql);
+
+    foreach($logcount as $columnName => $columnValue) {
+      $res[$columnName] = $columnValue;
+    }
+
+    return $res;
+  }
+
+  if(!empty($totalRow_followers))
+  {
+    $row_followers = pg_fetch_all($sql);
+    
+    foreach($row_followers as $columnData)
+    {  
+      $res [] = [
+        'followId'        => $columnData['follow_id'],
+        'userId'          => $columnData['user_id'],
+        'isFollowing'     => $columnData['is_following'],
+        'accepted'        => $columnData['accepted'],
+        'condition'       => $columnData['condition'],
+        'followDate'      => $columnData['follow_date']
+      ];
+    }
+  }
+
+  return $res;
+}
+
+function dbFollowersColumnNames()
+{
+	return array(
+		"follow_id", "user_id", "is_following", "accepted", "condition", "follow_date"
+	);
+}
+
 function followers_list(int $userId)
 {
   $query = "SELECT * FROM followers WHERE user_id = $userId";

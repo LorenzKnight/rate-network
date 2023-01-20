@@ -70,17 +70,17 @@
                         break;
                 }
         ?>
-            <li>
-                <div class="x_small_profile_sphere">
-                    <img src="pic/<?= $profilePic; ?>" class="x_small_profile_pic">
-                </div>
-                <div class="activity_desc">
-                    <?= $notice_array[0]; ?>
-                </div>
-                <div class="activity_action">
-                    <?= $notice_array[1]; ?>
-                </div>
-            </li>
+                <li>
+                    <div class="x_small_profile_sphere">
+                        <img src="pic/<?= $profilePic; ?>" class="x_small_profile_pic">
+                    </div>
+                    <div class="activity_desc">
+                        <?= $notice_array[0]; ?>
+                    </div>
+                    <div class="activity_action">
+                        <?= $notice_array[1]; ?>
+                    </div>
+                </li>
         <?php
             }
         ?>
