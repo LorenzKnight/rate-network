@@ -231,6 +231,12 @@ function close_popup() {
 
     var activity_list = document.getElementById('activity_list');
     activity_list.style.display = 'none';
+
+    var followers_list = document.getElementById('followers_list');
+    followers_list.style.display = 'none';
+
+    var list_i_follow = document.getElementById('list_i_follow');
+    list_i_follow.style.display = 'none';
 }
 
 function fyllUp(star)
