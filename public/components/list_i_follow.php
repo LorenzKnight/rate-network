@@ -1,23 +1,23 @@
-<div class="followers_list" id="followers_list">
-    <div class="followers_title">
-        Followers
+<div class="list_i_follow" id="list_i_follow">
+    <div class="list_i_follow_title">
+        Follow
     </div>
-    <div class="followers_container">
+    <div class="list_i_follow_container">
         <ul>
         <?php
             if (isset($_GET['userID'])) {
                 $requestUser['username'] = $_GET['userID'];
                 $get_userId = u_all_info('*', $requestUser)['user_id'];
                 
-                $followersRequest['is_following'] = $get_userId;
+                $followRequest['user_id'] = $get_userId;
             } else {
-                $followersRequest['is_following'] = $_SESSION['rt_UserId'];
+                $followRequest['user_id'] = $_SESSION['rt_UserId'];
             }
-            $followers_list = followers('*', $followersRequest);
+            $follow_list = followers('*', $followRequest);
 
-            foreach($followers_list as $followers)
+            foreach($follow_list as $follow)
             {
-                $userRequest['user_id'] = $followers['userId'];
+                $userRequest['user_id'] = $follow['isFollowing'];
                 $thisUser = u_all_info('*', $userRequest);
         ?>
             <li>
@@ -33,7 +33,7 @@
                     <?= $thisUser['name'].' '.$thisUser['surname']; ?>
                 </div>
                 <div>
-                    <input type="button" class="access_button" id="" value="remove" onclick="follow()">
+                    <input type="button" class="access_button" id="" value="follow" onclick="follow()">
                 </div>
             </li>
         <?php

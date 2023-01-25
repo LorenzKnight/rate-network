@@ -241,4 +241,18 @@ function followers() {
 
 function i_follow() {
     console.log('i follow');
+    let bg_popup = document.getElementById('bg_popup');
+    bg_popup.style.display = 'block';
+
+    var displaySize = {
+        "width": "450px",
+        "height": "600px",
+        "margin": "5vh auto"
+    };
+     
+    var bgContainer = document.getElementById("bg_container");
+    Object.assign(bgContainer.style, displaySize);
+
+    let list_i_follow = document.getElementById('list_i_follow');
+    list_i_follow.style.display = 'block';
 }

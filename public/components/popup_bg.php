@@ -2,7 +2,10 @@
     <div class="bg_container" id="bg_container">
         <!-- follower list popup -->
         <?php include('components/follower_list.php'); ?>
-        
+
+        <!-- list i follow popup -->
+        <?php include('components/list_i_follow.php'); ?>
+
         <!-- activity list popup -->
         <?php include('components/activity_list.php'); ?>
 
