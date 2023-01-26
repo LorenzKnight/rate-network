@@ -1,5 +1,6 @@
 <?php 
     require_once __DIR__ .'/../connections/conexion.php';
+    include('inc/security.php');
 
     if (isset($_GET['userID'])) {
         if (!isset($_SESSION)) {
@@ -16,10 +17,14 @@
 
     $followers_list = followers_list($_SESSION['rt_UserId']);
     $followers_list[] = (int)$_SESSION['rt_UserId'];
-    
     $publications   = post_wall_profile($followers_list);
 
     $postOnProfil   = post_wall_profile($_SESSION['get_user']);
+
+    $requestMyList['is_following'] = followers_list($_SESSION['rt_UserId']);
+    $requestMyList['isnt_user_id'] = $_SESSION['rt_UserId'];
+    $suggestions = followers('*', $requestMyList);
+
 
     
     if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "formcomments")) {

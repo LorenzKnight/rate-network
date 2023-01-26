@@ -263,7 +263,7 @@ function fyllOut(star)
 let slideInitIndex = 1;
 
 function initSlides() {
-    let slides_container = document.querySelectorAll(".slideshow-container");
+    let slides_container = document.querySelectorAll(".slideshow-container:not(.active)");
     slides_container.forEach((element)=>{
         element.setAttribute('slideIndex', slideInitIndex);
         let slides = element.getElementsByClassName("mySlides");
@@ -280,6 +280,7 @@ function initSlides() {
 
         slides[slideInitIndex-1].style.display = "block";
         dots[slideInitIndex-1].className += " active";
+        element.className += " active";
     });
 }
 

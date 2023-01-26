@@ -324,14 +324,28 @@ function followers($columns = "*", $requestData = array(), array $options = []) 
   // check other conditions
 	$conditions = "";
 
+
+
   if(isset($requestData['user_id']) && !empty($requestData['user_id']))
 	{
 		$conditions .= " and user_id = " . $requestData['user_id']. ' ';
 	}
 
-  if(isset($requestData['is_following']) && !empty($requestData['is_following']))
+  if(isset($requestData['is_following']) && !empty($requestData['is_following']) && is_array($requestData['is_following']))
+  {
+    $selectedData = json_encode($requestData['is_following']);
+    $selectedData = substr($selectedData, 1, -1);
+    
+    $conditions .= " and is_following in (" . $selectedData. ') ';
+  }
+  else if(isset($requestData['is_following']) && !empty($requestData['is_following']) && !is_array($requestData['is_following']))
 	{
 		$conditions .= " and is_following = " . $requestData['is_following']. ' ';
+	}
+
+  if(isset($requestData['isnt_user_id']) && !empty($requestData['isnt_user_id']))
+	{
+		$conditions .= " and user_id != " . $requestData['isnt_user_id']. ' ';
 	}
 
   if(!empty($conditions))
@@ -353,6 +367,12 @@ function followers($columns = "*", $requestData = array(), array $options = []) 
       $query .= "follow_id asc";
     }
   }
+
+  // OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS
+  // if(isset($options['off_user_id']))
+  // {
+  //   $conditions .= " and user_id != " . $requestData['isnt_user_id']. ' ';
+  // }
 
   // set limit
   if(isset($options['limit']) && !empty($options['limit']))
@@ -1300,4 +1320,32 @@ function _simplifierAfterPoint($my_followers) {
       return '';
   }
 }
+
+// function suggestionsToFollow($userId) : Array
+// {
+//   $suggestions = "SELECT * FROM followers WHERE is_following = $userId AND accepted = 1";
+//   $sql = pg_query($suggestions);
+//   $totalRow_suggestions = pg_num_rows($sql);
+  
+//   $res = [];
+
+//   if(!empty($totalRow_suggestions))
+//   {
+//     $row_suggestions = pg_fetch_all($sql);
+    
+//     foreach($row_suggestions as $columnData)
+//     {  
+//       $res [] = [
+//         'followId'        => $columnData['follow_id'],
+//         'userId'          => $columnData['user_id'],
+//         'isFollowing'     => $columnData['is_following'],
+//         'accepted'        => $columnData['accepted'],
+//         'condition'       => $columnData['condition'],
+//         'followDate'      => $columnData['follow_date']
+//       ];
+//     }
+//   }
+
+//   return $res;
+// }
 ?>

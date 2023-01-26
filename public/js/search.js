@@ -34,6 +34,8 @@ function search() {
             var usersData = [];
             usersData.push(data[i].name.toLowerCase());
             usersData.push(data[i].surname.toLowerCase());
+            usersData.push(data[i].name.toLowerCase()+' '+data[i].surname.toLowerCase());
+            usersData.push(data[i].username.toLowerCase());
             
             for (e=0; e < usersData.length; e++) {
                 if (usersData[e].indexOf(searchUser) > -1 && !isAdded) {
