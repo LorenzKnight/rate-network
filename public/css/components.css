@@ -537,7 +537,8 @@
     align-items: center;
 }
 .popup_profile_name {
-    width: 68%;
+    /* width: 68%; */
+    flex: auto;
     /* background-color: red; */
     padding: 0 15px;
 }

@@ -1,6 +1,6 @@
 <?php 
     require_once __DIR__ .'/../connections/conexion.php';
-    include('inc/security.php');
+    include(__DIR__ .'/../inc/security.php');
 
     if (isset($_GET['userID'])) {
         if (!isset($_SESSION)) {

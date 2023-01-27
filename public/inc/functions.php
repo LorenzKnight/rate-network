@@ -346,6 +346,7 @@ function followers($columns = "*", $requestData = array(), array $options = []) 
   if(isset($requestData['isnt_user_id']) && !empty($requestData['isnt_user_id']))
 	{
 		$conditions .= " and user_id != " . $requestData['isnt_user_id']. ' ';
+    $conditions .= " and is_following not in (select user_id from followers where user_id = " . $requestData['isnt_user_id']. ') ';
 	}
 
   if(!empty($conditions))
@@ -368,18 +369,13 @@ function followers($columns = "*", $requestData = array(), array $options = []) 
     }
   }
 
-  // OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS OBS
-  // if(isset($options['off_user_id']))
-  // {
-  //   $conditions .= " and user_id != " . $requestData['isnt_user_id']. ' ';
-  // }
-
   // set limit
   if(isset($options['limit']) && !empty($options['limit']))
   {
     $query .= " limit " . intval($options['limit']);
   }
 
+  // ex. $suggestions = followers('*', $requestMyList, ['echo_query' => true]);
   if(isset($options['echo_query']) && $options['echo_query'])
   {
     echo "Q: ".$query."<br>\t\n";
@@ -1062,7 +1058,7 @@ function read_log($columns = "*", $requestData = array(), array $options = []) :
 		{
 			if(in_array($column, $validColumns))
 			{
-				$queryColumnNames .= $column.",";
+				$queryColumnNames .= $column.", ";
 			}
 		}
 
@@ -1071,14 +1067,21 @@ function read_log($columns = "*", $requestData = array(), array $options = []) :
 			return [];
 		}
 		
-		$queryColumnNames = substr($queryColumnNames, 0, -1);
+		$queryColumnNames = substr($queryColumnNames, 0, -2);
 	}
 
   $query = "select $queryColumnNames ";
 
   if(isset($options['count_query']) && $options['count_query'])
 	{
-		$query = "select count(*) ";
+    if(isset($options['group_by']))
+    {
+      $query = "select count(distinct from_userid) ";
+    }
+    else
+    {
+      $query = "select count(*) ";
+    }
 	}
 
 	$query .= "from log ";
@@ -1139,6 +1142,11 @@ function read_log($columns = "*", $requestData = array(), array $options = []) :
 		$query .= " where " . substr($conditions, 5);
 	}
 
+  if(isset($options['group_by']))
+  {
+    $query .= " group by " . $queryColumnNames. ' ';
+  }
+
   // set order
   // Ex: read_log('*', $requestData, ['order' => 'log_id asc']);
   if(!isset($options['count_query']))
@@ -1172,7 +1180,10 @@ function read_log($columns = "*", $requestData = array(), array $options = []) :
 
   if(isset($options['count_query'])) {
     $logcount = pg_fetch_assoc($sql);
-
+    if(!$logcount)
+    {
+      return ['count' => 0];
+    }
     foreach($logcount as $columnName => $columnValue) {
       $res[$columnName] = $columnValue;
     }
@@ -1180,22 +1191,11 @@ function read_log($columns = "*", $requestData = array(), array $options = []) :
     return $res;
   }
 
-  if(!empty($totalRow_loginfo))
-  {
+  if(!empty($totalRow_loginfo)) {
     $row_loginfo = pg_fetch_all($sql);
-    
-    foreach($row_loginfo as $columnData)
-    {  
-      $res [] = [
-        'logId'       => $columnData['log_id'],
-        'fromUserId'  => $columnData['from_userid'],
-        'action'      => $columnData['action'],
-        'objId'       => $columnData['obj_id'],
-        'toUserId'    => $columnData['to_userid'],
-        'commentary'  => $columnData['commentary'],
-        'checked'     => $columnData['checked'],
-        'logDate'     => $columnData['log_date']
-      ];
+
+    foreach($row_loginfo as $column => $columnData) {
+      $res[$column] = $columnData;
     }
   }
 
@@ -1205,7 +1205,7 @@ function read_log($columns = "*", $requestData = array(), array $options = []) :
 function dbLogColumnNames() 
 {
   return array(
-		"log_id", "user_id", "action", "obj_id", "commentary", "checked", "log_date"
+		"log_id", "from_userid", "action", "obj_id", "to_userid", "commentary", "checked", "log_date"
 	);
 }
 
@@ -1320,32 +1320,4 @@ function _simplifierAfterPoint($my_followers) {
       return '';
   }
 }
-
-// function suggestionsToFollow($userId) : Array
-// {
-//   $suggestions = "SELECT * FROM followers WHERE is_following = $userId AND accepted = 1";
-//   $sql = pg_query($suggestions);
-//   $totalRow_suggestions = pg_num_rows($sql);
-  
-//   $res = [];
-
-//   if(!empty($totalRow_suggestions))
-//   {
-//     $row_suggestions = pg_fetch_all($sql);
-    
-//     foreach($row_suggestions as $columnData)
-//     {  
-//       $res [] = [
-//         'followId'        => $columnData['follow_id'],
-//         'userId'          => $columnData['user_id'],
-//         'isFollowing'     => $columnData['is_following'],
-//         'accepted'        => $columnData['accepted'],
-//         'condition'       => $columnData['condition'],
-//         'followDate'      => $columnData['follow_date']
-//       ];
-//     }
-//   }
-
-//   return $res;
-// }
 ?>

@@ -3,21 +3,23 @@
     <?php
     foreach($suggestions as $sugg)
     {
-        $requestUser['user_id'] = $sugg['userId'];
-        $get_user = u_all_info('*', $requestUser);
+        $requestUserSugg['user_id'] = $sugg['userId'];
+        $get_user = u_all_info('*', $requestUserSugg);
     ?>
         <ul>
-            <a href='#' onclick='goToUser("<?= $get_user["username"]; ?>")'>
+            
                 <li>
                     <div class='x_small_profile_sphere'>
                         <?php $profilePic = $get_user["image"] == null || $get_user["image"] == '' ? 'blank_profile_picture.jpg' : $get_user["image"] ; ?>
                         <img src='pic/<?= $profilePic; ?>' class='x_small_profile_pic'>
                     </div>
                     <div class='popup_profile_name'>
-                        <?= $get_user['name'].' '.$get_user['surname']; ?>
+                        <a href='#' onclick="goToUser('<?= $get_user['username']; ?>')">
+                            <?= $get_user['username']; ?> <!-- <a href='#'>follow</a> -->
+                        </a>
                     </div>
                 </li>
-            </a>
+            
         </ul>
     <?php
     }

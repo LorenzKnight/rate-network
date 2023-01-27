@@ -14,12 +14,12 @@
     $requestFollow['to_userid'] = $_SESSION['rt_UserId'];
     $requestFollow['action'] = 'follow';
     $requestFollow['checked'] = 0;
-    $follow = read_log('*', $requestFollow, ['count_query' => true])["count"];
+    $follow = read_log(['from_userid', 'obj_id', 'action'], $requestFollow, ['count_query' => true, 'group_by' => true])["count"];
 
     $followRequest['to_userid'] = $_SESSION['rt_UserId'];
     $followRequest['action'] = 'follow-request';
     $followRequest['checked'] = 0;
-    $requests = read_log('*', $followRequest, ['count_query' => true])["count"];
+    $requests = read_log(['from_userid', 'obj_id', 'action'], $followRequest, ['count_query' => true, 'group_by' => true])["count"];
 
     $allfollow = $follow + $requests;
 

@@ -33,7 +33,7 @@
                     <?= $thisUser['name'].' '.$thisUser['surname']; ?>
                 </div>
                 <div>
-                    <input type="button" class="access_button" id="" value="follow" onclick="follow()">
+                    <input type="button" class="access_button" id="" value="follow" onclick="">
                 </div>
             </li>
         <?php
