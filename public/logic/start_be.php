@@ -308,9 +308,14 @@
         if($where == 1) {
             include('../components/profile_access.php');
         }
-        // var_dump($where.' AQUI');
         if($where == 2) {
             include('../components/activity_list.php');
+        }
+        if($where == 3) {
+            include('../components/list_i_follow.php');
+        }
+        if($where == 4) {
+            include('../components/follower_list.php');
         }
     }
 

@@ -85,15 +85,19 @@ function unfollow(myId, userId, where) {
         if (this.readyState == 4 && this.status == 200) {
             if (where == 1) {
                 document.querySelector('.profile_access').outerHTML = this.responseText;
-            } else {
+            } else if (where == 2) {
                 document.querySelector('.activity_list').outerHTML = this.responseText;
+            } else if (where == 3) {
+                document.querySelector('.list_i_follow').outerHTML = this.responseText;
+
+                let list_i_follow = document.getElementById('list_i_follow');
+                list_i_follow.style.display = 'block';
+            } else if (where == 4) {
+                document.querySelector('.followers_list').outerHTML = this.responseText;
+
+                let followers_list = document.getElementById('followers_list');
+                followers_list.style.display = 'block';
             }
-
-            // var bg_popup = document.getElementById('bg_popup');
-            // bg_popup.style.display = 'none';
-
-            // var pending_menu = document.getElementById('pending_menu');
-            // pending_menu.style.display = 'none';
         }
     };
     var formData = new FormData(); 

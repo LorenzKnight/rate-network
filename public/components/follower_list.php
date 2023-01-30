@@ -33,7 +33,7 @@
                     <?= $thisUser['name'].' '.$thisUser['surname']; ?>
                 </div>
                 <div>
-                    <input type="button" class="access_button" id="" value="remove" onclick="">
+                    <input type="button" class="access_button" id="" value="remove" onclick="unfollow(<?= $thisUser['user_id'].' ,'. $_SESSION['rt_UserId']; ?>, 4)">
                 </div>
             </li>
         <?php

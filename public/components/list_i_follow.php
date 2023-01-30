@@ -1,6 +1,6 @@
 <div class="list_i_follow" id="list_i_follow">
     <div class="list_i_follow_title">
-        Follow
+        i follow
     </div>
     <div class="list_i_follow_container">
         <ul>
@@ -33,7 +33,7 @@
                     <?= $thisUser['name'].' '.$thisUser['surname']; ?>
                 </div>
                 <div>
-                    <input type="button" class="access_button" id="" value="follow" onclick="">
+                    <input type="button" class="access_button" id="" value="unfollow" onclick="unfollow(<?= $_SESSION['rt_UserId'].' ,'. $thisUser['user_id']; ?>, 3)">
                 </div>
             </li>
         <?php

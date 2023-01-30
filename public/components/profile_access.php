@@ -29,9 +29,7 @@
         }
         ?>
     </div>
-    <!-- <?php // var_dump(cipherSimplifyer($following['followers'])); ?> -->
     <div class="follower_container">
-        <?php //var_dump($postcount['allpost']); ?>
         <span id="posts" style="font-weight: 600;"><?= $postcount['allpost'] ?? ''; ?></span> posts
         <a href="#" onclick="followers()"><span id="followers" style="font-weight: 600; margin-left: 50px;"><?= cipherSimplifyer($following['followers'] ?? ''); ?></span> followers</a>
         <a href="#" onclick="i_follow()"><span id="following" style="font-weight: 600; margin-left: 50px;"><?= cipherSimplifyer($following['following'] ?? ''); ?></span> follow</a>
