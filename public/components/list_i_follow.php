@@ -33,7 +33,16 @@
                     <?= $thisUser['name'].' '.$thisUser['surname']; ?>
                 </div>
                 <div>
-                    <input type="button" class="access_button" id="" value="unfollow" onclick="unfollow(<?= $_SESSION['rt_UserId'].' ,'. $thisUser['user_id']; ?>, 3)">
+                    <?php
+                        if (isset($_GET['userID'])) {
+                            $requestMe['username'] = $_GET['userID'];
+                            $getMyUserId = u_all_info('*', $requestMe)['user_id'];
+                        }
+
+                        if (!isset($_GET['userID']) || $getMyUserId == $_SESSION['rt_UserId']) { 
+                    ?>
+                        <input type="button" class="access_button" id="" value="unfollow" onclick="unfollow(<?= $_SESSION['rt_UserId'].' ,'. $thisUser['user_id']; ?>, 3)">
+                    <?php } ?>
                 </div>
             </li>
         <?php
