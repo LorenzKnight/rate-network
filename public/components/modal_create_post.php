@@ -31,6 +31,15 @@
                 <input type="file" name="<?= $fileFieldName; ?>" id="<?= $fileFieldName; ?>">
                 <input type="button" value="Ladda up file" onclick="uploadFile(<?= $parameterString; ?>)">
             </div>
+            <div class="editing_area">
+                <!-- Previa del recorte -->
+                <canvas class="preview" id="preview"></canvas>
+                <!-- Editor donde se recortará la imagen con la ayuda de croppr.js -->
+                <div class="editor" id="editor"></div>
+            </div>
+            4 Resultado en Base64
+            <!-- Muestra de la imagen recortada en Base64 -->
+            <code id="base64"></code>
         </div>
         <div class="text_send">
             <textarea class="tfield" type="text" placeholder="Content..." name="post_content" id="post_content" maxlength="2000" cols="65" rows="6"></textarea></br>

@@ -585,7 +585,7 @@ a .add_button:hover {
 
 .post_form {
     width: 600px;
-    height: 600px;
+    /* height: 600px; */
     background-color: #FFF;
     border-radius: 4px;
     margin: 5vh auto;
@@ -593,7 +593,6 @@ a .add_button:hover {
 }
 
 .post_uploaded_pic {
-    /* background-color: orange; */
     padding: 5px 0;
 }
 
@@ -664,6 +663,26 @@ a .add_button:hover {
     border-radius: 20px;
     box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15)!important;
     cursor: pointer;
+}
+
+.editing_area {
+    width: 100%;
+    /* background-color: green; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.editor {
+    width: 150px;
+    /* height: 200px; */
+    background-color: red;
+    margin: 5px 40px;
+}
+.preview {
+    max-width: 150px;
+    max-height: 150px;
+    /* background-color: orange; */
+    margin: 0 40px;
 }
 
 /* start to foto slide */

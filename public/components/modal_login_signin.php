@@ -1,9 +1,9 @@
-<div class="formular_front" style="">
+<div class="formular_front">
     <form action="index.php" method="post" name="formsignin" id="formsignin">
         <table width="80%" align="center" cellspacing="0">
             <tr valign="baseline">
-                <td style="" colspan="6" align="center" valign="middle">
-                    
+                <td style="font-size: 12px;" colspan="6" align="center" valign="middle">
+                    dfsfd
                 </td>      
             </tr>
             <tr valign="baseline" class="form_height">
@@ -12,7 +12,7 @@
                 </td>
             </tr>
             <tr valign="baseline" class="form_height">
-                <td style="" colspan="6" align="center" valign="middle">
+                <td colspan="6" align="center" valign="middle">
                     <input class="text_input_form1" type="password" name="password" id="password" placeholder="Enter your Password..." required/>
                 </td>
             </tr>

@@ -11,6 +11,10 @@
 <script defer src="js/start_page.js"></script>
 <script defer src="js/search.js"></script>
 
+<script src="https://cdn.jsdelivr.net/gh/jamesssooi/Croppr.js@2.3.0/dist/croppr.min.js"></script>
+<link href="https://cdn.jsdelivr.net/gh/jamesssooi/Croppr.js@2.3.0/dist/croppr.min.css" rel="stylesheet"/>
+<script defer src="js/editor.js"></script>
+
 </head>
 <body onload="">
     <div class="container" style="padding-top: 0.5em;">

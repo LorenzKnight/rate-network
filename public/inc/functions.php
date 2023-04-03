@@ -955,9 +955,9 @@ function add_post_media($insertValues)
 	}
 
   $query = "INSERT INTO media (user_id, post_id, name, media_date) VALUES $inserQuery";
-	pg_query($query);
+	$sql = pg_query($query);
 
-  return true;
+  return $sql;
 }
 
 function show_post_images(int $postId) : array
