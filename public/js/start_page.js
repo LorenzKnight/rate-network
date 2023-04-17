@@ -117,6 +117,63 @@ function showcomments(postId) {
     xmlhttp.send(formData);
 }
 
+
+// Obtener los elementos DOM
+const addButton = document.querySelector('.add_button');
+const addFromFile = document.querySelector('.add_from_file');
+const addFromCamera = document.querySelector('.add_from_camera');
+const mas = document.querySelector('.mas');
+const uploadFilesModule = document.querySelector('.upload_file_module');
+const cameraModule = document.querySelector('.camera_module');
+
+
+let isExpanded = false;
+
+// Agregar el evento clic al botón
+addButton.addEventListener('click', function(event) {
+    if (!event.target.closest('.add_button')) {
+        addFromFile.classList.toggle('show');
+        addFromCamera.classList.toggle('show');
+        isExpanded = false;
+    } else {
+        if (!isExpanded) {
+            addButton.classList.add('expand');
+            addFromFile.classList.add('show');
+            addFromCamera.classList.add('show');
+            isExpanded = true;
+        } else {
+            addFromFile.classList.remove('show');
+            addFromCamera.classList.remove('show');
+            isExpanded = false;
+            addButton.classList.toggle('expand');
+        }
+    }
+});
+
+addFromFile.addEventListener('click', function() {
+    event.stopPropagation();
+
+    addButton.classList.remove('expand');
+    addFromFile.classList.remove('show');
+    addFromCamera.classList.remove('show');
+    isExpanded = false;
+    addpost();
+    uploadFilesModule.classList.add('show_modal');
+});
+
+addFromCamera.addEventListener('click', function() {
+    event.stopPropagation();
+
+    addButton.classList.remove('expand');
+    addFromFile.classList.remove('show');
+    addFromCamera.classList.remove('show');
+    isExpanded = false;
+    addpost();
+    cameraModule.classList.add('show_modal');
+    initCamera()
+});
+
+
 function addpost() {
     let bg_popup = document.getElementById('bg_popup');
     bg_popup.style.display = 'block';
@@ -237,6 +294,14 @@ function close_popup() {
 
     var list_i_follow = document.getElementById('list_i_follow');
     list_i_follow.style.display = 'none';
+
+    uploadFilesModule.classList.remove('show_modal');
+    cameraModule.classList.remove('show_modal');
+
+    // if (!addFromCamera.classList.contains('show')) {
+    //     console.log('aqui');
+        stopCamera();
+    // }
 }
 
 function fyllUp(star)

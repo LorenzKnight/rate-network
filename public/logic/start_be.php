@@ -378,4 +378,20 @@
 
         include('../components/nav_bar.php');
     }
+
+    if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "uploadImg")) {
+        $fileName       = $_POST['fileName'];
+        $imgBase64      = $_POST['imgBase64'];
+
+        list($type, $imgBase64) = explode(';', $imgBase64);
+        list(, $imgBase64)      = explode(',', $imgBase64);
+        $image = base64_decode($imgBase64);
+        $fileName = uniqid().'.'.pathinfo($fileName, PATHINFO_EXTENSION);
+
+        if(file_put_contents('../tmp_images/'.$fileName, $image)){
+            echo $fileName;
+        } else {
+            echo "ERROR: Load failed. Check the permissions of the destination folder.";
+        }
+    }
 ?>

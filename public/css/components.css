@@ -562,6 +562,7 @@
 /* end to comments and fotos popup */
 
 .add_button {
+    width: 60px;
     padding: 3px 17px 8px;
     background-color: rgba(2, 161, 2, 0.402);
     color: #FFF;
@@ -571,16 +572,82 @@
     position: absolute;
     left: 20px;
     bottom: 30px;
-    /* box-shadow: 0 0 4px 3px rgb(47 48 63 / 19%); */
     z-index: 2;
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: all 1.0s ease;
 }
 
-a .add_button:hover {
+/* a .add_button:hover {
     background-color: rgb(2, 161, 2);
     box-shadow: 0 0 4px 3px rgb(47 48 63 / 19%);
+    transition: all 1.0s ease;
+} */
+
+.upload_file_module, .camera_module {
+    display: none;
+}
+
+.show_modal {
+    display: block;
+}
+
+/* start camera module */
+.video-element {
+    width: 300px;
+}
+
+.canvas-element {
+    width: 300px;
+    height: 225px;
+    /* width: 640px; */
+    /* height: 480px; */
+}
+/* end camera module */
+
+.add_from_file, .add_from_camera {
+    display: none;
+    opacity: 0;
+    transition: all 1.0s ease;
+    background-color: #999;
+    margin-right: 5px;
+    /* padding: 5px; */
+    font-size: 14px;
+}
+
+.add_from_file.show, .add_from_camera.show {
+    display: block;
+    opacity: 0;
+    animation: showbuttonAnimation 0.2s ease forwards;
+    animation-delay: 0.1s;
+}
+
+@keyframes showbuttonAnimation {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.7;
+    }
+    100% {
+        display: block;
+        opacity: 1;
+    }
+}
+
+.add_button.expand {
+    border-radius: 25px;
+    width: 120px;
+    transition: all 1.0s ease;
+}
+
+.add_button.expand .mas {
+    transform: rotate(45deg);
+}
+
+.mas {
+    transition: all 1.0s ease;
 }
 
 .post_form {
@@ -597,7 +664,7 @@ a .add_button:hover {
 }
 
 .post_foto_prev {
-    height: 280px;
+    height: 220px;
     /* background-color: red; */
     margin: 10px;
     border: 1px solid #666;

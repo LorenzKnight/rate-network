@@ -5,7 +5,7 @@ function _(el){
 
 function uploadFile(inputImage, a3, a4, a5, a6, a7, a8, a9, a10) {
 	var file = _(a4).files[0];
-	// console.log(URL.createObjectURL(file));
+	console.log(inputImage);
 	// document.body.style.backgroundImage = 'url("'+URL.createObjectURL(file)+'")';
 	// alert(file.name+" | "+file.size+" | "+file.type);
 	var formdata = new FormData();
@@ -67,7 +67,6 @@ function completeHandler(event){
 		let fotos = document.createElement('img');
 		fotos.src = nombrecarpeta+event.target.responseText;
 		fotos.style.height = '150px';
-		// console.log(event.target);
 		document.querySelector('.post_foto_prev').appendChild(fotos);
 	}
 	

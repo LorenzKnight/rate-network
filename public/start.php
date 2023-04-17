@@ -10,6 +10,7 @@
 <script defer src="js/header.js"></script>
 <script defer src="js/start_page.js"></script>
 <script defer src="js/search.js"></script>
+<script defer src="js/camera.js"></script>
 
 <script src="https://cdn.jsdelivr.net/gh/jamesssooi/Croppr.js@2.3.0/dist/croppr.min.js"></script>
 <link href="https://cdn.jsdelivr.net/gh/jamesssooi/Croppr.js@2.3.0/dist/croppr.min.css" rel="stylesheet"/>
@@ -24,7 +25,13 @@
                 <?php include("components/nav_bar.php"); ?>
             </div>
             <div class="the_wall" id="content">
-                <a href="#" onclick="addpost()"><div class="add_button">+</div></a>
+                <a href="#" onclick="">
+                    <div class="add_button">
+                        <div class="mas">+</div>
+                        <div class="add_from_file" id="add_from_file">G</div>
+                        <div class="add_from_camera" id="add_from_camera">C</div>
+                    </div>
+                </a>
                 <?php 
                 if (!isset($_GET['userID'])) {
                     include("components/post_in_wall.php"); 

@@ -1,74 +1,93 @@
-// Esperamos a que todo el HTML esté cargado antes de ejecutar Javascrip
 document.addEventListener('DOMContentLoaded', () => {
-
-    // Input File
     const inputImage = document.querySelector('#file1');
-    // Nodo donde estará el editor
     const editor = document.querySelector('#editor');
-    // El canvas donde se mostrará la previa
     const miCanvas = document.querySelector('#preview');
-    // Contexto del canvas
     const contexto = miCanvas.getContext('2d');
-    // Ruta de la imagen seleccionada
-    let urlImage = undefined;
-    // Evento disparado cuando se adjunte una imagen
+    let urlImage;
+  
     inputImage.addEventListener('change', abrirEditor, false);
-
-    /**
-    * Método que abre el editor con la imagen seleccionada
-    */
+  
     function abrirEditor(e) {
-        // Obtiene la imagen
-        urlImage = URL.createObjectURL(e.target.files[0]);
-
-        // Borra editor en caso que existiera una imagen previa
-        editor.innerHTML = '';
-        let cropprImg = document.createElement('img');
-        cropprImg.setAttribute('id', 'croppr');
-        editor.appendChild(cropprImg);
-
-        // Limpia la previa en caso que existiera algún elemento previo
-        contexto.clearRect(0, 0, miCanvas.width, miCanvas.height);
-
-        // Envia la imagen al editor para su recorte
-        document.querySelector('#croppr').setAttribute('src', urlImage);
-
-        // Crea el editor
-        new Croppr('#croppr', {
-            aspectRatio: 1,
-            startSize: [100, 100],
-            onCropEnd: recortarImagen
+      urlImage = URL.createObjectURL(e.target.files[0]);
+  
+      editor.innerHTML = '';
+      const cropprImg = document.createElement('img');
+      cropprImg.setAttribute('id', 'croppr');
+      cropprImg.setAttribute('width', 500);
+      cropprImg.setAttribute('src', urlImage);
+      editor.appendChild(cropprImg);
+  
+      contexto.clearRect(0, 0, miCanvas.width, miCanvas.height);
+  
+      cropprImg.addEventListener('load', () => {
+        new Croppr(cropprImg, {
+          startCoords: [0, 0],
+          aspectRatio: 1,
+          startSize: [70, 70],
+          minSize: [10, 10],
+          onCropEnd: recortarImagen
         })
+      });
     }
-
-    /**
-    * Método que recorta la imagen con las coordenadas proporcionadas con croppr.js
-    */
+  
     function recortarImagen(data) {
-        // Variables
-        const inicioX = data.x;
-        const inicioY = data.y;
-        const nuevoAncho = data.width;
-        const nuevaAltura = data.height;
-        const zoom = 1;
-        let imagenEn64 = '';
-        // La imprimo
-        miCanvas.width = nuevoAncho;
-        miCanvas.height = nuevaAltura;
-        // La declaro
-        let miNuevaImagenTemp = new Image();
-        // Cuando la imagen se carge se procederá al recorte
-        miNuevaImagenTemp.onload = function() {
-            // Se recorta
-            contexto.drawImage(miNuevaImagenTemp, inicioX, inicioY, nuevoAncho * zoom, nuevaAltura * zoom, 40, 40, nuevoAncho, nuevaAltura);
-            // Se transforma a base64
-            imagenEn64 = miCanvas.toDataURL("image/jpeg");
-            // Mostramos el código generado
-            document.querySelector('#base64').textContent = imagenEn64;
-            document.querySelector('#base64HTML').textContent = '<img src="' + imagenEn64.slice(0, 40) + '...">';
-
+      const inicioX = data.x;
+      const inicioY = data.y;
+      const nuevoAncho = data.width;
+      const nuevaAltura = data.height;
+      const zoom = 1;
+      let imagenEn64 = '';
+  
+      miCanvas.width = nuevoAncho;
+      miCanvas.height = nuevaAltura;
+      let miNuevaImagenTemp = new Image();
+  
+      miNuevaImagenTemp.onload = function() {
+        contexto.drawImage(miNuevaImagenTemp, inicioX, inicioY, nuevoAncho * zoom, nuevaAltura * zoom, 0, 0, nuevoAncho, nuevaAltura);
+        imagenEn64 = miCanvas.toDataURL("image/jpeg");
+  
+        const uploadButton = document.getElementById('uploadButton');
+        uploadButton.onclick = null;
+        uploadButton.onclick = function(){
+          const file1 = document.getElementById('file1');
+          const fileName = file1.value.split("\\").pop();
+          upload_cropp_pic(imagenEn64, fileName);
         }
-        // Proporciona la imagen cruda, sin editarla por ahora
-        miNuevaImagenTemp.src = urlImage;
+      }
+      miNuevaImagenTemp.src = urlImage;
     }
-});
+  
+    function upload_cropp_pic(imgBase64, fileName){
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var fotoField = document.querySelector('.post_foto_prev').getAttribute('data-pic-names');
+          var fotoNameArray = [];
+  
+          if(fotoField == null)
+          {
+            fotoNameArray = [this.responseText];
+          }
+          else
+          {
+            fotoNameArray = JSON.parse(fotoField);
+            fotoNameArray.push(this.responseText);
+          }
+          document.querySelector('.post_foto_prev').setAttribute('data-pic-names', JSON.stringify(fotoNameArray));
+          let fotos = document.createElement('img');
+          fotos.src = 'tmp_images/'+this.responseText;
+          fotos.style.height = '150px';
+  
+          document.querySelector('.post_foto_prev').appendChild(fotos);   
+        }
+      };
+  
+      var formData = new FormData(); 
+      formData.append('MM_insert', 'uploadImg');
+      formData.append('imgBase64', imgBase64);
+      formData.append('fileName', fileName);
+  
+      xmlhttp.open("POST", "logic/start_be.php", true);
+      xmlhttp.send(formData);
+    }
+  });
